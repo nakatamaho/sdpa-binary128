@@ -35,7 +35,7 @@ Vector::Vector()
   ele  = NULL;
 }
 
-Vector::Vector(int nDim, dd_real value)
+Vector::Vector(int nDim, __float128 value)
 {
   ele  = NULL;
   initialize(nDim,value);
@@ -46,7 +46,7 @@ Vector::~Vector()
   terminate();
 }
 
-void Vector::initialize(int nDim,dd_real value)
+void Vector::initialize(int nDim,__float128 value)
 {
   // rMessage("Vector initialize");
   if (ele && this->nDim!=nDim) {
@@ -62,7 +62,7 @@ void Vector::initialize(int nDim,dd_real value)
   if (ele==NULL) {
     ele = NULL;
     rNewCheck();
-    ele = new dd_real[nDim];
+    ele = new __float128[nDim];
     if (ele==NULL) {
       rError("Vector:: memory exhausted");
     }
@@ -70,14 +70,14 @@ void Vector::initialize(int nDim,dd_real value)
   sdpa_dset(nDim,value,ele,IONE);
 }
 
-void Vector::initialize(dd_real value)
+void Vector::initialize(__float128 value)
 {
   if (nDim<=0) {
     rError("Vector:: nDim is nonpositive");
   }
   if (ele==NULL) {
     rNewCheck();
-    ele = new dd_real[nDim];
+    ele = new __float128[nDim];
     if (ele==NULL) {
       rError("Vector:: memory exhausted");
     }
@@ -95,7 +95,7 @@ void Vector::terminate()
 
 void Vector::setZero()
 {
-  dd_real zero=0.0;
+  __float128 zero=0.0;
   initialize(zero);
 }
 
@@ -115,18 +115,18 @@ void Vector::display(FILE* fpout)
   }
 }
 
-void Vector::display(FILE* fpout,dd_real scalar)
+void Vector::display(FILE* fpout,__float128 scalar)
 {
   if (fpout == NULL) {
     return;
   }
   fprintf(fpout,"{");
   for (int j=0; j<nDim-1; ++j) {
-    dd_real mtmp=ele[j]*scalar;
+    __float128 mtmp=ele[j]*scalar;
     fprintf(fpout,P_FORMAT",",mtmp.x[0]);
   }
   if (nDim>0) {
-    dd_real mtmp=ele[nDim-1]*scalar;
+    __float128 mtmp=ele[nDim-1]*scalar;
     fprintf(fpout,P_FORMAT"}\n",mtmp.x[0]);
   } else {
     fprintf(fpout,"  }\n");
@@ -148,7 +148,7 @@ bool Vector::copyFrom(Vector& other)
   }
   if (ele==NULL) {
     rNewCheck();
-    ele = new dd_real[nDim];
+    ele = new __float128[nDim];
     if (ele==NULL) {
       rError("Vector:: memory exhausted");
     }
@@ -165,7 +165,7 @@ BlockVector::BlockVector()
 }
 
 BlockVector::BlockVector(int nBlock, int* blockStruct,
-			   dd_real value)
+			   __float128 value)
 {
   initialize(nBlock,blockStruct,value);
 }
@@ -176,7 +176,7 @@ BlockVector::~BlockVector()
 }
 
 void BlockVector::initialize(int nBlock, int* blockStruct,
-			      dd_real value)
+			      __float128 value)
 {
   // rMessage("BlockVector initialize");
   this->nBlock = nBlock;
@@ -208,7 +208,7 @@ void BlockVector::initialize(int nBlock, int* blockStruct,
   }
 }
 
-void BlockVector::initialize(dd_real value)
+void BlockVector::initialize(__float128 value)
 {
   if (nBlock>0 && blockStruct && ele) {
     for (int l=0; l<nBlock; ++l) {
@@ -349,7 +349,7 @@ initialize(int nRow, int nCol,
       rNewCheck();
       column_index = new int[NonZeroNumber];
       rNewCheck();
-      sp_ele       = new dd_real[NonZeroNumber];
+      sp_ele       = new __float128[NonZeroNumber];
       if (row_index==NULL || column_index==NULL
 	  || sp_ele==NULL) {
 	rError("SparseMatrix:: memory exhausted");
@@ -361,7 +361,7 @@ initialize(int nRow, int nCol,
     this->NonZeroCount  = nRow*nCol;
     this->NonZeroEffect = nRow*nCol;
     rNewCheck();
-    de_ele = new dd_real[NonZeroNumber];
+    de_ele = new __float128[NonZeroNumber];
     if (de_ele==NULL) {
       rError("SparseMatrix:: memory exhausted");
     }
@@ -403,7 +403,7 @@ void SparseMatrix::display(FILE* fpout)
     for (int index=0; index<NonZeroCount; ++index) {
       int i        = row_index[index];
       int j        = column_index[index];
-      dd_real value = sp_ele[index];
+      __float128 value = sp_ele[index];
       fprintf(fpout,"val[%d,%d] = "P_FORMAT"\n", i,j,value.x[0]);
     }
     fprintf(fpout,"}\n");
@@ -479,7 +479,7 @@ bool SparseMatrix::copyFrom(SparseMatrix& other)
 	rNewCheck();
 	column_index = new int[NonZeroNumber];
 	rNewCheck();
-	sp_ele       = new dd_real[NonZeroNumber];
+	sp_ele       = new __float128[NonZeroNumber];
 	if (row_index==NULL || column_index==NULL
 	    || sp_ele==NULL) {
 	  rError("SparseMatrix:: memory exhausted");
@@ -518,7 +518,7 @@ void SparseMatrix::changeToDense(bool forceChange)
   de_ele = NULL;
   int length = nRow*nCol;
   rNewCheck();
-  de_ele = new dd_real[length];
+  de_ele = new __float128[length];
   if (de_ele==NULL) {
     rError("SparseMatrix:: memory exhausted");
   }
@@ -527,7 +527,7 @@ void SparseMatrix::changeToDense(bool forceChange)
   for (int index=0; index<NonZeroCount; ++index) {
     int        i = row_index[index];
     int        j = column_index[index];
-    dd_real value = sp_ele[index];
+    __float128 value = sp_ele[index];
     if (i==j) {
       de_ele[i+nCol*j] = value;
     } else {
@@ -559,7 +559,7 @@ void SparseMatrix::setZero()
   }
 }
 
-void SparseMatrix::setIdentity(dd_real scalar)
+void SparseMatrix::setIdentity(__float128 scalar)
 {
   if (nRow != nCol) {
     rError("SparseMatrix:: Identity matrix must be square matrix");
@@ -595,7 +595,7 @@ bool SparseMatrix::sortSparseIndex(int& i, int& j)
   // return the index(i,j) whose values are not symmetric.
   i = -1;
   j = -1;
-  const dd_real tolerance = 1.0e-8;
+  const __float128 tolerance = 1.0e-8;
   switch(type) {
   case SPARSE:
     // Make matrix as Upper Triangluar
@@ -615,7 +615,7 @@ bool SparseMatrix::sortSparseIndex(int& i, int& j)
 	if (index1<index2) {
 	  int         tmpi = row_index   [i2];
 	  int         tmpj = column_index[i2];
-	  dd_real      tmpv = sp_ele      [i2];
+	  __float128      tmpv = sp_ele      [i2];
 	  row_index   [i2] = row_index   [i1];
 	  column_index[i2] = column_index[i1];
 	  sp_ele      [i2] = sp_ele      [i1];
@@ -713,7 +713,7 @@ initialize(int nRow, int nCol,
     }
     if (de_ele==NULL) {
       rNewCheck();
-      de_ele = new dd_real[length];
+      de_ele = new __float128[length];
       if (de_ele==NULL) {
 	rError("DenseMatrix:: memory exhausted");
       }
@@ -786,7 +786,7 @@ bool DenseMatrix::copyFrom(SparseMatrix& other)
     nRow = other.nRow;
     nCol = other.nCol;
     rNewCheck();
-    de_ele = new dd_real[nRow*nCol];
+    de_ele = new __float128[nRow*nCol];
     if (de_ele==NULL) {
       rError("DenseMatrix:: memory exhausted");
     }
@@ -795,7 +795,7 @@ bool DenseMatrix::copyFrom(SparseMatrix& other)
     for (int index = 0; index<other.NonZeroCount; ++index) {
       int i = other.row_index[index];
       int j = other.column_index[index];
-      dd_real value = other.sp_ele[index];
+      __float128 value = other.sp_ele[index];
       de_ele[i+nCol*j] = de_ele[j+nCol*i] = value;
     }
     break;
@@ -808,7 +808,7 @@ bool DenseMatrix::copyFrom(SparseMatrix& other)
     nRow = other.nRow;
     nCol = other.nCol;
     rNewCheck();
-    de_ele = new dd_real[nRow*nCol];
+    de_ele = new __float128[nRow*nCol];
     if (de_ele==NULL) {
       rError("DenseMatrix:: memory exhausted");
     }
@@ -836,7 +836,7 @@ bool DenseMatrix::copyFrom(DenseMatrix& other)
     nCol = other.nCol;
     if (de_ele==NULL) {
       rNewCheck();
-      de_ele = new dd_real[nRow*nCol];
+      de_ele = new __float128[nRow*nCol];
       if (de_ele==NULL) {
 	rError("DenseMatrix:: memory exhausted");
       }
@@ -866,7 +866,7 @@ void DenseMatrix::setZero()
   }
 }
 
-void DenseMatrix::setIdentity(dd_real scalar)
+void DenseMatrix::setIdentity(__float128 scalar)
 {
   if (nRow != nCol) {
     rError("SparseMatrix:: Identity matrix must be square matrix");
@@ -1031,7 +1031,7 @@ void SparseLinearSpace::initialize(int SDP_nBlock,
 	}
 	LP_sp_block = NULL;
 	rNewCheck();
-	LP_sp_block = new dd_real[LP_sp_nBlock];
+	LP_sp_block = new __float128[LP_sp_nBlock];
 	if (LP_sp_block==NULL) {
 	  rError("SparseLinearSpace:: memory exhausted");
 	}
@@ -1119,7 +1119,7 @@ void SparseLinearSpace::initialize(int SDP_sp_nBlock,
 	}
 	this->LP_sp_block = NULL;
 	rNewCheck();
-	this->LP_sp_block = new dd_real[LP_sp_nBlock];
+	this->LP_sp_block = new __float128[LP_sp_nBlock];
 	if (this->LP_sp_block==NULL) {
 	  rError("SparseLinearSpace:: memory exhausted");
 	}
@@ -1327,7 +1327,7 @@ bool SparseLinearSpace::copyFrom(SparseLinearSpace& other)
   }
   if ((LP_sp_nBlock > 0)&&(LP_sp_block==NULL)) {
     rNewCheck();
-    LP_sp_block = new dd_real[LP_sp_nBlock];
+    LP_sp_block = new __float128[LP_sp_nBlock];
     if (LP_sp_block==NULL) {
       rError("SparseLinearSpace:: memory exhausted");
     }
@@ -1344,7 +1344,7 @@ bool SparseLinearSpace::copyFrom(SparseLinearSpace& other)
   return total_judge;
 }
 
-void SparseLinearSpace::setElement_SDP(int block, int i, int j, dd_real ele)
+void SparseLinearSpace::setElement_SDP(int block, int i, int j, __float128 ele)
 {
   int k;
 
@@ -1380,12 +1380,12 @@ void SparseLinearSpace::setElement_SDP(int block, int i, int j, dd_real ele)
   
 }
 
-void SparseLinearSpace::setElement_SOCP(int block, int i, int j, dd_real ele)
+void SparseLinearSpace::setElement_SOCP(int block, int i, int j, __float128 ele)
 {
   rError("DenseLinearSpace:: current version does not support SOCP");
 }
 
-void SparseLinearSpace::setElement_LP(int block, dd_real ele)
+void SparseLinearSpace::setElement_LP(int block, __float128 ele)
 {
   int k;
 
@@ -1424,7 +1424,7 @@ void SparseLinearSpace::setZero()
   }
 }
 
-void SparseLinearSpace::setIdentity(dd_real scalar)
+void SparseLinearSpace::setIdentity(__float128 scalar)
 {
   rError("SparseLinearSpace::setIdentity   no support");
   if (SDP_sp_nBlock>0 && SDP_sp_index && SDP_sp_block) {
@@ -1565,7 +1565,7 @@ void DenseLinearSpace::initialize(int SDP_nBlock, int* SDP_blockStruct,
   }
   if ((LP_nBlock > 0) && (LP_block==NULL)) {
     rNewCheck();
-    LP_block = new dd_real[LP_nBlock];
+    LP_block = new __float128[LP_nBlock];
     if (LP_block==NULL) {
       rError("DenseLinearSpace:: memory exhausted");
     }
@@ -1709,7 +1709,7 @@ bool DenseLinearSpace::copyFrom(DenseLinearSpace& other)
   }
   LP_nBlock = other.LP_nBlock;
   if ((LP_nBlock > 0) && (LP_block == NULL)) {
-    LP_block = new dd_real[LP_nBlock];
+    LP_block = new __float128[LP_nBlock];
     if (LP_block==NULL) {
       rError("DenseLinearSpace:: memory exhausted");
     }
@@ -1722,7 +1722,7 @@ bool DenseLinearSpace::copyFrom(DenseLinearSpace& other)
   return total_judge;
 }
 
-void DenseLinearSpace::setElement_SDP(int block, int i, int j, dd_real ele)
+void DenseLinearSpace::setElement_SDP(int block, int i, int j, __float128 ele)
 {
 
   // check range
@@ -1738,12 +1738,12 @@ void DenseLinearSpace::setElement_SDP(int block, int i, int j, dd_real ele)
   SDP_block[block].de_ele[j + i * nCol] = ele;
 }
 
-void DenseLinearSpace::setElement_SOCP(int block, int i, int j, dd_real ele)
+void DenseLinearSpace::setElement_SOCP(int block, int i, int j, __float128 ele)
 {
   rError("DenseLinearSpace:: current version does not support SOCP");
 }
 
-void DenseLinearSpace::setElement_LP(int block, dd_real ele)
+void DenseLinearSpace::setElement_LP(int block, __float128 ele)
 {
   // check range
   if (block >= LP_nBlock){
@@ -1779,7 +1779,7 @@ void DenseLinearSpace::setZero()
 
 }
 
-void DenseLinearSpace::setIdentity(dd_real scalar)
+void DenseLinearSpace::setIdentity(__float128 scalar)
 {
   // for SDP
   if (SDP_nBlock>0 && SDP_block) {
@@ -1807,7 +1807,7 @@ void DenseLinearSpace::setIdentity(dd_real scalar)
 
 
 //print vector as matlab compat format.
-void printvec (int N, dd_real *A)
+void printvec (int N, __float128 *A)
 {
   printf(" [ ");
   for (int i=0; i<N-1; i++){
@@ -1817,7 +1817,7 @@ void printvec (int N, dd_real *A)
 }
 
 //print vector as matlab compat format.
-void printveci (int N, dd_real *A, int inc)
+void printveci (int N, __float128 *A, int inc)
 {
   int ix=0;
   printf(" [ ");
@@ -1829,9 +1829,9 @@ void printveci (int N, dd_real *A, int inc)
 }
 
 //print matrix as matlab compat format.
-void printmat (int N, int M, dd_real *A, int LDA)
+void printmat (int N, int M, __float128 *A, int LDA)
 {
-  dd_real mtmp;
+  __float128 mtmp;
   printf("[ ");
   for (int i=0; i<N; i++){
     printf("[ ");
@@ -1846,9 +1846,9 @@ void printmat (int N, int M, dd_real *A, int LDA)
 }
 
 //print symmetry matrix as matlab compat format.
-void printsymmmat (int N, dd_real *A, int LDA)
+void printsymmmat (int N, __float128 *A, int LDA)
 {
-  dd_real mtmp;
+  __float128 mtmp;
   printf("[ ");
   for (int i=0; i<N; i++){
     printf("[ ");
@@ -1862,10 +1862,10 @@ void printsymmmat (int N, dd_real *A, int LDA)
   printf("]");
 }
 
-void printmat3 (int N, dd_real *p, dd_real *q)
+void printmat3 (int N, __float128 *p, __float128 *q)
 {
-  dd_real mtmp;
-  dd_real zero;
+  __float128 mtmp;
+  __float128 zero;
   zero = 0.0;
   printf(" [ ");
   for (int i=0; i<N; i++){

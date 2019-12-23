@@ -34,59 +34,59 @@
 /* http://mplapack.sourceforge.net/ */
 
 /* mlapack prototypes */
-void Rsteqr(const char *compz, mpackint n, dd_real * d, dd_real * e,
-    dd_real * Z, mpackint ldz, dd_real * work, mpackint *info);
+void Rsteqr(const char *compz, mpackint n, __float128 * d, __float128 * e,
+    __float128 * Z, mpackint ldz, __float128 * work, mpackint *info);
 void
-    Rsyev(const char *jobz, const char *uplo, mpackint n, dd_real * A,
-    mpackint lda, dd_real * w, dd_real * work, mpackint *lwork, mpackint *info);
-void Rpotrf(const char *uplo, mpackint n, dd_real * A, mpackint lda, mpackint *info);
+    Rsyev(const char *jobz, const char *uplo, mpackint n, __float128 * A,
+    mpackint lda, __float128 * w, __float128 * work, mpackint *lwork, mpackint *info);
+void Rpotrf(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *info);
 mpackint iMlaenv_dd(mpackint ispec, const char *name, const char *opts, mpackint n1, mpackint n2,
     mpackint n3, mpackint n4);
-dd_real Rlamch_dd(const char *cmach);
-dd_real Rlansy(const char *norm, const char *uplo, mpackint n, dd_real * A,
-    mpackint lda, dd_real * work);
-void Rlascl(const char *type, mpackint kl, mpackint ku, dd_real cfrom, dd_real cto,
-    mpackint m, mpackint n, dd_real * A, mpackint lda, mpackint *info);
-void Rsytrd(const char *uplo, mpackint n, dd_real * A, mpackint lda, dd_real * d,
-    dd_real * e, dd_real * tau, dd_real * work, mpackint lwork, mpackint *info);
-void Rsytd2(const char *uplo, mpackint n, dd_real * A, mpackint lda, dd_real * d,
-    dd_real * e, dd_real * tau, mpackint *info);
-dd_real Rlanst(const char *norm, mpackint n, dd_real * d, dd_real * e);
-void Rlae2(dd_real a, dd_real b, dd_real c, dd_real * rt1,
-    dd_real * rt2);
-dd_real Rlapy2(dd_real x, dd_real y);
-void Rlasrt(const char *id, mpackint n, dd_real * d, mpackint *info);
-void Rorgql(mpackint m, mpackint n, mpackint k, dd_real * A, mpackint lda, dd_real * tau,
-    dd_real * work, mpackint lwork, mpackint *info);
-void Rorgqr(mpackint m, mpackint n, mpackint k, dd_real * A, mpackint lda, dd_real * tau,
-    dd_real * work, mpackint lwork, mpackint *info);
-void Rlarfg(mpackint N, dd_real * alpha, dd_real * x, mpackint incx,
-    dd_real * tau);
-void Rlassq(mpackint n, dd_real * x, mpackint incx, dd_real * scale,
-    dd_real * sumsq);
-void Rorg2l(mpackint m, mpackint n, mpackint k, dd_real * A, mpackint lda, dd_real * tau,
-    dd_real * work, mpackint *info);
+__float128 Rlamch_dd(const char *cmach);
+__float128 Rlansy(const char *norm, const char *uplo, mpackint n, __float128 * A,
+    mpackint lda, __float128 * work);
+void Rlascl(const char *type, mpackint kl, mpackint ku, __float128 cfrom, __float128 cto,
+    mpackint m, mpackint n, __float128 * A, mpackint lda, mpackint *info);
+void Rsytrd(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * d,
+    __float128 * e, __float128 * tau, __float128 * work, mpackint lwork, mpackint *info);
+void Rsytd2(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * d,
+    __float128 * e, __float128 * tau, mpackint *info);
+__float128 Rlanst(const char *norm, mpackint n, __float128 * d, __float128 * e);
+void Rlae2(__float128 a, __float128 b, __float128 c, __float128 * rt1,
+    __float128 * rt2);
+__float128 Rlapy2(__float128 x, __float128 y);
+void Rlasrt(const char *id, mpackint n, __float128 * d, mpackint *info);
+void Rorgql(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float128 * tau,
+    __float128 * work, mpackint lwork, mpackint *info);
+void Rorgqr(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float128 * tau,
+    __float128 * work, mpackint lwork, mpackint *info);
+void Rlarfg(mpackint N, __float128 * alpha, __float128 * x, mpackint incx,
+    __float128 * tau);
+void Rlassq(mpackint n, __float128 * x, mpackint incx, __float128 * scale,
+    __float128 * sumsq);
+void Rorg2l(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float128 * tau,
+    __float128 * work, mpackint *info);
 void Rlarft(const char *direct, const char *storev, mpackint n, mpackint k,
-    dd_real * v, mpackint ldv, dd_real * tau, dd_real * t, mpackint ldt);
+    __float128 * v, mpackint ldv, __float128 * tau, __float128 * t, mpackint ldt);
 void Rlarfb(const char *side, const char *trans, const char *direct,
-    const char *storev, mpackint m, mpackint n, mpackint k, dd_real * V, mpackint ldv,
-    dd_real * T, mpackint ldt, dd_real * C, mpackint ldc, dd_real * work,
+    const char *storev, mpackint m, mpackint n, mpackint k, __float128 * V, mpackint ldv,
+    __float128 * T, mpackint ldt, __float128 * C, mpackint ldc, __float128 * work,
     mpackint ldwork);
-void Rorg2r(mpackint m, mpackint n, mpackint k, dd_real * A, mpackint lda, dd_real * tau,
-    dd_real * work, mpackint *info);
-void Rlarf(const char *side, mpackint m, mpackint n, dd_real * v, mpackint incv,
-    dd_real tau, dd_real * C, mpackint ldc, dd_real * work);
-void Rpotf2(const char *uplo, mpackint n, dd_real * A, mpackint lda, mpackint *info);
-void Rlaset(const char *uplo, mpackint m, mpackint n, dd_real alpha, dd_real beta,
-    dd_real * A, mpackint lda);
-void Rlaev2(dd_real a, dd_real b, dd_real c, dd_real * rt1,
-    dd_real * rt2, dd_real * cs1, dd_real * sn1);
+void Rorg2r(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float128 * tau,
+    __float128 * work, mpackint *info);
+void Rlarf(const char *side, mpackint m, mpackint n, __float128 * v, mpackint incv,
+    __float128 tau, __float128 * C, mpackint ldc, __float128 * work);
+void Rpotf2(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *info);
+void Rlaset(const char *uplo, mpackint m, mpackint n, __float128 alpha, __float128 beta,
+    __float128 * A, mpackint lda);
+void Rlaev2(__float128 a, __float128 b, __float128 c, __float128 * rt1,
+    __float128 * rt2, __float128 * cs1, __float128 * sn1);
 void Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
-    mpackint n, dd_real * c, dd_real * s, dd_real * A, mpackint lda);
-void Rlartg(dd_real f, dd_real g, dd_real * cs, dd_real * sn,
-    dd_real * r);
-void Rlatrd(const char *uplo, mpackint n, mpackint nb, dd_real * A, mpackint lda, dd_real * e, dd_real * tau, dd_real * w, mpackint ldw);
-void Rsterf(mpackint n, dd_real * d, dd_real * e, mpackint *info);
-void Rorgtr(const char *uplo, mpackint n, dd_real * a, mpackint lda, dd_real * tau,
-    dd_real * work, mpackint lwork, mpackint *info);
+    mpackint n, __float128 * c, __float128 * s, __float128 * A, mpackint lda);
+void Rlartg(__float128 f, __float128 g, __float128 * cs, __float128 * sn,
+    __float128 * r);
+void Rlatrd(const char *uplo, mpackint n, mpackint nb, __float128 * A, mpackint lda, __float128 * e, __float128 * tau, __float128 * w, mpackint ldw);
+void Rsterf(mpackint n, __float128 * d, __float128 * e, mpackint *info);
+void Rorgtr(const char *uplo, mpackint n, __float128 * a, mpackint lda, __float128 * tau,
+    __float128 * work, mpackint lwork, mpackint *info);
 #endif

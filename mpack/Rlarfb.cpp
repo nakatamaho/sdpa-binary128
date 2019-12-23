@@ -69,13 +69,13 @@
 
 void
 Rlarfb(const char *side, const char *trans, const char *direct,
-    const char *storev, mpackint m, mpackint n, mpackint k, dd_real * V, mpackint ldv,
-    dd_real * T, mpackint ldt, dd_real * C, mpackint ldc, dd_real * work,
+    const char *storev, mpackint m, mpackint n, mpackint k, __float128 * V, mpackint ldv,
+    __float128 * T, mpackint ldt, __float128 * C, mpackint ldc, __float128 * work,
     mpackint ldwork)
 {
     mpackint i, j;
-    dd_real One = 1.0;
-    dd_real mOne = -1.0;
+    __float128 One = 1.0;
+    __float128 mOne = -1.0;
     char transt;
 
     //Quick return if possible

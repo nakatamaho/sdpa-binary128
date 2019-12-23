@@ -38,7 +38,7 @@ Solutions::~Solutions()
 Solutions::Solutions(int m,
 		     int SDP_nBlock, int* SDP_blockStruct,
 		     int SOCP_nBlock, int* SOCP_blockStruct,
-		     int LP_nBlock, dd_real lambda, ComputeTime& com)
+		     int LP_nBlock, __float128 lambda, ComputeTime& com)
 {
   initialize(m,SDP_nBlock,SDP_blockStruct,
 	     SOCP_nBlock,SOCP_blockStruct,
@@ -48,7 +48,7 @@ Solutions::Solutions(int m,
 void Solutions::initialize(int m,
 			   int SDP_nBlock, int* SDP_blockStruct,
 			   int SOCP_nBlock, int* SOCP_blockStruct,
-			   int LP_nBlock, dd_real lambda, ComputeTime& com)
+			   int LP_nBlock, __float128 lambda, ComputeTime& com)
 {
   mDim = m;
   nDim = 0;
@@ -177,7 +177,7 @@ bool Solutions::update(StepLength& alpha, Newton& newton,
   TimeEnd(END1_2);
   com.zMatTime += TimeCal(START1_2,END1_2);
 
-  const dd_real cannot_move = 1.0e-4;
+  const __float128 cannot_move = 1.0e-4;
   if (alpha.primal < cannot_move && alpha.dual < cannot_move) {
     rMessage("Step length is too small. ");
     return FAILURE;
@@ -565,7 +565,7 @@ void InputData::initialize_index(int SDP_nBlock,
 void InputData::multi_InnerProductToA(DenseLinearSpace& xMat, 
 				      Vector& retVec)
 {
-  dd_real ip;
+  __float128 ip;
 
   retVec.setZero();
   for (int i=0; i<retVec.nDim; i++){
@@ -691,12 +691,12 @@ void Residuals::copyFrom(Residuals& other)
   centerNorm    = other.centerNorm;
 }
 
-dd_real Residuals::computeMaxNorm(Vector& primalVec)
+__float128 Residuals::computeMaxNorm(Vector& primalVec)
 {
-  dd_real ret = 0.0;
+  __float128 ret = 0.0;
   #if 1
   for (int k=0; k<primalVec.nDim; ++k) {
-    dd_real tmp = abs(primalVec.ele[k]);
+    __float128 tmp = abs(primalVec.ele[k]);
     if (tmp > ret) {
       ret = tmp;
     }
@@ -708,16 +708,16 @@ dd_real Residuals::computeMaxNorm(Vector& primalVec)
   return ret;
 }
 
-dd_real Residuals::computeMaxNorm(DenseLinearSpace& dualMat)
+__float128 Residuals::computeMaxNorm(DenseLinearSpace& dualMat)
 {
   int SDP_nBlock = dualMat.SDP_nBlock;
   int SOCP_nBlock = dualMat.SOCP_nBlock;
   int LP_nBlock = dualMat.LP_nBlock;
-  dd_real ret = 0.0;
-  dd_real tmp;
+  __float128 ret = 0.0;
+  __float128 tmp;
 
   for (int l=0; l<SDP_nBlock; ++l) {
-    dd_real* target = dualMat.SDP_block[l].de_ele;
+    __float128* target = dualMat.SDP_block[l].de_ele;
     int size = dualMat.SDP_block[l].nRow;
     for (int j=0; j<size*size; ++j) {
       tmp = abs(target[j]);

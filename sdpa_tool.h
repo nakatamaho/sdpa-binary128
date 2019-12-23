@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #include <sys/time.h>
 #include <string>
 
-#include <qd/dd_real.h>
+#include <qd/__float128.h>
 
 namespace sdpa {
 
@@ -62,9 +62,9 @@ exit(false)
 extern int IZERO   ; // =  0;
 extern int IONE    ; // =  1;
 extern int IMONE   ; // = -1;
-extern dd_real MZERO; // =  0.0;
-extern dd_real MONE ; // =  1.0;
-extern dd_real MMONE; // = -1.0;
+extern __float128 MZERO; // =  0.0;
+extern __float128 MONE ; // =  1.0;
+extern __float128 MMONE; // = -1.0;
 
 class Time
 {

@@ -67,14 +67,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mblas_dd.h>
 #include <mlapack_dd.h>
 
-dd_real
-Rlapy2(dd_real x, dd_real y)
+__float128
+Rlapy2(__float128 x, __float128 y)
 {
-    dd_real Zero = 0.0;
-    dd_real One = 1.0;
-    dd_real w, z;
+    __float128 Zero = 0.0;
+    __float128 One = 1.0;
+    __float128 w, z;
 
-    dd_real xabs, yabs;
+    __float128 xabs, yabs;
 
     xabs = abs(x);
     yabs = abs(y);

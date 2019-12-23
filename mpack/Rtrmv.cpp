@@ -76,13 +76,13 @@ upper or lower triangular matrix.
 
 void
 Rtrmv(const char *uplo, const char *trans, const char *diag, mpackint n,
-    dd_real * A, mpackint lda, dd_real * x, mpackint incx)
+    __float128 * A, mpackint lda, __float128 * x, mpackint incx)
 {
     mpackint ix, jx, kx;
 
-    dd_real temp;
+    __float128 temp;
 
-    dd_real Zero = 0.0;
+    __float128 Zero = 0.0;
 
     //Test the input parameters.
     mpackint info = 0;

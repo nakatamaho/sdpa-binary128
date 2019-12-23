@@ -32,7 +32,7 @@
 #include <stdlib.h>
 
 int
-compare_mpf_gt(const dd_real * a, const dd_real * b)
+compare_mpf_gt(const __float128 * a, const __float128 * b)
 {
     if (*a > *b)
 	return 1;
@@ -44,7 +44,7 @@ compare_mpf_gt(const dd_real * a, const dd_real * b)
 }
 
 int
-compare_mpf_lt(const dd_real * a, const dd_real * b)
+compare_mpf_lt(const __float128 * a, const __float128 * b)
 {
     if (*a > *b)
 	return -1;
@@ -56,7 +56,7 @@ compare_mpf_lt(const dd_real * a, const dd_real * b)
 }
 
 void
-Rlasrt(const char *id, mpackint n, dd_real * d, mpackint *info)
+Rlasrt(const char *id, mpackint n, __float128 * d, mpackint *info)
 {
     //Error check
     if (!Mlsame_dd(id, "I") && !Mlsame_dd(id, "D")) {
@@ -70,10 +70,10 @@ Rlasrt(const char *id, mpackint n, dd_real * d, mpackint *info)
 	return;
     }
     if (Mlsame_dd(id, "I")) {
-	qsort(d, n, sizeof(dd_real), (int (*)(const void *, const void *))compare_mpf_gt);
+	qsort(d, n, sizeof(__float128), (int (*)(const void *, const void *))compare_mpf_gt);
     }
     if (Mlsame_dd(id, "d")) {
-	qsort(d, n, sizeof(dd_real), (int (*)(const void *, const void *))compare_mpf_lt);
+	qsort(d, n, sizeof(__float128), (int (*)(const void *, const void *))compare_mpf_lt);
     }
     *info = 0;
 }

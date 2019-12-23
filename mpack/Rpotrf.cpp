@@ -68,11 +68,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 
 void
-Rpotrf(const char *uplo, mpackint n, dd_real * A, mpackint lda, mpackint *info)
+Rpotrf(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *info)
 {
     mpackint upper;
     mpackint j, jb, nb;
-    dd_real Zero = 0.0, One = 1.0;
+    __float128 Zero = 0.0, One = 1.0;
 
     *info = 0;
     upper = Mlsame_dd(uplo, "U");

@@ -71,7 +71,7 @@ scales a vector by a constant.
 #include <mblas_dd.h>
 
 void
-Rscal(mpackint n, dd_real da, dd_real * dx, mpackint incx)
+Rscal(mpackint n, __float128 da, __float128 * dx, mpackint incx)
 {
     mpackint nincx;
 

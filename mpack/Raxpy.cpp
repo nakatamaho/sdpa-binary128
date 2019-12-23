@@ -71,9 +71,9 @@ Based on http://www.netlib.org/blas/daxpy.f
 #include <mblas_dd.h>
 
 void
-Raxpy(mpackint n, dd_real da, dd_real * dx, mpackint incx, dd_real * dy, mpackint incy)
+Raxpy(mpackint n, __float128 da, __float128 * dx, mpackint incx, __float128 * dy, mpackint incy)
 {
-    dd_real Zero = 0.0;
+    __float128 Zero = 0.0;
 
     if (n <= 0)
 	return;

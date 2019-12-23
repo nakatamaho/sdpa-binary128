@@ -68,8 +68,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 
 void
-Rlaset(const char *uplo, mpackint m, mpackint n, dd_real alpha, dd_real beta,
-    dd_real * A, mpackint lda)
+Rlaset(const char *uplo, mpackint m, mpackint n, __float128 alpha, __float128 beta,
+    __float128 * A, mpackint lda)
 {
     mpackint i, j;
 

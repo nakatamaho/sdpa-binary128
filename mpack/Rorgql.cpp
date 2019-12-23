@@ -68,10 +68,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 
 void
-Rorgql(mpackint m, mpackint n, mpackint k, dd_real * A, mpackint lda, dd_real * tau,
-    dd_real * work, mpackint lwork, mpackint *info)
+Rorgql(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float128 * tau,
+    __float128 * work, mpackint lwork, mpackint *info)
 {
-    dd_real Zero = 0.0, One = 1.0;
+    __float128 Zero = 0.0, One = 1.0;
     mpackint nbmin, nx, iws, nb, lwkopt, lquery, kk;
     mpackint i, j, l, iinfo, ldwork, ib;
 

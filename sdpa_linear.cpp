@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 namespace sdpa {
 
 
-dd_real Lal::getMinEigen(DenseMatrix& lMat,
+__float128 Lal::getMinEigen(DenseMatrix& lMat,
 		       DenseMatrix& xMat,
 		       DenseMatrix& Q,
 		       Vector& out, Vector& b, Vector& r,
@@ -34,9 +34,9 @@ dd_real Lal::getMinEigen(DenseMatrix& lMat,
 		       Vector& diagVec, Vector& diagVec2,
 		       Vector& workVec)
 {
-  dd_real alpha,beta,value;
-  dd_real min = 1.0e+51, min_old = 1.0e+52, min_min= 1.0e+50;
-  dd_real error = 1.0e+10;
+  __float128 alpha,beta,value;
+  __float128 min = 1.0e+51, min_old = 1.0e+52, min_min= 1.0e+50;
+  __float128 error = 1.0e+10;
 
   int nDim = xMat.nRow;
   int k = 0, kk = 0;
@@ -45,10 +45,10 @@ dd_real Lal::getMinEigen(DenseMatrix& lMat,
   diagVec2.setZero();
   q.setZero();
   r.initialize(MONE);
-  beta = sqrt((dd_real)nDim);  // norm of "r"
+  beta = sqrt((__float128)nDim);  // norm of "r"
 
   // nakata 2004/12/12
-  while (k<nDim && k<sqrt((dd_real)nDim)+10
+  while (k<nDim && k<sqrt((__float128)nDim)+10
 	 && beta > 1.0e-16
 	 && (abs(min-min_old) > (1.0e-5)*abs(min)+(1.0e-8)
 	     // && (fabs(min-min_old) > (1.0e-3)*fabs(min)+(1.0e-6)
@@ -75,7 +75,7 @@ dd_real Lal::getMinEigen(DenseMatrix& lMat,
     // rMessage("r = ");
     // r.display();
 
-    if ( kk>=sqrt((dd_real)k) || k==nDim-1 || k>sqrt((dd_real)nDim+9) ) {
+    if ( kk>=sqrt((__float128)k) || k==nDim-1 || k>sqrt((__float128)nDim+9) ) {
       kk = 0;
       out.copyFrom(diagVec);
       b.copyFrom(diagVec2);
@@ -134,7 +134,7 @@ dd_real Lal::getMinEigen(DenseMatrix& lMat,
   return min - abs(error*beta);
 }
 
-dd_real Lal::getMinEigenValue(DenseMatrix& aMat,
+__float128 Lal::getMinEigenValue(DenseMatrix& aMat,
 			     Vector& eigenVec,
 			     Vector& workVec)
 {
@@ -171,7 +171,7 @@ dd_real Lal::getMinEigenValue(DenseMatrix& aMat,
   return 0.0;
 }
 
-bool Lal::getInnerProduct(dd_real& ret, Vector& aVec, Vector& bVec)
+bool Lal::getInnerProduct(__float128& ret, Vector& aVec, Vector& bVec)
 {
   int N = aVec.nDim;
   if (N != bVec.nDim) {
@@ -182,7 +182,7 @@ bool Lal::getInnerProduct(dd_real& ret, Vector& aVec, Vector& bVec)
   return _SUCCESS;
 }
 
-bool Lal::getInnerProduct(dd_real& ret,
+bool Lal::getInnerProduct(__float128& ret,
 			  BlockVector& aVec, BlockVector& bVec)
 {
   if (aVec.nBlock != bVec.nBlock) {
@@ -190,7 +190,7 @@ bool Lal::getInnerProduct(dd_real& ret,
   }
   bool total_judge = _SUCCESS;
   ret = 0.0;
-  dd_real tmp_ret;
+  __float128 tmp_ret;
   for (int l=0; l<aVec.nBlock; ++l) {
     bool judge = getInnerProduct(tmp_ret,aVec.ele[l],bVec.ele[l]);
     ret += tmp_ret;
@@ -201,7 +201,7 @@ bool Lal::getInnerProduct(dd_real& ret,
   return total_judge;
 }
 
-bool Lal::getInnerProduct(dd_real& ret,
+bool Lal::getInnerProduct(__float128& ret,
 			  DenseMatrix& aMat, DenseMatrix& bMat)
 {
   if (aMat.nRow!=bMat.nRow || aMat.nCol!=bMat.nCol) {
@@ -220,7 +220,7 @@ bool Lal::getInnerProduct(dd_real& ret,
   return _SUCCESS;
 }
 
-bool Lal::getInnerProduct(dd_real& ret,
+bool Lal::getInnerProduct(__float128& ret,
 			  SparseMatrix& aMat, DenseMatrix& bMat)
 {
   if (aMat.nRow!=bMat.nRow || aMat.nCol!=bMat.nCol) {
@@ -239,7 +239,7 @@ bool Lal::getInnerProduct(dd_real& ret,
     for (int index=0; index<aMat.NonZeroCount; ++index) {
       int        i = aMat.row_index   [index];
       int        j = aMat.column_index[index];
-      dd_real value = aMat.sp_ele      [index];
+      __float128 value = aMat.sp_ele      [index];
       // rMessage("i=" << i << "  j=" << j);
       if (i==j) {
 	ret+= value*bMat.de_ele[i+bMat.nRow*j];
@@ -255,7 +255,7 @@ bool Lal::getInnerProduct(dd_real& ret,
     for (int index=0; index<amari; ++index) {
       int        i = aMat.row_index   [index];
       int        j = aMat.column_index[index];
-      dd_real value = aMat.sp_ele      [index];
+      __float128 value = aMat.sp_ele      [index];
       // rMessage("i=" << i << "  j=" << j);
       if (i==j) {
 	ret+= value*bMat.de_ele[i+bMat.nRow*j];
@@ -269,8 +269,8 @@ bool Lal::getInnerProduct(dd_real& ret,
 	 counter < shou ; ++counter, index+=4) {
       int        i1 = aMat.row_index   [index];
       int        j1 = aMat.column_index[index];
-      dd_real value1 = aMat.sp_ele      [index];
-      dd_real ret1;
+      __float128 value1 = aMat.sp_ele      [index];
+      __float128 ret1;
       // rMessage("i=" << i << "  j=" << j);
       if (i1==j1) {
 	ret1= value1*bMat.de_ele[i1+bMat.nRow*j1];
@@ -281,8 +281,8 @@ bool Lal::getInnerProduct(dd_real& ret,
       }
       int        i2 = aMat.row_index   [index+1];
       int        j2 = aMat.column_index[index+1];
-      dd_real value2 = aMat.sp_ele      [index+1];
-      dd_real ret2;
+      __float128 value2 = aMat.sp_ele      [index+1];
+      __float128 ret2;
       // rMessage("i=" << i << "  j=" << j);
       if (i2==j2) {
 	ret2= value2*bMat.de_ele[i2+bMat.nRow*j2];
@@ -293,8 +293,8 @@ bool Lal::getInnerProduct(dd_real& ret,
       }
       int        i3 = aMat.row_index   [index+2];
       int        j3 = aMat.column_index[index+2];
-      dd_real value3 = aMat.sp_ele      [index+2];
-      dd_real ret3;
+      __float128 value3 = aMat.sp_ele      [index+2];
+      __float128 ret3;
       // rMessage("i=" << i << "  j=" << j);
       if (i3==j3) {
 	ret3= value3*bMat.de_ele[i3+bMat.nRow*j3];
@@ -305,8 +305,8 @@ bool Lal::getInnerProduct(dd_real& ret,
       }
       int        i4 = aMat.row_index   [index+3];
       int        j4 = aMat.column_index[index+3];
-      dd_real value4 = aMat.sp_ele      [index+3];
-      dd_real ret4;
+      __float128 value4 = aMat.sp_ele      [index+3];
+      __float128 ret4;
       // rMessage("i=" << i << "  j=" << j);
       if (i4==j4) {
 	ret4= value4*bMat.de_ele[i4+bMat.nRow*j4];
@@ -391,7 +391,7 @@ bool Lal::getCholesky(SparseMatrix& aMat, int* diagonalIndex)
   int nDIM = aMat.nRow;
   int indexA1,indexA2,indexB2;
   int i,k1,k2,k3;
-  dd_real tmp,tmp2;
+  __float128 tmp,tmp2;
   int tmp3;
 
   if (aMat.type != SparseMatrix::SPARSE){
@@ -467,7 +467,7 @@ bool Lal::getSymmetrize(DenseMatrix& aMat)
       // aMat.de_ele[index1] += aMat.de_ele[index2]
       Raxpy(length, MONE, &aMat.de_ele[index2], aMat.nRow, &aMat.de_ele[index1],1);
       // aMat.de_ele[index1] /= 2.0
-      dd_real half = 0.5;
+      __float128 half = 0.5;
       Rscal(length,half,&aMat.de_ele[index1],1);
       // aMat.de_ele[index2] = aMat.de_ele[index1]
       Rcopy(length,&aMat.de_ele[index1],1, &aMat.de_ele[index2],aMat.nRow);
@@ -645,8 +645,8 @@ bool Lal::choleskyFactorWithAdjust(DenseMatrix& aMat)
   }
   return _SUCCESS;
 #if 0
-  dd_real ZERO_DETECT = 1.0e-3;
-  dd_real NONZERO = 1.0e-7;
+  __float128 ZERO_DETECT = 1.0e-3;
+  __float128 NONZERO = 1.0e-7;
   // no idea version
   // if Cholesky factorization failed, then exit soon.
   int info = 1; // info == 0 means success
@@ -660,7 +660,7 @@ bool Lal::choleskyFactorWithAdjust(DenseMatrix& aMat)
       break;
     }
     start += (info-1); // next target
-    dd_real wrong = aMat.de_ele[start+start*aMat.nRow];
+    __float128 wrong = aMat.de_ele[start+start*aMat.nRow];
     if (wrong < -ZERO_DETECT) {
       rMessage("cholesky adjust position " << start);
       rMessage("cannot cholesky decomposition"
@@ -671,9 +671,9 @@ bool Lal::choleskyFactorWithAdjust(DenseMatrix& aMat)
     if (start<aMat.nRow-1) {
       // improve the right down element of 0
       for (int j=1; j<=aMat.nRow-1-start; ++j) {
-	dd_real& migi  = aMat.de_ele[start+(start+j)*aMat.nRow];
-	dd_real& shita = aMat.de_ele[(start+j)+start*aMat.nRow];
-	dd_real& mishi = aMat.de_ele[(start+j)+(start+j)*aMat.nRow];
+	__float128& migi  = aMat.de_ele[start+(start+j)*aMat.nRow];
+	__float128& shita = aMat.de_ele[(start+j)+start*aMat.nRow];
+	__float128& mishi = aMat.de_ele[(start+j)+(start+j)*aMat.nRow];
 	// rMessage(" mishi = " << mishi);
 	if (mishi < NONZERO) {
 	  // rMessage(" mishi < NONZERO ");
@@ -739,12 +739,12 @@ bool Lal::solveSystems(Vector& xVec,
     shou = aMat.NonZeroCount / 4;
     amari = aMat.NonZeroCount % 4;
     int i,j;
-    dd_real value;
+    __float128 value;
 
     for (int index=0; index<amari; ++index) {
       int        i = aMat.row_index   [index];
       int        j = aMat.column_index[index];
-      dd_real value = aMat.sp_ele      [index];
+      __float128 value = aMat.sp_ele      [index];
       // rMessage("i=" << i << "  j=" << j);
       if (i==j) {
 	xVec.ele[i] *= value;
@@ -842,7 +842,7 @@ bool Lal::solveSystems(Vector& xVec,
     for (int index=0; index<aMat.NonZeroCount; ++index) {
       int        i = aMat.row_index   [index];
       int        j = aMat.column_index[index];
-      dd_real value = aMat.sp_ele      [index];
+      __float128 value = aMat.sp_ele      [index];
       // rMessage("i=" << i << "  j=" << j);
       if (i==j) {
 	xVec.ele[i] *= value;
@@ -853,7 +853,7 @@ bool Lal::solveSystems(Vector& xVec,
     for (int index= aMat.NonZeroCount - 1; index >= 0; --index) {
       int        i = aMat.row_index   [index];
       int        j = aMat.column_index[index];
-      dd_real value = aMat.sp_ele      [index];
+      __float128 value = aMat.sp_ele      [index];
       value = aMat.sp_ele      [index];
       // rMessage("i=" << i << "  j=" << j);
       if (i==j) {
@@ -879,7 +879,7 @@ bool Lal::solveSystems(Vector& xVec,
 
 bool Lal::multiply(DenseMatrix& retMat,
 		   DenseMatrix& aMat, DenseMatrix& bMat,
-		   dd_real* scalar)
+		   __float128* scalar)
 {
   if (retMat.nRow!=aMat.nRow || aMat.nCol!=bMat.nRow
       || bMat.nCol!=retMat.nCol
@@ -904,7 +904,7 @@ bool Lal::multiply(DenseMatrix& retMat,
 
 bool Lal::multiply(DenseMatrix& retMat,
 		   SparseMatrix& aMat, DenseMatrix& bMat,
-		   dd_real* scalar)
+		   __float128* scalar)
 {
   if (retMat.nRow!=aMat.nRow || aMat.nCol!=bMat.nRow
       || bMat.nCol!=retMat.nCol) {
@@ -921,7 +921,7 @@ bool Lal::multiply(DenseMatrix& retMat,
       for (int index=0; index<aMat.NonZeroCount; ++index) {
 	int        i = aMat.row_index   [index];
 	int        j = aMat.column_index[index];
-	dd_real value = aMat.sp_ele      [index];
+	__float128 value = aMat.sp_ele      [index];
 	if (i!=j) {
 	  #define MULTIPLY_NON_ATLAS 0
 	  #if MULTIPLY_NON_ATLAS
@@ -950,7 +950,7 @@ bool Lal::multiply(DenseMatrix& retMat,
       for (int index=0; index<aMat.NonZeroCount; ++index) {
 	int        i = aMat.row_index   [index];
 	int        j = aMat.column_index[index];
-	dd_real value = aMat.sp_ele      [index] * (*scalar);
+	__float128 value = aMat.sp_ele      [index] * (*scalar);
 	if (i!=j) {
 	  #if MULTIPLY_NON_ATLAS
 	  for (int t=0; t<bMat.nCol; ++t) {
@@ -995,7 +995,7 @@ bool Lal::multiply(DenseMatrix& retMat,
 
 bool Lal::multiply(DenseMatrix& retMat,
 		   DenseMatrix& aMat, SparseMatrix& bMat,
-		   dd_real* scalar)
+		   __float128* scalar)
 {
   if (retMat.nRow!=aMat.nRow || aMat.nCol!=bMat.nRow
       || bMat.nCol!=retMat.nCol) {
@@ -1013,7 +1013,7 @@ bool Lal::multiply(DenseMatrix& retMat,
       for (int index=0; index<bMat.NonZeroCount; ++index) {
 	int        i = bMat.row_index   [index];
 	int        j = bMat.column_index[index];
-	dd_real value = bMat.sp_ele      [index];
+	__float128 value = bMat.sp_ele      [index];
 	if (i!=j) {
 	  #if MULTIPLY_NON_ATLAS
 	  for (int t=0; t<bMat.nCol; ++t) {
@@ -1042,7 +1042,7 @@ bool Lal::multiply(DenseMatrix& retMat,
       for (int index=0; index<bMat.NonZeroCount; ++index) {
 	int        i = bMat.row_index   [index];
 	int        j = bMat.column_index[index];
-	dd_real value = bMat.sp_ele      [index] * (*scalar);
+	__float128 value = bMat.sp_ele      [index] * (*scalar);
 	if (i!=j) {
 	  #if MULTIPLY_NON_ATLAS
 	  for (int t=0; t<bMat.nCol; ++t) {
@@ -1087,7 +1087,7 @@ bool Lal::multiply(DenseMatrix& retMat,
 }
 
 bool Lal::multiply(DenseMatrix& retMat,
-		   DenseMatrix& aMat, dd_real* scalar)
+		   DenseMatrix& aMat, __float128* scalar)
 {
   if (retMat.nRow!=aMat.nRow || retMat.nCol!=retMat.nCol
       || retMat.type!=aMat.type) {
@@ -1111,7 +1111,7 @@ bool Lal::multiply(DenseMatrix& retMat,
 }
 
 bool Lal::multiply(Vector& retVec,
-		   Vector& aVec, dd_real* scalar)
+		   Vector& aVec, __float128* scalar)
 {
   if (retVec.nDim!=aVec.nDim) {
     rError("multiply :: different vector size");
@@ -1126,7 +1126,7 @@ bool Lal::multiply(Vector& retVec,
 
 bool Lal::multiply(BlockVector& retVec,
 		   BlockVector& aVec,
-		   dd_real* scalar)
+		   __float128* scalar)
 {
   if (retVec.nBlock!=aVec.nBlock) {
     rError("multiply:: different memory size");
@@ -1143,7 +1143,7 @@ bool Lal::multiply(BlockVector& retVec,
 
 bool Lal::multiply(Vector& retVec,
 		   DenseMatrix& aMat, Vector& bVec,
-		   dd_real* scalar)
+		   __float128* scalar)
 {
   if (retVec.nDim!=aMat.nRow || aMat.nCol!=bVec.nDim
       || bVec.nDim!=retVec.nDim) {
@@ -1167,7 +1167,7 @@ bool Lal::multiply(Vector& retVec,
 
 bool Lal::tran_multiply(DenseMatrix& retMat,
 			DenseMatrix& aMat, DenseMatrix& bMat,
-			dd_real* scalar)
+			__float128* scalar)
 {
   if (retMat.nRow!=aMat.nCol || aMat.nRow!=bMat.nRow
       || bMat.nCol!=retMat.nCol
@@ -1195,7 +1195,7 @@ bool Lal::tran_multiply(DenseMatrix& retMat,
 
 bool Lal::multiply_tran(DenseMatrix& retMat,
 			DenseMatrix& aMat, DenseMatrix& bMat,
-			dd_real* scalar)
+			__float128* scalar)
 {
   if (retMat.nRow!=aMat.nRow || aMat.nCol!=bMat.nCol
       || bMat.nRow!=retMat.nRow
@@ -1221,7 +1221,7 @@ bool Lal::multiply_tran(DenseMatrix& retMat,
 }
 
 bool Lal::plus(Vector& retVec, Vector& aVec,
-	       Vector& bVec, dd_real* scalar)
+	       Vector& bVec, __float128* scalar)
 {
   if (retVec.nDim!=aVec.nDim || aVec.nDim!=bVec.nDim) {
     rError("plus :: different matrix size");
@@ -1238,7 +1238,7 @@ bool Lal::plus(Vector& retVec, Vector& aVec,
 
 bool Lal::plus(DenseMatrix& retMat,
 	       DenseMatrix& aMat, DenseMatrix& bMat,
-	       dd_real* scalar)
+	       __float128* scalar)
 {
   if (retMat.nRow!=aMat.nRow || retMat.nCol!=aMat.nCol
       || retMat.nRow!=bMat.nRow || retMat.nCol!=bMat.nCol
@@ -1266,7 +1266,7 @@ bool Lal::plus(DenseMatrix& retMat,
 
 bool Lal::plus(DenseMatrix& retMat,
 	       SparseMatrix& aMat, DenseMatrix& bMat,
-	       dd_real* scalar)
+	       __float128* scalar)
 {
   if (retMat.nRow!=aMat.nRow || retMat.nCol!=aMat.nCol
       || retMat.nRow!=bMat.nRow || retMat.nCol!=bMat.nCol) {
@@ -1289,7 +1289,7 @@ bool Lal::plus(DenseMatrix& retMat,
     for (int index=0; index<aMat.NonZeroCount; ++index) {
       int        i = aMat.row_index   [index];
       int        j = aMat.column_index[index];
-      dd_real value = aMat.sp_ele      [index];
+      __float128 value = aMat.sp_ele      [index];
       if (i!=j) {
 	retMat.de_ele[i+retMat.nCol*j] += value;
 	retMat.de_ele[j+retMat.nCol*i] += value;
@@ -1303,7 +1303,7 @@ bool Lal::plus(DenseMatrix& retMat,
     for (int index=0; index<amari; ++index) {
       int        i = aMat.row_index   [index];
       int        j = aMat.column_index[index];
-      dd_real value = aMat.sp_ele      [index];
+      __float128 value = aMat.sp_ele      [index];
       if (i!=j) {
 	retMat.de_ele[i+retMat.nCol*j] += value;
 	retMat.de_ele[j+retMat.nCol*i] += value;
@@ -1315,7 +1315,7 @@ bool Lal::plus(DenseMatrix& retMat,
 	 counter<shou; ++counter,index+=4) {
       int        i1 = aMat.row_index   [index];
       int        j1 = aMat.column_index[index];
-      dd_real value1 = aMat.sp_ele      [index];
+      __float128 value1 = aMat.sp_ele      [index];
       if (i1!=j1) {
 	retMat.de_ele[i1+retMat.nCol*j1] += value1;
 	retMat.de_ele[j1+retMat.nCol*i1] += value1;
@@ -1324,7 +1324,7 @@ bool Lal::plus(DenseMatrix& retMat,
       }
       int        i2 = aMat.row_index   [index+1];
       int        j2 = aMat.column_index[index+1];
-      dd_real value2 = aMat.sp_ele      [index+1];
+      __float128 value2 = aMat.sp_ele      [index+1];
       if (i2!=j2) {
 	retMat.de_ele[i2+retMat.nCol*j2] += value2;
 	retMat.de_ele[j2+retMat.nCol*i2] += value2;
@@ -1333,7 +1333,7 @@ bool Lal::plus(DenseMatrix& retMat,
       }
       int        i3 = aMat.row_index   [index+2];
       int        j3 = aMat.column_index[index+2];
-      dd_real value3 = aMat.sp_ele      [index+2];
+      __float128 value3 = aMat.sp_ele      [index+2];
       if (i3!=j3) {
 	retMat.de_ele[i3+retMat.nCol*j3] += value3;
 	retMat.de_ele[j3+retMat.nCol*i3] += value3;
@@ -1342,7 +1342,7 @@ bool Lal::plus(DenseMatrix& retMat,
       }
       int        i4 = aMat.row_index   [index+3];
       int        j4 = aMat.column_index[index+3];
-      dd_real value4 = aMat.sp_ele      [index+3];
+      __float128 value4 = aMat.sp_ele      [index+3];
       if (i4!=j4) {
 	retMat.de_ele[i4+retMat.nCol*j4] += value4;
 	retMat.de_ele[j4+retMat.nCol*i4] += value4;
@@ -1366,7 +1366,7 @@ bool Lal::plus(DenseMatrix& retMat,
 
 bool Lal::plus(DenseMatrix& retMat,
 	       DenseMatrix& aMat, SparseMatrix& bMat,
-	       dd_real* scalar)
+	       __float128* scalar)
 {
   if (retMat.nRow!=aMat.nRow || retMat.nCol!=aMat.nCol
       || retMat.nRow!=bMat.nRow || retMat.nCol!=bMat.nCol) {
@@ -1391,7 +1391,7 @@ bool Lal::plus(DenseMatrix& retMat,
     for (int index=0; index<bMat.NonZeroCount; ++index) {
       int        i = bMat.row_index   [index];
       int        j = bMat.column_index[index];
-      dd_real value = bMat.sp_ele      [index] * (*scalar);
+      __float128 value = bMat.sp_ele      [index] * (*scalar);
       if (i!=j) {
 	retMat.de_ele[i+retMat.nCol*j] += value;
 	retMat.de_ele[j+retMat.nCol*i] += value;
@@ -1405,7 +1405,7 @@ bool Lal::plus(DenseMatrix& retMat,
     for (int index=0; index<amari; ++index) {
       int        i = bMat.row_index   [index];
       int        j = bMat.column_index[index];
-      dd_real value = bMat.sp_ele      [index] * (*scalar);
+      __float128 value = bMat.sp_ele      [index] * (*scalar);
       if (i!=j) {
 	retMat.de_ele[i+retMat.nCol*j] += value;
 	retMat.de_ele[j+retMat.nCol*i] += value;
@@ -1417,7 +1417,7 @@ bool Lal::plus(DenseMatrix& retMat,
 	 counter<shou; ++counter,index+=4) {
       int        i1 = bMat.row_index   [index];
       int        j1 = bMat.column_index[index];
-      dd_real value1 = bMat.sp_ele      [index] * (*scalar);
+      __float128 value1 = bMat.sp_ele      [index] * (*scalar);
       if (i1!=j1) {
 	retMat.de_ele[i1+retMat.nCol*j1] += value1;
 	retMat.de_ele[j1+retMat.nCol*i1] += value1;
@@ -1426,7 +1426,7 @@ bool Lal::plus(DenseMatrix& retMat,
       }
       int        i2 = bMat.row_index   [index+1];
       int        j2 = bMat.column_index[index+1];
-      dd_real value2 = bMat.sp_ele      [index+1] * (*scalar);
+      __float128 value2 = bMat.sp_ele      [index+1] * (*scalar);
       if (i2!=j2) {
 	retMat.de_ele[i2+retMat.nCol*j2] += value2;
 	retMat.de_ele[j2+retMat.nCol*i2] += value2;
@@ -1435,7 +1435,7 @@ bool Lal::plus(DenseMatrix& retMat,
       }
       int        i3 = bMat.row_index   [index+2];
       int        j3 = bMat.column_index[index+2];
-      dd_real value3 = bMat.sp_ele      [index+2] * (*scalar);
+      __float128 value3 = bMat.sp_ele      [index+2] * (*scalar);
       if (i3!=j3) {
 	retMat.de_ele[i3+retMat.nCol*j3] += value3;
 	retMat.de_ele[j3+retMat.nCol*i3] += value3;
@@ -1444,7 +1444,7 @@ bool Lal::plus(DenseMatrix& retMat,
       }
       int        i4 = bMat.row_index   [index+3];
       int        j4 = bMat.column_index[index+3];
-      dd_real value4 = bMat.sp_ele      [index+3] * (*scalar);
+      __float128 value4 = bMat.sp_ele      [index+3] * (*scalar);
       if (i4!=j4) {
 	retMat.de_ele[i4+retMat.nCol*j4] += value4;
 	retMat.de_ele[j4+retMat.nCol*i4] += value4;
@@ -1468,7 +1468,7 @@ bool Lal::plus(DenseMatrix& retMat,
 
 bool Lal::plus(BlockVector& retVec,
 	       BlockVector& aVec,
-	       BlockVector& bVec, dd_real* scalar)
+	       BlockVector& bVec, __float128* scalar)
 {
   if (retVec.nBlock!=aVec.nBlock || retVec.nBlock!=bVec.nBlock) {
     rError("plus:: different nBlock size");
@@ -1487,7 +1487,7 @@ bool Lal::plus(BlockVector& retVec,
 // ret = a '*' (*scalar)
 bool Lal::let(Vector& retVec, const char eq,
 	      Vector& aVec, const char op,
-	      dd_real* scalar)
+	      __float128* scalar)
 {
   switch (op) {
   case '*':
@@ -1503,7 +1503,7 @@ bool Lal::let(Vector& retVec, const char eq,
 // ret = a '*' (*scalar)
 bool Lal::let(BlockVector& retVec, const char eq,
 	      BlockVector& aVec, const char op,
-	      dd_real* scalar)
+	      __float128* scalar)
 {
   switch (op) {
   case '*':
@@ -1519,9 +1519,9 @@ bool Lal::let(BlockVector& retVec, const char eq,
 // ret = a '+' '-' b*(*scalar)
 bool Lal::let(Vector& retVec, const char eq,
 	      Vector& aVec, const char op,
-	      Vector& bVec, dd_real* scalar)
+	      Vector& bVec, __float128* scalar)
 {
-  dd_real minus_scalar;
+  __float128 minus_scalar;
   switch (op) {
   case '+':
     return plus(retVec,aVec,bVec,scalar);
@@ -1545,9 +1545,9 @@ bool Lal::let(Vector& retVec, const char eq,
 // ret = a '+' '-' '*' 't' 'T' b*(*scalar)
 bool Lal::let(DenseMatrix& retMat, const char eq,
 	      DenseMatrix& aMat, const char op,
-	      DenseMatrix& bMat, dd_real* scalar)
+	      DenseMatrix& bMat, __float128* scalar)
 {
-  dd_real minus_scalar;
+  __float128 minus_scalar;
   switch (op) {
   case '+':
     return plus(retMat,aMat,bMat,scalar);
@@ -1582,9 +1582,9 @@ bool Lal::let(DenseMatrix& retMat, const char eq,
 // ret = a '+' '-' '*' b*(*scalar)
 bool Lal::let(DenseMatrix& retMat, const char eq,
 	      SparseMatrix& aMat, const char op,
-	      DenseMatrix& bMat, dd_real* scalar)
+	      DenseMatrix& bMat, __float128* scalar)
 {
-  dd_real minus_scalar;
+  __float128 minus_scalar;
   switch (op) {
   case '+':
     return plus(retMat,aMat,bMat,scalar);
@@ -1611,9 +1611,9 @@ bool Lal::let(DenseMatrix& retMat, const char eq,
 // ret = a '+' '-' '*' b*(*scalar)
 bool Lal::let(DenseMatrix& retMat, const char eq,
 	      DenseMatrix& aMat, const char op,
-	      SparseMatrix& bMat, dd_real* scalar)
+	      SparseMatrix& bMat, __float128* scalar)
 {
-  dd_real minus_scalar;
+  __float128 minus_scalar;
   switch (op) {
   case '+':
     return plus(retMat,aMat,bMat,scalar);
@@ -1681,7 +1681,7 @@ bool Lal::let(Vector& rVec, const char eq,
 }
 
 // ret = inner_product(a,b) // op = '.'
-bool Lal::let(dd_real& ret, const char eq,
+bool Lal::let(__float128& ret, const char eq,
 	      Vector& aVec, const char op,
 	      Vector& bVec)
 {
@@ -1697,7 +1697,7 @@ bool Lal::let(dd_real& ret, const char eq,
 }
   
 // ret = inner_product(a,b) // op = '.'
-bool Lal::let(dd_real& ret, const char eq,
+bool Lal::let(__float128& ret, const char eq,
 	      DenseMatrix& aMat, const char op,
 	      DenseMatrix& bMat)
 {
@@ -1713,7 +1713,7 @@ bool Lal::let(dd_real& ret, const char eq,
 }
   
 // ret = inner_product(a,b) // op = '.'
-bool Lal::let(dd_real& ret, const char eq,
+bool Lal::let(__float128& ret, const char eq,
 	      DenseMatrix& aMat, const char op,
 	      SparseMatrix& bMat)
 {
@@ -1729,7 +1729,7 @@ bool Lal::let(dd_real& ret, const char eq,
 }
   
 // ret = inner_product(a,b) // op = '.'
-bool Lal::let(dd_real& ret, const char eq,
+bool Lal::let(__float128& ret, const char eq,
 	      SparseMatrix& aMat, const char op,
 	      DenseMatrix& bMat)
 {
@@ -1745,7 +1745,7 @@ bool Lal::let(dd_real& ret, const char eq,
 }
   
 // ret = inner_product(a,b) // op = '.'
-bool Lal::let(dd_real& ret, const char eq,
+bool Lal::let(__float128& ret, const char eq,
 	      BlockVector& aVec, const char op,
 	      BlockVector& bVec)
 {
@@ -1762,13 +1762,13 @@ bool Lal::let(dd_real& ret, const char eq,
   
 /////////////////////////////////////////////////////////////////////////
 
-bool Lal::getInnerProduct(dd_real& ret,
+bool Lal::getInnerProduct(__float128& ret,
 			  DenseLinearSpace& aMat,
 			  DenseLinearSpace& bMat)
 {
   bool total_judge = _SUCCESS;
   ret = 0.0;
-  dd_real tmp_ret;
+  __float128 tmp_ret;
 
   // for SDP
   if (aMat.SDP_nBlock != bMat.SDP_nBlock) {
@@ -1810,13 +1810,13 @@ bool Lal::getInnerProduct(dd_real& ret,
   return total_judge;
 }
 
-bool Lal::getInnerProduct(dd_real& ret,
+bool Lal::getInnerProduct(__float128& ret,
 			  SparseLinearSpace& aMat,
 			  DenseLinearSpace& bMat)
 {
   bool total_judge = _SUCCESS;
   ret = 0.0;
-  dd_real tmp_ret;
+  __float128 tmp_ret;
 
   // for SDP
   for (int l=0; l<aMat.SDP_sp_nBlock; ++l) {
@@ -1851,7 +1851,7 @@ bool Lal::getInnerProduct(dd_real& ret,
 
 bool Lal::multiply(DenseLinearSpace& retMat,
 		   DenseLinearSpace& aMat,
-		   dd_real* scalar)
+		   __float128* scalar)
 {
   bool total_judge = _SUCCESS;
 
@@ -1897,7 +1897,7 @@ bool Lal::multiply(DenseLinearSpace& retMat,
 bool Lal::plus(DenseLinearSpace& retMat,
 	       DenseLinearSpace& aMat,
 	       DenseLinearSpace& bMat,
-	       dd_real* scalar)
+	       __float128* scalar)
 {
   bool total_judge = _SUCCESS;
 
@@ -1950,7 +1950,7 @@ bool Lal::plus(DenseLinearSpace& retMat,
 bool Lal::plus(DenseLinearSpace& retMat,
 	       SparseLinearSpace& aMat,
 	       DenseLinearSpace& bMat,
-	       dd_real* scalar)
+	       __float128* scalar)
 {
   bool total_judge = _SUCCESS;
 
@@ -1995,7 +1995,7 @@ bool Lal::plus(DenseLinearSpace& retMat,
 bool Lal::plus(DenseLinearSpace& retMat,
 	       DenseLinearSpace& aMat,
 	       SparseLinearSpace& bMat,
-	       dd_real* scalar)
+	       __float128* scalar)
 {
   bool total_judge = _SUCCESS;
 
@@ -2070,7 +2070,7 @@ bool Lal::getTranspose(DenseLinearSpace& retMat,
 // ret = a '*' (*scalar)
 bool Lal::let(DenseLinearSpace& retMat, const char eq,
 	      DenseLinearSpace& aMat, const char op,
-	      dd_real* scalar)
+	      __float128* scalar)
 {
   switch (op) {
   case '*':
@@ -2086,9 +2086,9 @@ bool Lal::let(DenseLinearSpace& retMat, const char eq,
 // ret = a '+' '-' b*(*scalar)
 bool Lal::let(DenseLinearSpace& retMat, const char eq,
 	      DenseLinearSpace& aMat, const char op,
-	      DenseLinearSpace& bMat, dd_real* scalar)
+	      DenseLinearSpace& bMat, __float128* scalar)
 {
-  dd_real minus_scalar;
+  __float128 minus_scalar;
   switch (op) {
   case '+':
     return plus(retMat,aMat,bMat,scalar);
@@ -2112,9 +2112,9 @@ bool Lal::let(DenseLinearSpace& retMat, const char eq,
 // ret = a '+' '-' b*(*scalar)
 bool Lal::let(DenseLinearSpace& retMat, const char eq,
 	      SparseLinearSpace& aMat, const char op,
-	      DenseLinearSpace& bMat, dd_real* scalar)
+	      DenseLinearSpace& bMat, __float128* scalar)
 {
-  dd_real minus_scalar;
+  __float128 minus_scalar;
   switch (op) {
   case '+':
     return plus(retMat,aMat,bMat,scalar);
@@ -2139,9 +2139,9 @@ bool Lal::let(DenseLinearSpace& retMat, const char eq,
 // ret = a '+' '-' b*(*scalar)
 bool Lal::let(DenseLinearSpace& retMat, const char eq,
 	      DenseLinearSpace& aMat, const char op,
-	      SparseLinearSpace& bMat, dd_real* scalar)
+	      SparseLinearSpace& bMat, __float128* scalar)
 {
-  dd_real minus_scalar;
+  __float128 minus_scalar;
   switch (op) {
   case '+':
     return plus(retMat,aMat,bMat,scalar);
@@ -2163,7 +2163,7 @@ bool Lal::let(DenseLinearSpace& retMat, const char eq,
 }
 
 // ret = inner_product(a,b) // op = '.'
-bool Lal::let(dd_real& ret, const char eq,
+bool Lal::let(__float128& ret, const char eq,
 	      DenseLinearSpace& aMat, const char op,
 	      DenseLinearSpace& bMat)
 {
@@ -2179,7 +2179,7 @@ bool Lal::let(dd_real& ret, const char eq,
 }
   
 // ret = inner_product(a,b) // op = '.'
-bool Lal::let(dd_real& ret, const char eq,
+bool Lal::let(__float128& ret, const char eq,
 	      SparseLinearSpace& aMat, const char op,
 	      DenseLinearSpace& bMat)
 {
@@ -2195,7 +2195,7 @@ bool Lal::let(dd_real& ret, const char eq,
 }
 
 // ret = inner_product(a,b) // op = '.'
-bool Lal::let(dd_real& ret, const char eq,
+bool Lal::let(__float128& ret, const char eq,
 	      DenseLinearSpace& aMat, const char op,
 	      SparseLinearSpace& bMat)
 {

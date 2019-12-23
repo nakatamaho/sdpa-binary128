@@ -69,12 +69,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdlib.h>
 
 void
-Rpotf2(const char *uplo, mpackint n, dd_real * A, mpackint lda, mpackint *info)
+Rpotf2(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *info)
 {
     mpackint j, upper, success = 1;
-    dd_real ajj;
-    dd_real Zero = 0.0;
-    dd_real One = 1.0;
+    __float128 ajj;
+    __float128 Zero = 0.0;
+    __float128 One = 1.0;
 
     *info = 0;
     upper = Mlsame_dd(uplo, "U");

@@ -69,11 +69,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 void
 Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
-    mpackint n, dd_real * c, dd_real * s, dd_real * A, mpackint lda)
+    mpackint n, __float128 * c, __float128 * s, __float128 * A, mpackint lda)
 {
-    dd_real Zero = 0.0;
-    dd_real One = 1.0;
-    dd_real ctemp, stemp, temp;
+    __float128 Zero = 0.0;
+    __float128 One = 1.0;
+    __float128 ctemp, stemp, temp;
     mpackint info;
     mpackint i, j;
 

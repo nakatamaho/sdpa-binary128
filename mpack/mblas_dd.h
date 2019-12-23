@@ -34,7 +34,7 @@
 #define _MBLAS_DD_H_
 
 #include <mpack_config.h>
-#include <qd/dd_real.h>
+#include <qd/__float128.h>
 #include <mutils_dd.h>
  
 #if !defined __MPACK_ERRNO__
@@ -46,49 +46,49 @@
 _MPACK_EXTERN_ int mpack_errno;
 
 /* LEVEL 1 MBLAS */
-dd_real Rdot(mpackint n, dd_real * dx, mpackint incx, dd_real * dy,
+__float128 Rdot(mpackint n, __float128 * dx, mpackint incx, __float128 * dy,
     mpackint incy);
-void Rcopy(mpackint n, dd_real * dx, mpackint incx, dd_real * dy,
+void Rcopy(mpackint n, __float128 * dx, mpackint incx, __float128 * dy,
     mpackint incy);
-void Raxpy(mpackint n, dd_real da, dd_real * dx, mpackint incx, dd_real * dy, mpackint incy);
-void Rscal(mpackint n, dd_real ca, dd_real * cx, mpackint incx);
+void Raxpy(mpackint n, __float128 da, __float128 * dx, mpackint incx, __float128 * dy, mpackint incy);
+void Rscal(mpackint n, __float128 ca, __float128 * cx, mpackint incx);
 int Mlsame_dd(const char *a, const char *b);
 void Mxerbla_dd(const char *srname, int info);
-void Rswap(mpackint n, dd_real * dx, mpackint incx, dd_real * dy,
+void Rswap(mpackint n, __float128 * dx, mpackint incx, __float128 * dy,
     mpackint incy);
-dd_real Rnrm2(mpackint n, dd_real * x, mpackint incx);
+__float128 Rnrm2(mpackint n, __float128 * x, mpackint incx);
 
 /* LEVEL 2 MBLAS */
 void Rtrmv(const char *uplo, const char *trans, const char *diag, mpackint n,
-    dd_real * A, mpackint lda, dd_real * x, mpackint incx);
+    __float128 * A, mpackint lda, __float128 * x, mpackint incx);
 void Rtrsv(const char *uplo, const char *trans, const char *diag, mpackint n,
-    dd_real * A, mpackint lda, dd_real * x, mpackint incx);
-void Rgemv(const char *trans, mpackint m, mpackint n, dd_real alpha,
-    dd_real * A, mpackint lda, dd_real * x, mpackint incx, dd_real beta,
-    dd_real * y, mpackint incy);
-void Rsymv(const char *uplo, mpackint n, dd_real alpha, dd_real * A,
-    mpackint lda, dd_real * x, mpackint incx, dd_real beta, dd_real * y,
+    __float128 * A, mpackint lda, __float128 * x, mpackint incx);
+void Rgemv(const char *trans, mpackint m, mpackint n, __float128 alpha,
+    __float128 * A, mpackint lda, __float128 * x, mpackint incx, __float128 beta,
+    __float128 * y, mpackint incy);
+void Rsymv(const char *uplo, mpackint n, __float128 alpha, __float128 * A,
+    mpackint lda, __float128 * x, mpackint incx, __float128 beta, __float128 * y,
     mpackint incy);
-void Rsyr2(const char *uplo, mpackint n, dd_real alpha, dd_real * x,
-    mpackint incx, dd_real * y, mpackint incy, dd_real * A, mpackint lda);
-void Rger(mpackint m, mpackint n, dd_real alpha, dd_real * x,
-    mpackint incx, dd_real * y, mpackint incy, dd_real * A, mpackint lda);
+void Rsyr2(const char *uplo, mpackint n, __float128 alpha, __float128 * x,
+    mpackint incx, __float128 * y, mpackint incy, __float128 * A, mpackint lda);
+void Rger(mpackint m, mpackint n, __float128 alpha, __float128 * x,
+    mpackint incx, __float128 * y, mpackint incy, __float128 * A, mpackint lda);
 
 /* LEVEL 3 MBLAS */
 void Rtrmm(const char *side, const char *uplo, const char *transa,
-    const char *diag, mpackint m, mpackint n, dd_real alpha, dd_real * A,
-    mpackint lda, dd_real * B, mpackint ldb);
+    const char *diag, mpackint m, mpackint n, __float128 alpha, __float128 * A,
+    mpackint lda, __float128 * B, mpackint ldb);
 void Rtrsm(const char *side, const char *uplo, const char *transa,
-    const char *diag, mpackint m, mpackint n, dd_real alpha, dd_real * A,
-    mpackint lda, dd_real * B, mpackint ldb);
+    const char *diag, mpackint m, mpackint n, __float128 alpha, __float128 * A,
+    mpackint lda, __float128 * B, mpackint ldb);
 void Rgemm(const char *transa, const char *transb, mpackint m, mpackint n,
-    mpackint k, dd_real alpha, dd_real * A, mpackint lda, dd_real * B,
-    mpackint ldb, dd_real beta, dd_real * C, mpackint ldc);
+    mpackint k, __float128 alpha, __float128 * A, mpackint lda, __float128 * B,
+    mpackint ldb, __float128 beta, __float128 * C, mpackint ldc);
 void Rsyr2k(const char *uplo, const char *trans, mpackint n, mpackint k,
-    dd_real alpha, dd_real * A, mpackint lda, dd_real * B, mpackint ldb,
-    dd_real beta, dd_real * C, mpackint ldc);
+    __float128 alpha, __float128 * A, mpackint lda, __float128 * B, mpackint ldb,
+    __float128 beta, __float128 * C, mpackint ldc);
 void Rsyrk(const char *uplo, const char *trans, mpackint n, mpackint k,
-    dd_real alpha, dd_real * A, mpackint lda, dd_real beta,
-    dd_real * C, mpackint ldc);
+    __float128 alpha, __float128 * A, mpackint lda, __float128 beta,
+    __float128 * C, mpackint ldc);
 
 #endif

@@ -68,12 +68,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 
 void
-Rsytd2(const char *uplo, mpackint n, dd_real * A, mpackint lda, dd_real * d,
-    dd_real * e, dd_real * tau, mpackint *info)
+Rsytd2(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * d,
+    __float128 * e, __float128 * tau, mpackint *info)
 {
 
-    dd_real One = 1.0, Zero = 0.0, Half = 0.5;
-    dd_real taui, alpha;
+    __float128 One = 1.0, Zero = 0.0, Half = 0.5;
+    __float128 taui, alpha;
     mpackint upper;
     mpackint i;
 

@@ -68,10 +68,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 
 void
-Rlarf(const char *side, mpackint m, mpackint n, dd_real * v, mpackint incv, dd_real tau,
-    dd_real * C, mpackint ldc, dd_real * work)
+Rlarf(const char *side, mpackint m, mpackint n, __float128 * v, mpackint incv, __float128 tau,
+    __float128 * C, mpackint ldc, __float128 * work)
 {
-    dd_real One = 1.0, Zero = 0.0;
+    __float128 One = 1.0, Zero = 0.0;
 
     if (Mlsame_dd(side, "L")) {
 //Form  H * C

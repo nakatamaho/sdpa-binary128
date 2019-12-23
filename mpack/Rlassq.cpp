@@ -69,11 +69,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //http://www.netlib.org/lapack/double/dlassq.f
 void
-Rlassq(mpackint n, dd_real * x, mpackint incx, dd_real * scale, dd_real * sumsq)
+Rlassq(mpackint n, __float128 * x, mpackint incx, __float128 * scale, __float128 * sumsq)
 {
     mpackint ix;
-    dd_real Zero = 0.0, One = 1.0;
-    dd_real absxi;
+    __float128 Zero = 0.0, One = 1.0;
+    __float128 absxi;
 
     if (n > 0) {
 	for (ix = 0; ix <= (n - 1) * incx; ix += incx) {

@@ -68,14 +68,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 
 void
-Rsytrd(const char *uplo, mpackint n, dd_real * A, mpackint lda, dd_real * d,
-    dd_real * e, dd_real * tau, dd_real * work, mpackint lwork, mpackint *info)
+Rsytrd(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * d,
+    __float128 * e, __float128 * tau, __float128 * work, mpackint lwork, mpackint *info)
 {
     mpackint upper, lquery, nb, lwkopt, nx, iws;
     mpackint ldwork, nbmin, kk;
     mpackint i, j;
     mpackint iinfo;
-    dd_real One = 1.0;
+    __float128 One = 1.0;
 
     *info = 0;
     upper = Mlsame_dd(uplo, "U");

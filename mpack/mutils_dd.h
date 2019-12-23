@@ -31,23 +31,23 @@
 using std::max;
 using std::min;
 
-dd_real Msign(dd_real a, dd_real b);
-double cast2double(dd_real a);
-int M2int(dd_real a);
+__float128 Msign(__float128 a, __float128 b);
+double cast2double(__float128 a);
+int M2int(__float128 a);
 //void mpf_pow(mpf_t ans, mpf_t x, mpf_t y);
-dd_real mpf_approx_log(dd_real x);
-dd_real mpf_approx_log2(dd_real x);
-dd_real mpf_approx_log10(dd_real x);
-dd_real mpf_approx_pow(dd_real x, dd_real y);
-dd_real mpf_approx_cos(dd_real x);
-dd_real mpf_approx_sin(dd_real x);
-dd_real mpf_approx_exp(dd_real x);
-dd_real mpf_approx_pi();
+__float128 mpf_approx_log(__float128 x);
+__float128 mpf_approx_log2(__float128 x);
+__float128 mpf_approx_log10(__float128 x);
+__float128 mpf_approx_pow(__float128 x, __float128 y);
+__float128 mpf_approx_cos(__float128 x);
+__float128 mpf_approx_sin(__float128 x);
+__float128 mpf_approx_exp(__float128 x);
+__float128 mpf_approx_pi();
 
 //implementation of sign transfer function.
-inline dd_real Msign(dd_real a, dd_real b)
+inline __float128 Msign(__float128 a, __float128 b)
 {
-  dd_real mtmp;
+  __float128 mtmp;
   mtmp=abs(a);
   if (b<0.0) {
     mtmp=-mtmp;
@@ -56,16 +56,16 @@ inline dd_real Msign(dd_real a, dd_real b)
 }
 
 inline double
-cast2double(dd_real a)
+cast2double(__float128 a)
 {
     return a.x[0];
 }
 
 inline int
-M2int(dd_real a)
+M2int(__float128 a)
 {
     int i;
-    dd_real tmp;
+    __float128 tmp;
     a = a + 0.5;
     tmp = floor(a);
     i = (int)tmp.x[0];

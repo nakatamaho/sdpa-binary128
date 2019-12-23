@@ -71,14 +71,14 @@ Rdot forms the dot product of two vectors.
 
 #include <mblas_dd.h>
 
-dd_real
-Rdot(mpackint n, dd_real * dx, mpackint incx, dd_real * dy, mpackint incy)
+__float128
+Rdot(mpackint n, __float128 * dx, mpackint incx, __float128 * dy, mpackint incy)
 {
     mpackint ix = 0;
 
     mpackint iy = 0;
 
-    dd_real temp;
+    __float128 temp;
 
     temp = 0.0;
 

@@ -166,7 +166,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
 
   // yVec is opposite sign
   for (int k=0; k<yVec.nDim; ++k) {
-    dd_real tmp;
+    __float128 tmp;
     fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
     yVec.ele[k] = -tmp;
     //     rMessage("yVec.ele[" << k << "] = " << tmp);
@@ -175,7 +175,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
   if (inputSparse) {
     // sparse case , zMat , xMat in this order
     int i,j,l,target;
-    dd_real value;
+    __float128 value;
     while (true) {
       if (fscanf(fpData,"%*[^0-9+-]%d",&target)<=0) {
 	break;
@@ -239,7 +239,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
       int size = zMat.SDP_block[l].nRow;
       for (int i=0; i<size; ++i) {
 	for (int j=0; j<size; ++j) {
-	  dd_real tmp;
+	  __float128 tmp;
          fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 	  if (i<=j && tmp!=0.0) {
 	    zMat.setElement_SDP(l,i,j,tmp);
@@ -253,7 +253,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
     }
     // for LP
     for (int j=0; j<LP_nBlock; ++j) {
-      dd_real tmp;
+      __float128 tmp;
       fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
       if (tmp!=0.0) {
 	zMat.setElement_LP(j,tmp);
@@ -265,7 +265,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
       int size = xMat.SDP_block[l].nRow;
       for (int i=0; i<size; ++i) {
 	for (int j=0; j<size; ++j) {
-	  dd_real tmp;
+	  __float128 tmp;
          fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 	  if (i<=j && tmp!=0.0) {
 	    xMat.setElement_SDP(l,i,j,tmp);
@@ -279,7 +279,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
     }
     // for LP
     for (int j=0; j<LP_nBlock; ++j) {
-      dd_real tmp;
+      __float128 tmp;
       fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
       if (tmp!=0.0) {
 	xMat.setElement_LP(j,tmp);
@@ -327,7 +327,7 @@ void IO::read(FILE* fpData, int m,
   }
   if (isDataSparse) {
     int i,j,k,l;
-    dd_real value;
+    __float128 value;
     while (true) {
       if (fscanf(fpData,"%*[^0-9+-]%d",&k)<=0) {
 	break;
@@ -385,7 +385,7 @@ void IO::read(FILE* fpData, int m,
 		int size = SDP_blockStruct[l];
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
-			dd_real tmp;
+			__float128 tmp;
 		        fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 			if (i<=j && tmp!=0.0) {
 			  SDP_CNonZeroCount[l]++;
@@ -396,7 +396,7 @@ void IO::read(FILE* fpData, int m,
 		  rError("io:: current version does not support SOCP");
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
-		  dd_real tmp;
+		  __float128 tmp;
                  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 		  if (tmp!=0.0) {
 			LP_CNonZeroCount[blockNumber[l2]+j]++;
@@ -415,7 +415,7 @@ void IO::read(FILE* fpData, int m,
 		int size = SDP_blockStruct[l];
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
-			dd_real tmp;
+			__float128 tmp;
                        fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 			if (i<=j && tmp!=0.0) {
 			  SDP_ANonZeroCount[k*SDP_nBlock+l]++;
@@ -426,7 +426,7 @@ void IO::read(FILE* fpData, int m,
 		  rError("io:: current version does not support SOCP");
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
-		  dd_real tmp;
+		  __float128 tmp;
                  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 		  if (tmp!=0.0) {
 			LP_ANonZeroCount[k*LP_nBlock+blockNumber[l2]+j] = true;
@@ -460,7 +460,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 
   if (isDataSparse) {
     int i,j,k,l;
-    dd_real value;
+    __float128 value;
     while (true) {
       if (fscanf(fpData,"%*[^0-9+-]%d",&k)<=0) {
 	break;
@@ -525,7 +525,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 		int size = SDP_blockStruct[l];
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
-			dd_real tmp;
+			__float128 tmp;
                        fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 			if (i<=j && tmp!=0.0) {
 			  inputData.C.setElement_SDP(l,i,j,-tmp);
@@ -536,7 +536,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 		rError("io:: current version does not support SOCP");
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
-		  dd_real tmp;
+		  __float128 tmp;
                  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 		  if (tmp!=0.0) {
 			inputData.C.setElement_LP(blockNumber[l2]+j,-tmp);
@@ -556,7 +556,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 		int size = SDP_blockStruct[l];
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
-			dd_real tmp;
+			__float128 tmp;
                        fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 			if (i<=j && tmp!=0.0) {
 			  inputData.A[k].setElement_SDP(l,i,j,tmp);
@@ -567,7 +567,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 		rError("io:: current version does not support SOCP");
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
-		  dd_real tmp;
+		  __float128 tmp;
                  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 		  if (tmp!=0.0) {
 			inputData.A[k].setElement_LP(blockNumber[l2]+j,tmp);
@@ -671,7 +671,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
 
   if (isDataSparse) {
     int i,j,k,l;
-    dd_real value;
+    __float128 value;
     while (true) {
       if (fscanf(fpData,"%*[^0-9+-]%d",&k)<=0) {
 	break;
@@ -723,7 +723,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
         int size = SDP_blockStruct[l];
         for (int i=0; i<size; ++i) {
           for (int j=0; j<size; ++j) {
-	    dd_real tmp;
+	    __float128 tmp;
             fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
             if (i<=j && tmp!=0.0) {
               SDP_index[0].push_back(l);
@@ -734,7 +734,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
         rError("io:: current version does not support SOCP");
       } else if (blockType[l2] == 3) { // LP part
         for (int j=0; j<blockStruct[l2]; ++j) {
-	  dd_real tmp;
+	  __float128 tmp;
           fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
           if (tmp!=0.0) {
               LP_index[0].push_back(blockNumber[l2]+j);
@@ -753,7 +753,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
           int size = SDP_blockStruct[l];
           for (int i=0; i<size; ++i) {
             for (int j=0; j<size; ++j) {
- 	      dd_real tmp;
+ 	      __float128 tmp;
               fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
               if (i<=j && tmp!=0.0) {
                 SDP_index[k+1].push_back(l);
@@ -764,7 +764,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
           rError("io:: current version does not support SOCP");
         } else if (blockType[l2] == 3) { // LP part
           for (int j=0; j<blockStruct[l2]; ++j) {
-	    dd_real tmp;
+	    __float128 tmp;
             fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
             if (tmp!=0.0) {
               LP_index[k+1].push_back(blockNumber[l2]+j);
@@ -877,7 +877,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 
   if (isDataSparse) {
     int i,j,k,l;
-    dd_real value;
+    __float128 value;
     while (true) {
       if (fscanf(fpData,"%*[^0-9+-]%d",&k)<=0) {
 	break;
@@ -942,7 +942,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 		int size = SDP_blockStruct[l];
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
-	                dd_real tmp;
+	                __float128 tmp;
                         fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 			if (i<=j && tmp!=0.0) {
 			  inputData.C.setElement_SDP(l,i,j,-tmp);
@@ -953,7 +953,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 		rError("io:: current version does not support SOCP");
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
-	          dd_real tmp;
+	          __float128 tmp;
                   fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 		  if (tmp!=0.0) {
 			inputData.C.setElement_LP(blockNumber[l2]+j,-tmp);
@@ -973,7 +973,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 		int size = SDP_blockStruct[l];
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
-	                dd_real tmp;
+	                __float128 tmp;
                         fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 			if (i<=j && tmp!=0.0) {
 			  inputData.A[k].setElement_SDP(l,i,j,tmp);
@@ -984,7 +984,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 		rError("io:: current version does not support SOCP");
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
-	          dd_real tmp;
+	          __float128 tmp;
                   fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer); tmp = mpbuffer;
 		  if (tmp!=0.0) {
 			inputData.A[k].setElement_LP(blockNumber[l2]+j,tmp);
@@ -1024,8 +1024,8 @@ void IO::printOneIteration(int pIteration,
 {
   #if REVERSE_PRIMAL_DUAL
   if (Display) {
-    dd_real mtmp1=-solveInfo.objValDual;
-    dd_real mtmp2=-solveInfo.objValPrimal;
+    __float128 mtmp1=-solveInfo.objValDual;
+    __float128 mtmp2=-solveInfo.objValPrimal;
     fprintf(Display,"%2d %4.1e %4.1e %4.1e %+7.2e %+7.2e"
 	    " %4.1e %4.1e %4.2e\n", pIteration, mu.current.x[0],
 	    theta.dual.x[0], theta.primal.x[0],
@@ -1033,8 +1033,8 @@ void IO::printOneIteration(int pIteration,
 	    alpha.dual.x[0], alpha.primal.x[0], beta.value.x[0]);
   }
   if (fpout) {
-    dd_real mtmp1=-solveInfo.objValDual;
-    dd_real mtmp2=-solveInfo.objValPrimal;
+    __float128 mtmp1=-solveInfo.objValDual;
+    __float128 mtmp2=-solveInfo.objValPrimal;
     fprintf(fpout,"%2d %4.1e %4.1e %4.1e %+7.2e %+7.2e"
 	    " %4.1e %4.1e %4.2e\n", pIteration, mu.current.x[0],
 	    theta.dual.x[0], theta.primal.x[0],
@@ -1082,29 +1082,29 @@ void IO::printLastInfo(int pIteration,
   printOneIteration(pIteration,mu,theta,solveInfo,alpha,
 		    beta, fpout, Display);
 
-  dd_real mean = (abs(solveInfo.objValPrimal)
+  __float128 mean = (abs(solveInfo.objValPrimal)
 		 + abs(solveInfo.objValDual)) / 2.0;
-  dd_real PDgap = abs(solveInfo.objValPrimal
+  __float128 PDgap = abs(solveInfo.objValPrimal
 		      - solveInfo.objValDual);
-  // dd_real dominator;
-  dd_real relgap;
+  // __float128 dominator;
+  __float128 relgap;
   if (mean < 1.0) {
     relgap = PDgap;
   } else {
     relgap = PDgap/mean;
   }
 
-  dd_real gap    = mu.current*nDim; 
-  dd_real digits = -log10(abs(PDgap/mean));
+  __float128 gap    = mu.current*nDim; 
+  __float128 digits = -log10(abs(PDgap/mean));
 
   #if DIMACS_PRINT
-  dd_real tmp = 0.0;
-  dd_real b1 = 0.0;
+  __float128 tmp = 0.0;
+  __float128 b1 = 0.0;
   for (int k=0; k<inputData.b.nDim; ++k) {
     tmp= abs(inputData.b.ele[k]);
     b1 = max(b1, tmp);
   }
-  dd_real c1 = 0.0;
+  __float128 c1 = 0.0;
   for (int l=0; l<inputData.C.SDP_sp_nBlock; ++l) {
     SparseMatrix& Cl = inputData.C.SDP_sp_block[l];
     if (Cl.type == SparseMatrix::SPARSE) {
@@ -1126,10 +1126,10 @@ void IO::printLastInfo(int pIteration,
     tmp = abs(inputData.C.LP_sp_block[l]);
     c1 = max(c1, tmp);
   }
-  dd_real p_norm;
+  __float128 p_norm;
   Lal::let(tmp,'=',currentRes.primalVec,'.',currentRes.primalVec);
   p_norm = sqrt(tmp);
-  dd_real d_norm = 0.0;
+  __float128 d_norm = 0.0;
   for (int l=0; l<currentRes.dualMat.SDP_nBlock; ++l) {
     Lal::let(tmp,'=',currentRes.dualMat.SDP_block[l],'.',currentRes.dualMat.SDP_block[l]);
     d_norm += sqrt(tmp);
@@ -1142,8 +1142,8 @@ void IO::printLastInfo(int pIteration,
     tmp += currentRes.dualMat.LP_block[l] * currentRes.dualMat.LP_block[l];
   }
   d_norm += sqrt(tmp);
-  dd_real x_min =  Jal::getMinEigen(currentPt.xMat,work);
-  dd_real z_min =  Jal::getMinEigen(currentPt.zMat,work);
+  __float128 x_min =  Jal::getMinEigen(currentPt.xMat,work);
+  __float128 z_min =  Jal::getMinEigen(currentPt.zMat,work);
 					
   // printf("b1:%e\n",b1);
   // printf("c1:%e\n",c1);
@@ -1152,18 +1152,18 @@ void IO::printLastInfo(int pIteration,
   // printf("x_min:%e\n",x_min);
   // printf("z_min:%e\n",z_min);
   
-  dd_real ctx = solveInfo.objValPrimal;
-  dd_real bty = solveInfo.objValDual;
-  dd_real xtz = 0.0;
+  __float128 ctx = solveInfo.objValPrimal;
+  __float128 bty = solveInfo.objValDual;
+  __float128 xtz = 0.0;
   Lal::let(xtz,'=',currentPt.xMat,'.',currentPt.zMat);
 
-  dd_real mzero = 0.0;
-  dd_real err1 = p_norm / (1+b1);
-  dd_real err2 = max( mzero, - x_min / (1+b1));
-  dd_real err3 = d_norm / (1+c1);
-  dd_real err4 = max( mzero, - z_min / (1+c1));
-  dd_real err5 = (ctx - bty) / (1 + abs(ctx) + abs(bty));
-  dd_real err6 = xtz / (1 + abs(ctx) + abs(bty));
+  __float128 mzero = 0.0;
+  __float128 err1 = p_norm / (1+b1);
+  __float128 err2 = max( mzero, - x_min / (1+b1));
+  __float128 err3 = d_norm / (1+c1);
+  __float128 err4 = max( mzero, - z_min / (1+c1));
+  __float128 err5 = (ctx - bty) / (1 + abs(ctx) + abs(bty));
+  __float128 err6 = xtz / (1 + abs(ctx) + abs(bty));
     
   #endif
   if (Display) {
@@ -1176,8 +1176,8 @@ void IO::printLastInfo(int pIteration,
     fprintf(Display, "      digits = %4.16e\n",  digits.x[0]);
 
     #if REVERSE_PRIMAL_DUAL
-    dd_real mtmp1 = -solveInfo.objValDual;
-    dd_real mtmp2 = -solveInfo.objValPrimal;
+    __float128 mtmp1 = -solveInfo.objValDual;
+    __float128 mtmp2 = -solveInfo.objValPrimal;
     fprintf(Display, "objValPrimal = %10.16e\n",
 	    mtmp1.x[0]);
     fprintf(Display, "objValDual   = %10.16e\n",
@@ -1231,8 +1231,8 @@ void IO::printLastInfo(int pIteration,
     fprintf(fpout, "      digits = %4.16e\n",  digits.x[0]);
 
     #if REVERSE_PRIMAL_DUAL
-    dd_real mtmp1=-solveInfo.objValDual;
-    dd_real mtmp2=-solveInfo.objValPrimal;
+    __float128 mtmp1=-solveInfo.objValDual;
+    __float128 mtmp2=-solveInfo.objValPrimal;
     fprintf(fpout, "objValPrimal = %10.16e\n",
 	    mtmp1.x[0]);
     fprintf(fpout, "objValDual   = %10.16e\n",
@@ -1321,28 +1321,28 @@ void IO::printLastInfo(int pIteration,
   printOneIteration(pIteration,mu,theta,solveInfo,alpha,
 		    beta, fpout, Display);
 
-  dd_real mean = (abs(solveInfo.objValPrimal)
+  __float128 mean = (abs(solveInfo.objValPrimal)
 		 + abs(solveInfo.objValDual)) / 2.0;
-  dd_real PDgap = abs(solveInfo.objValPrimal
+  __float128 PDgap = abs(solveInfo.objValPrimal
 		      - solveInfo.objValDual);
-  // dd_real dominator;
-  dd_real relgap;
+  // __float128 dominator;
+  __float128 relgap;
   if (mean < 1.0) {
     relgap = PDgap;
   } else {
     relgap = PDgap/mean;
   }
-  dd_real gap    = mu.current*nDim; 
-  dd_real digits = -log10(abs(PDgap/mean));
+  __float128 gap    = mu.current*nDim; 
+  __float128 digits = -log10(abs(PDgap/mean));
 
   #if DIMACS_PRINT
-  dd_real tmp = 0.0;
-  dd_real b1 = 0.0;
+  __float128 tmp = 0.0;
+  __float128 b1 = 0.0;
   for (int k=0; k<inputData.b.nDim; ++k) {
     tmp = abs(inputData.b.ele[k]);
     b1 = max(b1, tmp);
   }
-  dd_real c1 = 0.0;
+  __float128 c1 = 0.0;
   for (int l=0; l<inputData.C.SDP_sp_nBlock; ++l) {
     SparseMatrix& Cl = inputData.C.SDP_sp_block[l];
     if (Cl.type == SparseMatrix::SPARSE) {
@@ -1364,10 +1364,10 @@ void IO::printLastInfo(int pIteration,
     tmp = abs(inputData.C.LP_sp_block[l]);
     c1 = max(c1, tmp);
   }
-  dd_real p_norm;
+  __float128 p_norm;
   Lal::let(tmp,'=',currentRes.primalVec,'.',currentRes.primalVec);
   p_norm = sqrt(tmp);
-  dd_real d_norm = 0.0;
+  __float128 d_norm = 0.0;
   for (int l=0; l<currentRes.dualMat.SDP_nBlock; ++l) {
     Lal::let(tmp,'=',currentRes.dualMat.SDP_block[l],'.',currentRes.dualMat.SDP_block[l]);
     d_norm += sqrt(tmp);
@@ -1380,8 +1380,8 @@ void IO::printLastInfo(int pIteration,
     tmp += currentRes.dualMat.LP_block[l] * currentRes.dualMat.LP_block[l];
   }
   d_norm += sqrt(tmp);
-  dd_real x_min =  Jal::getMinEigen(currentPt.xMat,work);
-  dd_real z_min =  Jal::getMinEigen(currentPt.zMat,work);
+  __float128 x_min =  Jal::getMinEigen(currentPt.xMat,work);
+  __float128 z_min =  Jal::getMinEigen(currentPt.zMat,work);
 					
   //  printf("b1:%e\n",b1);
   //  printf("c1:%e\n",c1);
@@ -1390,18 +1390,18 @@ void IO::printLastInfo(int pIteration,
   //  printf("x_min:%e\n",x_min);
   //  printf("z_min:%e\n",z_min);
   
-  dd_real ctx = solveInfo.objValPrimal;
-  dd_real bty = solveInfo.objValDual;
-  dd_real xtz = 0.0;
+  __float128 ctx = solveInfo.objValPrimal;
+  __float128 bty = solveInfo.objValDual;
+  __float128 xtz = 0.0;
   Lal::let(xtz,'=',currentPt.xMat,'.',currentPt.zMat);
 
-  dd_real mzero = 0.0;
-  dd_real err1 = p_norm / (1+b1);
-  dd_real err2 = max( mzero, - x_min / (1+b1));
-  dd_real err3 = d_norm / (1+c1);
-  dd_real err4 = max( mzero, - z_min / (1+c1));
-  dd_real err5 = (ctx - bty) / (1 + abs(ctx) + abs(bty));
-  dd_real err6 = xtz / (1 + abs(ctx) + abs(bty));
+  __float128 mzero = 0.0;
+  __float128 err1 = p_norm / (1+b1);
+  __float128 err2 = max( mzero, - x_min / (1+b1));
+  __float128 err3 = d_norm / (1+c1);
+  __float128 err4 = max( mzero, - z_min / (1+c1));
+  __float128 err5 = (ctx - bty) / (1 + abs(ctx) + abs(bty));
+  __float128 err6 = xtz / (1 + abs(ctx) + abs(bty));
     
   #endif
   
@@ -1415,8 +1415,8 @@ void IO::printLastInfo(int pIteration,
     fprintf(Display, "      digits = %4.16e\n",  digits.x[0]);
 
     #if REVERSE_PRIMAL_DUAL
-    dd_real mtmp1 = -solveInfo.objValDual;
-    dd_real mtmp2 = -solveInfo.objValPrimal;
+    __float128 mtmp1 = -solveInfo.objValDual;
+    __float128 mtmp2 = -solveInfo.objValPrimal;
     cout.precision(32);
     fprintf(Display, "objValPrimal = "); cout << mtmp1 << endl;
     fprintf(Display, "objValDual   = "); cout << mtmp2 << endl;
@@ -1469,8 +1469,8 @@ void IO::printLastInfo(int pIteration,
     fprintf(fpout, "      digits = %4.16e\n",  digits.x[0]);
 
     #if REVERSE_PRIMAL_DUAL
-    dd_real mtmp1=-solveInfo.objValDual;
-    dd_real mtmp2=-solveInfo.objValPrimal;
+    __float128 mtmp1=-solveInfo.objValDual;
+    __float128 mtmp2=-solveInfo.objValPrimal;
     fprintf(fpout, "objValPrimal = %10.16e\n",
 	    mtmp1.x[0]);
     fprintf(fpout, "objValDual   = %10.16e\n",

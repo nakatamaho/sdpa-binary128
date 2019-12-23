@@ -77,14 +77,14 @@ in the second case.
 #include <mblas_dd.h>
 
 void
-Rsyrk(const char *uplo, const char *trans, mpackint n, mpackint k, dd_real alpha,
-    dd_real * A, mpackint lda, dd_real beta, dd_real * C, mpackint ldc)
+Rsyrk(const char *uplo, const char *trans, mpackint n, mpackint k, __float128 alpha,
+    __float128 * A, mpackint lda, __float128 beta, __float128 * C, mpackint ldc)
 {
     mpackint nrowa, upper, info;
 
-    dd_real Zero = 0.0, One = 1.0;
+    __float128 Zero = 0.0, One = 1.0;
 
-    dd_real temp;
+    __float128 temp;
 
     //Test the input parameters.
     if (Mlsame_dd(trans, "N"))

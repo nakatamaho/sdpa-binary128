@@ -68,12 +68,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 
 void
-Rlatrd(const char *uplo, mpackint n, mpackint nb, dd_real * A, mpackint lda, dd_real * e,
-    dd_real * tau, dd_real * w, mpackint ldw)
+Rlatrd(const char *uplo, mpackint n, mpackint nb, __float128 * A, mpackint lda, __float128 * e,
+    __float128 * tau, __float128 * w, mpackint ldw)
 {
     mpackint i, iw;
-    dd_real Zero = 0.0, Half = 0.5, One = 1.0;
-    dd_real alpha;
+    __float128 Zero = 0.0, Half = 0.5, One = 1.0;
+    __float128 alpha;
 
 //Quick return if possible
     if (n <= 0)

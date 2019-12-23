@@ -68,13 +68,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 #include <stdio.h> //for untested part
 void
-Rsterf(mpackint n, dd_real * d, dd_real * e, mpackint *info)
+Rsterf(mpackint n, __float128 * d, __float128 * e, mpackint *info)
 {
-    dd_real Zero = 0.0, One = 1.0, Two = 2.0, Three = 3.0;
-    dd_real sigma;
-    dd_real eps, eps2;
-    dd_real safmin, safmax, ssfmax, ssfmin, anorm;
-    dd_real rte, rt1, rt2, s, c, r, oldc, oldgam, gamma, p, bb, alpha;
+    __float128 Zero = 0.0, One = 1.0, Two = 2.0, Three = 3.0;
+    __float128 sigma;
+    __float128 eps, eps2;
+    __float128 safmin, safmax, ssfmax, ssfmin, anorm;
+    __float128 rte, rt1, rt2, s, c, r, oldc, oldgam, gamma, p, bb, alpha;
 
     mpackint nmaxit;
     mpackint iscale;

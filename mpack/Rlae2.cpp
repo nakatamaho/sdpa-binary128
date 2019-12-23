@@ -69,11 +69,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 
 void
-Rlae2(dd_real a, dd_real b, dd_real c, dd_real * rt1, dd_real * rt2)
+Rlae2(__float128 a, __float128 b, __float128 c, __float128 * rt1, __float128 * rt2)
 {
-    dd_real sm, df, adf, tb, ab;
-    dd_real acmx, acmn, rt;
-    dd_real One = 1.0, Two = 2.0, Half = .5;
+    __float128 sm, df, adf, tb, ab;
+    __float128 acmx, acmn, rt;
+    __float128 One = 1.0, Two = 2.0, Half = .5;
 
     sm = a + c;
     df = a - c;

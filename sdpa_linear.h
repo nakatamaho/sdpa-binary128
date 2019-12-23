@@ -31,7 +31,7 @@ class Lal
 public:
 // calculate the minimum eigenvalue of lMat*xMat*(lMat^T)
 // by Lanczos metnod
-  static dd_real getMinEigen(DenseMatrix& lMat, DenseMatrix& xMat,
+  static __float128 getMinEigen(DenseMatrix& lMat, DenseMatrix& xMat,
 			    DenseMatrix& Q,
 			    Vector& out, Vector& b,  Vector& r,
 			    Vector& q, Vector& qold, 
@@ -40,19 +40,19 @@ public:
 			    Vector& workVec);
 
 // caluculate all eigenvalues of aMat  by QR method 
-  static dd_real getMinEigenValue(DenseMatrix& aMat,
+  static __float128 getMinEigenValue(DenseMatrix& aMat,
 				 Vector& eigenVec,
 				 Vector& workVec);
 
-  static bool getInnerProduct(dd_real& ret,
+  static bool getInnerProduct(__float128& ret,
 			      Vector& aVec, Vector& bVec);
-  static bool getInnerProduct(dd_real& ret,
+  static bool getInnerProduct(__float128& ret,
 			      BlockVector& aVec,
 			      BlockVector& bVec);
-  static bool getInnerProduct(dd_real& ret,
+  static bool getInnerProduct(__float128& ret,
 			      DenseMatrix& aMat,
 			      DenseMatrix& bMat);
-  static bool getInnerProduct(dd_real& ret,
+  static bool getInnerProduct(__float128& ret,
 			      SparseMatrix& aMat,
 			      DenseMatrix&  bMat);
 
@@ -91,82 +91,82 @@ public:
 
   static bool multiply(DenseMatrix& retMat,
 		       DenseMatrix& aMat, DenseMatrix& bMat,
-		       dd_real* scalar = NULL);
+		       __float128* scalar = NULL);
   static bool multiply(DenseMatrix& retMat,
 		       SparseMatrix& aMat, DenseMatrix& bMat,
-		       dd_real* scalar = NULL);
+		       __float128* scalar = NULL);
   static bool multiply(DenseMatrix& retMat,
 		       DenseMatrix& aMat, SparseMatrix& bMat,
-		       dd_real* scalar = NULL);
+		       __float128* scalar = NULL);
   static bool multiply(DenseMatrix& retMat,
-		       DenseMatrix& aMat, dd_real* scalar = NULL);
+		       DenseMatrix& aMat, __float128* scalar = NULL);
   static bool multiply(Vector& retVec,
-		       Vector& aVec, dd_real* scalar = NULL);
+		       Vector& aVec, __float128* scalar = NULL);
   static bool multiply(BlockVector& retVec,
 		       BlockVector& aVec,
-		       dd_real* scalar = NULL);
+		       __float128* scalar = NULL);
   static bool multiply(Vector& retVec,
 		       DenseMatrix& aMat, Vector& bVec,
-		       dd_real* scalar = NULL);
+		       __float128* scalar = NULL);
   // ret = aMat**T * bMat
   static bool tran_multiply(DenseMatrix& retMat,
 			    DenseMatrix& aMat, DenseMatrix& bMat,
-			    dd_real* scalar = NULL);
+			    __float128* scalar = NULL);
   // ret = aMat * bMat**T
   static bool multiply_tran(DenseMatrix& retMat,
 			    DenseMatrix& aMat, DenseMatrix& bMat,
-			    dd_real* scalar = NULL);
+			    __float128* scalar = NULL);
   // ret = a + (*scalar)*b
   static bool plus(Vector& retVec, Vector& aVec,
-		   Vector& bVec, dd_real* scalar = NULL);
+		   Vector& bVec, __float128* scalar = NULL);
   static bool plus(DenseMatrix& retMat,
 		   DenseMatrix& aMat, DenseMatrix& bMat,
-		   dd_real* scalar = NULL);
+		   __float128* scalar = NULL);
   static bool plus(DenseMatrix& retMat,
 		   SparseMatrix& aMat, DenseMatrix& bMat,
-		   dd_real* scalar = NULL);
+		   __float128* scalar = NULL);
   static bool plus(DenseMatrix& retMat,
 		   DenseMatrix& aMat, SparseMatrix& bMat,
-		   dd_real* scalar = NULL);
+		   __float128* scalar = NULL);
   
   static bool plus(BlockVector& retVec,
 		   BlockVector& aVec,
-		   BlockVector& bVec, dd_real* scalar = NULL);
+		   BlockVector& bVec, __float128* scalar = NULL);
 
   // ret = a '*' (*scalar)
   static bool let(Vector& retVec, const char eq,
 		  Vector& aVec, const char op,
-		  dd_real* scalar = NULL);
+		  __float128* scalar = NULL);
 
   // ret = a '*' (*scalar)
   static bool let(BlockVector& retVec, const char eq,
 		  BlockVector& aVec, const char op,
-		  dd_real* scalar = NULL);
+		  __float128* scalar = NULL);
 
   // ret = a '*' (*scalar)
   static bool let(DenseMatrix& retMat, const char eq,
 		  DenseMatrix& aMat, const char op,
-		  dd_real* scalar = NULL);
+		  __float128* scalar = NULL);
 
   // ret = a '+' '-' b*(*scalar)
   static bool let(Vector& retVec, const char eq,
 		  Vector& aVec, const char op,
-		  Vector& bVec, dd_real* scalar = NULL);
+		  Vector& bVec, __float128* scalar = NULL);
 
   // ret = a '+' '-' '*' 't' 'T' b*(*scalar)
   static bool let(DenseMatrix& retMat, const char eq,
 		  DenseMatrix& aMat, const char op,
-		  DenseMatrix& bMat, dd_real* scalar = NULL);
+		  DenseMatrix& bMat, __float128* scalar = NULL);
 
   // ret = a '+' '-' '*' b*(*scalar)
   static bool let(DenseMatrix& retMat, const char eq,
 		  SparseMatrix& aMat, const char op,
-		  DenseMatrix& bMat, dd_real* scalar = NULL);
+		  DenseMatrix& bMat, __float128* scalar = NULL);
 
   // ret = a '+' '-' '*' b*(*scalar)
   static bool let(DenseMatrix& retMat, const char eq,
 		  DenseMatrix& aMat, const char op,
-		  SparseMatrix& bMat, dd_real* scalar = NULL);
+		  SparseMatrix& bMat, __float128* scalar = NULL);
 
   // ret = aMat '*' '/' bVec
   static bool let(Vector& rVec, const char eq,
@@ -180,92 +180,92 @@ public:
 		  Vector& bVec);
 
   // ret = inner_product(a,b) // op = '.'
-  static bool let(dd_real& ret, const char eq,
+  static bool let(__float128& ret, const char eq,
 		  Vector& aVec, const char op,
 		  Vector& bVec);
   
   // ret = inner_product(a,b) // op = '.'
-  static bool let(dd_real& ret, const char eq,
+  static bool let(__float128& ret, const char eq,
 		  DenseMatrix& aMat, const char op,
 		  DenseMatrix& bMat);
   
   // ret = inner_product(a,b) // op = '.'
-  static bool let(dd_real& ret, const char eq,
+  static bool let(__float128& ret, const char eq,
 		  DenseMatrix& aMat, const char op,
 		  SparseMatrix& bMat);
   
   // ret = inner_product(a,b) // op = '.'
-  static bool let(dd_real& ret, const char eq,
+  static bool let(__float128& ret, const char eq,
 		  SparseMatrix& aMat, const char op,
 		  DenseMatrix& bMat);
 
   // ret = inner_product(a,b) // op = '.'
-  static bool let(dd_real& ret, const char eq,
+  static bool let(__float128& ret, const char eq,
 		  BlockVector& aVec, const char op,
 		  BlockVector& bVec);
   
   /////////////////////////////////////////////////////////////////////
 
-  static bool getInnerProduct(dd_real& ret,
+  static bool getInnerProduct(__float128& ret,
 			      DenseLinearSpace& aMat,
 			      DenseLinearSpace&  bMat);
 
-  static bool getInnerProduct(dd_real& ret,
+  static bool getInnerProduct(__float128& ret,
 			      SparseLinearSpace& aMat,
 			      DenseLinearSpace&  bMat);
 
   // ret = a (*scalar)*b
   static bool multiply(DenseLinearSpace& retMat,
 		       DenseLinearSpace& aMat,
-		       dd_real* scalar = NULL);
+		       __float128* scalar = NULL);
   // ret = a + (*scalar)*b
   static bool plus(DenseLinearSpace& retMat,
 		   DenseLinearSpace& aMat,
 		   DenseLinearSpace& bMat,
-		   dd_real* scalar = NULL);
+		   __float128* scalar = NULL);
 // CAUTION!!! We don't initialize retMat to zero matrix for efficiently.
   static bool plus(DenseLinearSpace& retMat,
 		   SparseLinearSpace& aMat,
 		   DenseLinearSpace& bMat,
-		   dd_real* scalar = NULL);
+		   __float128* scalar = NULL);
 // CAUTION!!! We don't initialize retMat to zero matrix for efficiently.
   static bool plus(DenseLinearSpace& retMat,
 		   DenseLinearSpace& aMat,
 		   SparseLinearSpace& bMat,
-		   dd_real* scalar = NULL);
+		   __float128* scalar = NULL);
 
   // ret = a '*' (*scalar)
   static bool let(DenseLinearSpace& retMat, const char eq,
 		  DenseLinearSpace& aMat, const char op,
-		  dd_real* scalar = NULL);
+		  __float128* scalar = NULL);
 
   // ret = a '+' '-' b*(*scalar)
   static bool let(DenseLinearSpace& retMat, const char eq,
 		  DenseLinearSpace& aMat, const char op,
-		  DenseLinearSpace& bMat, dd_real* scalar = NULL);
+		  DenseLinearSpace& bMat, __float128* scalar = NULL);
 
   // ret = a '+' '-' b*(*scalar)
   static bool let(DenseLinearSpace& retMat, const char eq,
 		  SparseLinearSpace& aMat, const char op,
-		  DenseLinearSpace& bMat, dd_real* scalar = NULL);
+		  DenseLinearSpace& bMat, __float128* scalar = NULL);
 
   // ret = a '+' '-' '*' b*(*scalar)
   static bool let(DenseLinearSpace& retMat, const char eq,
 		  DenseLinearSpace& aMat, const char op,
-		  SparseLinearSpace& bMat, dd_real* scalar = NULL);
+		  SparseLinearSpace& bMat, __float128* scalar = NULL);
 
   // ret = inner_product(a,b) // op = '.'
-  static bool let(dd_real& ret, const char eq,
+  static bool let(__float128& ret, const char eq,
 		  DenseLinearSpace& aMat, const char op,
 		  DenseLinearSpace& bMat);
 
   // ret = inner_product(a,b) // op = '.'
-  static bool let(dd_real& ret, const char eq,
+  static bool let(__float128& ret, const char eq,
 		  SparseLinearSpace& aMat, const char op,
 		  DenseLinearSpace& bMat);
 
   // ret = inner_product(a,b) // op = '.'
-  static bool let(dd_real& ret, const char eq,
+  static bool let(__float128& ret, const char eq,
 		  DenseLinearSpace& aMat, const char op,
 		  SparseLinearSpace& bMat);
 

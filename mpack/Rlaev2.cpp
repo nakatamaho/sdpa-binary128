@@ -71,12 +71,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdio.h> //for printf. shall be removed
 
 void
-Rlaev2(dd_real a, dd_real b, dd_real c, dd_real * rt1, dd_real * rt2,
-    dd_real * cs1, dd_real * sn1)
+Rlaev2(__float128 a, __float128 b, __float128 c, __float128 * rt1, __float128 * rt2,
+    __float128 * cs1, __float128 * sn1)
 {
-    dd_real ab, acmn, acmx, acs, adf;
-    dd_real cs, ct, df, rt, sm, tb, tn;
-    dd_real zero, one, two, half;
+    __float128 ab, acmn, acmx, acs, adf;
+    __float128 cs, ct, df, rt, sm, tb, tn;
+    __float128 zero, one, two, half;
     mpackint sgn1, sgn2;
 
     zero = 0.0;

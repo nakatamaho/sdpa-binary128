@@ -32,33 +32,33 @@
 
 //"E" denots we always calculate relative machine precision (e).
 //where 1+e > 1, minimum of e.
-dd_real RlamchE_dd(void)
+__float128 RlamchE_dd(void)
 {
   //about 1e-(16+16)=1e-32
-  return dd_real::_eps;
+  return __float128::_eps;
 }
 
 //"S" denots we always calculate `safe minimum, such that 1/sfmin does not overflow'.
 //cf.http://www.netlib.org/blas/dlamch.f
-dd_real RlamchS_dd(void)
+__float128 RlamchS_dd(void)
 {
   //about 1e-(308-16)=1e-292
-  return dd_real::_min_normalized;
+  return __float128::_min_normalized;
 }
 //"B" base  = base of the machine
 //cf.http://www.netlib.org/blas/dlamch.f
-dd_real RlamchB_dd(void)
+__float128 RlamchB_dd(void)
 {
-    dd_real two;
+    __float128 two;
     two = 2.0;
     return two;
 }
 
 //"P" prec = eps*base
 //cf.http://www.netlib.org/blas/dlamch.f
-dd_real RlamchP_dd(void)
+__float128 RlamchP_dd(void)
 {
-    dd_real base, eps, prec;
+    __float128 base, eps, prec;
 
     base = RlamchB_dd();
     eps = RlamchE_dd();
@@ -68,57 +68,57 @@ dd_real RlamchP_dd(void)
 
 //"N" t = number of digits in mantissa
 //cf.http://www.netlib.org/blas/dlamch.f
-dd_real RlamchN_dd(void)
+__float128 RlamchN_dd(void)
 {
-  return (dd_real)209.0; //52*4
+  return (__float128)209.0; //52*4
 }
 
 //"R" rnd   = 1.0 when rounding occurs in addition, 0.0 otherwise
 //cf.http://www.netlib.org/blas/dlamch.f
-dd_real RlamchR_dd(void)
+__float128 RlamchR_dd(void)
 {
-    dd_real mtmp;
+    __float128 mtmp;
     mtmp = 1.0;
     return mtmp;
 }
 
 //"M"
 //cf.http://www.netlib.org/blas/dlamch.f
-dd_real RlamchM_dd(void)
+__float128 RlamchM_dd(void)
 {
-  return dd_real(-1022.0 + 53.0);
+  return __float128(-1022.0 + 53.0);
 }
 
 //"U"
 //cf.http://www.netlib.org/blas/dlamch.f
-dd_real RlamchU_dd(void)
+__float128 RlamchU_dd(void)
 {
-  return dd_real::_min_normalized;
+  return __float128::_min_normalized;
 }
 
 //"L"
 //cf.http://www.netlib.org/blas/dlamch.f
-dd_real RlamchL_dd(void)
+__float128 RlamchL_dd(void)
 {
-  return (dd_real)1024.0;
+  return (__float128)1024.0;
 }
 
 //"O"
 //cf.http://www.netlib.org/blas/dlamch.f
-dd_real RlamchO_dd(void)
+__float128 RlamchO_dd(void)
 {
-    return dd_real::_max; //approx 1.7976931348623157E+308 in float.h
+    return __float128::_max; //approx 1.7976931348623157E+308 in float.h
 }
 
 //"Z" :dummy
 //cf.http://www.netlib.org/blas/dlamch.f
-dd_real RlamchZ_dd(void)
+__float128 RlamchZ_dd(void)
 {
-    dd_real mtemp = 0.0;
+    __float128 mtemp = 0.0;
     return mtemp;
 }
 
-dd_real Rlamch_dd(const char *cmach)
+__float128 Rlamch_dd(const char *cmach)
 {
     if (Mlsame_dd(cmach, "E"))
 	return RlamchE_dd();

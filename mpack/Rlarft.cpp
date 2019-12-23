@@ -68,11 +68,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 
 void
-Rlarft(const char *direct, const char *storev, mpackint n, mpackint k, dd_real * v,
-    mpackint ldv, dd_real * tau, dd_real * t, mpackint ldt)
+Rlarft(const char *direct, const char *storev, mpackint n, mpackint k, __float128 * v,
+    mpackint ldv, __float128 * tau, __float128 * t, mpackint ldt)
 {
-    dd_real Zero = 0.0, One = 1.0;
-    dd_real vii;
+    __float128 Zero = 0.0, One = 1.0;
+    __float128 vii;
     mpackint i, j;
 
     //Quick return if possible

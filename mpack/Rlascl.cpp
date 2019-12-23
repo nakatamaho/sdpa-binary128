@@ -71,13 +71,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define MFALSE 0
 
 void
-Rlascl(const char *type, mpackint kl, mpackint ku, dd_real cfrom, dd_real cto, mpackint m,
-    mpackint n, dd_real * A, mpackint lda, mpackint *info)
+Rlascl(const char *type, mpackint kl, mpackint ku, __float128 cfrom, __float128 cto, mpackint m,
+    mpackint n, __float128 * A, mpackint lda, mpackint *info)
 {
     mpackint i, j, k1, k2, k3, k4;
     mpackint itype;
-    dd_real One = 1.0, Zero = 0.0;
-    dd_real bignum, cfrom1, cfromc, cto1, ctoc, mul, smlnum;
+    __float128 One = 1.0, Zero = 0.0;
+    __float128 bignum, cfrom1, cfromc, cto1, ctoc, mul, smlnum;
     mpackint done = MFALSE;
 
     *info = 0;

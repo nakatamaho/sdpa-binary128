@@ -78,16 +78,16 @@ an m by k matrix, op(B) a k by n matrix and C an m by n matrix.
 
 void
 Rgemm(const char *transa, const char *transb, mpackint m, mpackint n, mpackint k,
-    dd_real alpha, dd_real * A, mpackint lda, dd_real * B, mpackint ldb,
-    dd_real beta, dd_real * C, mpackint ldc)
+    __float128 alpha, __float128 * A, mpackint lda, __float128 * B, mpackint ldb,
+    __float128 beta, __float128 * C, mpackint ldc)
 {
     mpackint nota, notb;
     mpackint nrowa, ncola;
     mpackint nrowb;
     mpackint info;
 
-    dd_real Zero = 0.0, One = 1.0;
-    dd_real temp;
+    __float128 Zero = 0.0, One = 1.0;
+    __float128 temp;
 
     nota = Mlsame_dd(transa, "N");
     notb = Mlsame_dd(transb, "N");

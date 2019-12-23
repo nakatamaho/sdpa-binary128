@@ -75,16 +75,16 @@ m by n matrix.
 #include <mblas_dd.h>
 
 void
-Rgemv(const char *trans, mpackint m, mpackint n, dd_real alpha, dd_real * A, mpackint lda,
-    dd_real * x, mpackint incx, dd_real beta, dd_real * y, mpackint incy)
+Rgemv(const char *trans, mpackint m, mpackint n, __float128 alpha, __float128 * A, mpackint lda,
+    __float128 * x, mpackint incx, __float128 beta, __float128 * y, mpackint incy)
 {
     mpackint lenx, leny, ix, jx, kx, iy, jy, ky;
 
     mpackint info = 0;
 
-    dd_real Zero = 0.0, One = 1.0;
+    __float128 Zero = 0.0, One = 1.0;
 
-    dd_real temp;
+    __float128 temp;
 
     //Test the input parameters.
     if (!Mlsame_dd(trans, "N") && !Mlsame_dd(trans, "T") && !Mlsame_dd(trans, "C"))

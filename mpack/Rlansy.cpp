@@ -67,14 +67,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mblas_dd.h>
 #include <mlapack_dd.h>
 
-dd_real
-Rlansy(const char *norm, const char *uplo, mpackint n, dd_real * A, mpackint lda,
-    dd_real * work)
+__float128
+Rlansy(const char *norm, const char *uplo, mpackint n, __float128 * A, mpackint lda,
+    __float128 * work)
 {
-    dd_real One = 1.0, Zero = 0.0;
+    __float128 One = 1.0, Zero = 0.0;
     mpackint i, j;
-    dd_real absa, scale, sum, value;
-    dd_real mtmp;
+    __float128 absa, scale, sum, value;
+    __float128 mtmp;
 
     if (n == 0) {
 	value = Zero;

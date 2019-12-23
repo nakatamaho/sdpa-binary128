@@ -68,13 +68,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 #include <stdio.h> //for debugging
 void
-Rlarfg(mpackint N, dd_real * alpha, dd_real * x, mpackint incx, dd_real * tau)
+Rlarfg(mpackint N, __float128 * alpha, __float128 * x, mpackint incx, __float128 * tau)
 {
-    dd_real xnorm;
-    dd_real Zero = 0.0, One = 1.0;
-    dd_real beta;
-    dd_real safmin;
-    dd_real rsafmn;
+    __float128 xnorm;
+    __float128 Zero = 0.0, One = 1.0;
+    __float128 beta;
+    __float128 safmin;
+    __float128 rsafmn;
     mpackint knt;
 
     if (N <= 1) {

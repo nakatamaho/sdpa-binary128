@@ -75,14 +75,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define min(a,b) (((a)<(b))?(a):(b))
 #endif
 
-dd_real
-Rlanst(const char *norm, mpackint n, dd_real * d, dd_real * e)
+__float128
+Rlanst(const char *norm, mpackint n, __float128 * d, __float128 * e)
 {
     mpackint i;
-    dd_real anorm, scale, sum;
-    dd_real Zero = 0.0;
-    dd_real One = 1.0;
-    dd_real mtmp1, mtmp2;
+    __float128 anorm, scale, sum;
+    __float128 Zero = 0.0;
+    __float128 One = 1.0;
+    __float128 mtmp1, mtmp2;
 
     if (n <= 0) {
 	anorm = Zero;

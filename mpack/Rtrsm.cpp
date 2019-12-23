@@ -78,13 +78,13 @@ The matrix X is overwritten on B.
 
 void
 Rtrsm(const char *side, const char *uplo, const char *transa, const char *diag,
-    mpackint m, mpackint n, dd_real alpha, dd_real * A, mpackint lda, dd_real * B, mpackint ldb)
+    mpackint m, mpackint n, __float128 alpha, __float128 * A, mpackint lda, __float128 * B, mpackint ldb)
 {
     mpackint info, lside, nrowa, nounit, upper;
 
-    dd_real Zero = 0.0, One = 1.0;
+    __float128 Zero = 0.0, One = 1.0;
 
-    dd_real temp;
+    __float128 temp;
 
     //test the input parameters.
     lside = Mlsame_dd(side, "L");

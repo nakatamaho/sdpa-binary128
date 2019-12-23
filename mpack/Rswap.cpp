@@ -72,11 +72,11 @@ mpackinterchanges two vectors.
 #include <mblas_dd.h>
 
 void
-Rswap(mpackint n, dd_real * dx, mpackint incx, dd_real * dy, mpackint incy)
+Rswap(mpackint n, __float128 * dx, mpackint incx, __float128 * dy, mpackint incy)
 {
     mpackint ix, iy;
 
-    dd_real temp;
+    __float128 temp;
 
     if (n <= 0)
 	return;

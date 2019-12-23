@@ -75,14 +75,14 @@ where alpha and beta are scalars, x and y are n element vectors and
 #include <mblas_dd.h>
 
 void
-Rsymv(const char *uplo, mpackint n, dd_real alpha, dd_real * A, mpackint lda,
-    dd_real * x, mpackint incx, dd_real beta, dd_real * y, mpackint incy)
+Rsymv(const char *uplo, mpackint n, __float128 alpha, __float128 * A, mpackint lda,
+    __float128 * x, mpackint incx, __float128 beta, __float128 * y, mpackint incy)
 {
     mpackint ix, iy, jx, jy, kx, ky;
 
-    dd_real Zero = 0.0, One = 1.0;
+    __float128 Zero = 0.0, One = 1.0;
 
-    dd_real temp1, temp2;
+    __float128 temp1, temp2;
 
     //test the input parameters.
     mpackint info = 0;

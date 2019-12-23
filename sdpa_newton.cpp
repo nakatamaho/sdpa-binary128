@@ -707,7 +707,7 @@ void Newton::make_aggrigateIndex(InputData& inputData)
 }
 
 void Newton::computeFormula_SDP(InputData& inputData,
-				dd_real DenseRatio, dd_real Kappa)
+				__float128 DenseRatio, __float128 Kappa)
 {
   int m = inputData.b.nDim;
   int SDP_nBlock = inputData.SDP_nBlock;
@@ -776,11 +776,11 @@ void Newton::computeFormula_SDP(InputData& inputData,
     for (int k=0; k < inputData.SDP_nConstraint[l]; k++){
       int i =  inputData.SDP_constraint[l][k];
       int ib =  inputData.SDP_blockIndex[l][k];
-      dd_real inz = inputData.A[i].SDP_sp_block[ib].NonZeroEffect;
+      __float128 inz = inputData.A[i].SDP_sp_block[ib].NonZeroEffect;
 
-      dd_real f1,f2,f3;
-      dd_real n       = inputData.A[i].SDP_sp_block[ib].nRow;
-      dd_real up      = upNonZeroCount[i*SDP_nBlock + l];
+      __float128 f1,f2,f3;
+      __float128 n       = inputData.A[i].SDP_sp_block[ib].nRow;
+      __float128 up      = upNonZeroCount[i*SDP_nBlock + l];
 
       f1 = Kappa*n*inz + n*n*n + Kappa*up;
       f2 = Kappa*n*inz + Kappa*(n+1)*up;
@@ -844,7 +844,7 @@ void Newton::compute_rMat(Newton::WHICH_DIRECTION direction,
 
   //     CORRECTOR ::  r_zinv = (-XZ -dXdZ + mu I)Z^{-1}
   // not CORRECTOR ::  r_zinv = (-XZ + mu I)Z^{-1}
-  dd_real target = beta.value*mu.current;
+  __float128 target = beta.value*mu.current;
   Lal::let(r_zinvMat,'=',currentPt.invzMat,'*',&target);
   Lal::let(r_zinvMat,'=',r_zinvMat,'+',currentPt.xMat,&MMONE);
 
@@ -927,19 +927,19 @@ void Newton::Make_gVec(Newton::WHICH_DIRECTION direction,
   com.makegVec += TimeCal(START2,END2);
 }
 
-void Newton::calF1(dd_real& ret, DenseMatrix& G,
+void Newton::calF1(__float128& ret, DenseMatrix& G,
 		    SparseMatrix& Aj)
 {
   Lal::let(ret,'=',Aj,'.',G);
 }
 
-void Newton::calF2(dd_real& ret,
+void Newton::calF2(__float128& ret,
 		    DenseMatrix& F, DenseMatrix& G,
 		    DenseMatrix& X, SparseMatrix& Aj,
 		    bool& hasF2Gcal)
 {
   int alpha,beta;
-  dd_real value1,value2;
+  __float128 value1,value2;
 
   int n    = Aj.nRow;
   // rMessage(" using F2 ");
@@ -977,29 +977,29 @@ void Newton::calF2(dd_real& ret,
   } // end of switch
 }
 
-void Newton::calF3(dd_real& ret,
+void Newton::calF3(__float128& ret,
 		    DenseMatrix& F, DenseMatrix& G,
 		    DenseMatrix& X, DenseMatrix& invZ,
 		    SparseMatrix& Ai, SparseMatrix& Aj)
 {
   // Ai and Aj are SPARSE
   ret = 0.0;
-  dd_real sum;
+  __float128 sum;
   // rMessage("Aj.NonZeroCount = " << Aj.NonZeroCount);
   for (int index1=0; index1<Aj.NonZeroCount; ++index1) {
     int alpha = Aj.row_index[index1];
     int beta  = Aj.column_index[index1];
-    dd_real value1 = Aj.sp_ele[index1];
+    __float128 value1 = Aj.sp_ele[index1];
     sum = 0.0;
     for (int index2=0; index2<Ai.NonZeroCount; ++index2) {
       int gamma = Ai.row_index[index2];
       int delta  = Ai.column_index[index2];
-      dd_real value2 = Ai.sp_ele[index2];
-      dd_real plu = value2*invZ.de_ele[delta+invZ.nCol*beta]
+      __float128 value2 = Ai.sp_ele[index2];
+      __float128 plu = value2*invZ.de_ele[delta+invZ.nCol*beta]
         * X.de_ele[alpha+X.nCol*gamma];
       sum += plu;
       if (gamma!=delta) {
-        dd_real plu2 = value2*invZ.de_ele[gamma+invZ.nCol*beta]
+        __float128 plu2 = value2*invZ.de_ele[gamma+invZ.nCol*beta]
           * X.de_ele[alpha+X.nCol*delta];
         sum += plu2;
       }
@@ -1012,12 +1012,12 @@ void Newton::calF3(dd_real& ret,
     for (int index2=0; index2<Ai.NonZeroCount; ++index2) {
       int gamma = Ai.row_index[index2];
       int delta  = Ai.column_index[index2];
-      dd_real value2 = Ai.sp_ele[index2];
-      dd_real plu = value2*invZ.de_ele[delta+invZ.nCol*alpha]
+      __float128 value2 = Ai.sp_ele[index2];
+      __float128 plu = value2*invZ.de_ele[delta+invZ.nCol*alpha]
         * X.de_ele[beta+X.nCol*gamma];
       sum += plu;
       if (gamma!=delta) {
-        dd_real plu2 = value2*invZ.de_ele[gamma+invZ.nCol*alpha]
+        __float128 plu2 = value2*invZ.de_ele[gamma+invZ.nCol*alpha]
           * X.de_ele[beta+X.nCol*delta];
         sum += plu2;
       }
@@ -1080,7 +1080,7 @@ void Newton::compute_bMat_dense_SDP(InputData& inputData,
 	    continue;
 	  }
 
-	  dd_real value;
+	  __float128 value;
 	  switch (formula) {
 	  case F1:
 	    // rMessage("calF1");
@@ -1162,7 +1162,7 @@ void Newton::compute_bMat_sparse_SDP(InputData& inputData,
       int jb = SDP_blockIndex2[l][iter];
       SparseMatrix& Aj = inputData.A[j].SDP_sp_block[jb];
       
-      dd_real value;
+      __float128 value;
       switch (formula) {
       case F1:
 	// rMessage("calF1");
@@ -1184,7 +1184,7 @@ void Newton::compute_bMat_sparse_SDP(InputData& inputData,
     } // end of 'for (int index)'
 #if 0
     TimeEnd(B_NDIAG_END1);
-    dd_real t = TimeCal(B_NDIAG_START1,B_NDIAG_END1);
+    __float128 t = TimeCal(B_NDIAG_START1,B_NDIAG_END1);
     switch (formula) {
     case F1: com.B_F1 += t; break;
     case F2: com.B_F2 += t; break;
@@ -1222,22 +1222,22 @@ void Newton::compute_bMat_dense_LP(InputData& inputData,
 
   TimeEnd(B_DIAG_START1);
   for (int l=0; l<LP_nBlock; ++l) {
-    dd_real xMat = currentPt.xMat.LP_block[l];
-    dd_real invzMat = currentPt.invzMat.LP_block[l];
+    __float128 xMat = currentPt.xMat.LP_block[l];
+    __float128 invzMat = currentPt.invzMat.LP_block[l];
 
       for (int k1=0; k1<inputData.LP_nConstraint[l]; k1++) {
 	int i = inputData.LP_constraint[l][k1];
 	int ib = inputData.LP_blockIndex[l][k1];
 	//	int inz = inputData.A[i].LP_sp_block[ib].NonZeroEffect;
-	dd_real Ai = inputData.A[i].LP_sp_block[ib];
+	__float128 Ai = inputData.A[i].LP_sp_block[ib];
 
 	for (int k2=k1; k2<inputData.LP_nConstraint[l]; k2++) {
 	  int j = inputData.LP_constraint[l][k2];
 	  int jb = inputData.LP_blockIndex[l][k2];
 	  //	  int jnz = inputData.A[j].LP_sp_block[jb].NonZeroEffect;
-	  dd_real Aj = inputData.A[j].LP_sp_block[jb];
+	  __float128 Aj = inputData.A[j].LP_sp_block[jb];
 
-	  dd_real value;
+	  __float128 value;
 	  value = xMat * invzMat * Ai * Aj;
 
 	  if (i!=j) {
@@ -1260,19 +1260,19 @@ void Newton::compute_bMat_sparse_LP(InputData& inputData,
 {
   TimeEnd(B_DIAG_START1);
   for (int l=0; l<LP_nBlock; ++l) {
-    dd_real xMat = currentPt.xMat.LP_block[l];
-    dd_real invzMat = currentPt.invzMat.LP_block[l];
+    __float128 xMat = currentPt.xMat.LP_block[l];
+    __float128 invzMat = currentPt.invzMat.LP_block[l];
     
     for (int iter = 0; iter < LP_number[l]; iter++){
       int i = LP_constraint1[l][iter];
       int ib = LP_blockIndex1[l][iter];
-      dd_real Ai = inputData.A[i].LP_sp_block[ib];
+      __float128 Ai = inputData.A[i].LP_sp_block[ib];
 
       int j = LP_constraint2[l][iter];
       int jb = LP_blockIndex2[l][iter];
-      dd_real Aj = inputData.A[j].LP_sp_block[jb];
+      __float128 Aj = inputData.A[j].LP_sp_block[jb];
       
-      dd_real value;
+      __float128 value;
       value = xMat * invzMat * Ai * Aj;
       sparse_bMat.sp_ele[LP_location_sparse_bMat[l][iter]] += value;
     } // end of 'for (int iter)
@@ -1545,7 +1545,7 @@ void Newton::display_sparse_bMat(FILE* fpout)
   for (int index=0; index<sparse_bMat.NonZeroCount; ++index) {
     int i        = sparse_bMat.row_index[index];
     int j        = sparse_bMat.column_index[index];
-    dd_real value = sparse_bMat.sp_ele[index];
+    __float128 value = sparse_bMat.sp_ele[index];
     int ii = ordering[i];
     int jj = ordering[j];
     fprintf(fpout,"val[%d,%d] = %e\n", ii,jj,value.x[0]);

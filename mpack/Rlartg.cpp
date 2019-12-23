@@ -69,21 +69,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdio.h> //for printf
 
 void
-Rlartg(dd_real f, dd_real g, dd_real * cs, dd_real * sn, dd_real * r)
+Rlartg(__float128 f, __float128 g, __float128 * cs, __float128 * sn, __float128 * r)
 {
-    dd_real Zero;
-    dd_real One;
-    dd_real Two;
-    dd_real f1, g1;
+    __float128 Zero;
+    __float128 One;
+    __float128 Two;
+    __float128 f1, g1;
     mpackint i, count;
 
     Zero = 0.0;
     One = 1.0;
     Two = 2.0;
 
-    dd_real safmin;
-    dd_real safmn2;
-    dd_real safmx2, eps, scale;
+    __float128 safmin;
+    __float128 safmn2;
+    __float128 safmx2, eps, scale;
 
     safmin = Rlamch_dd("S");
     eps = Rlamch_dd("E");

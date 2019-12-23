@@ -75,12 +75,12 @@ by n symmetric matrix.
 #include <mblas_dd.h>
 
 void
-Rsyr2(const char *uplo, mpackint n, dd_real alpha, dd_real * x, mpackint incx,
-    dd_real * y, mpackint incy, dd_real * A, mpackint lda)
+Rsyr2(const char *uplo, mpackint n, __float128 alpha, __float128 * x, mpackint incx,
+    __float128 * y, mpackint incy, __float128 * A, mpackint lda)
 {
-    dd_real temp1, temp2;
+    __float128 temp1, temp2;
 
-    dd_real Zero = 0.0;
+    __float128 Zero = 0.0;
 
     mpackint ix, iy, jx, jy, kx, ky;
 

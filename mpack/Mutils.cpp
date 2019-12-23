@@ -32,8 +32,8 @@
 
 #define ___MPACK_BUILD_WITH_DD___
 
-dd_real
-mpf_approx_log2(dd_real x)
+__float128
+mpf_approx_log2(__float128 x)
 {
 #if defined ___MPACK_BUILD_WITH_GMP___
     double d;
@@ -48,12 +48,12 @@ mpf_approx_log2(dd_real x)
   return log10(x) / (qd_real::_log2/qd_real::_log10);
 #endif
 #if defined ___MPACK_BUILD_WITH_DD___
-  return log10(x) / (dd_real::_log2/dd_real::_log10);
+  return log10(x) / (__float128::_log2/__float128::_log10);
 #endif
 }
 
-dd_real
-mpf_approx_log(dd_real x)
+__float128
+mpf_approx_log(__float128 x)
 {
 #if defined ___MPACK_BUILD_WITH_GMP___
     double d;
@@ -72,8 +72,8 @@ mpf_approx_log(dd_real x)
 #endif
 }
 
-dd_real
-mpf_approx_log10(dd_real x)
+__float128
+mpf_approx_log10(__float128 x)
 {
 #if defined ___MPACK_BUILD_WITH_GMP___
     double d;
@@ -92,11 +92,11 @@ mpf_approx_log10(dd_real x)
 #endif
 }
 
-dd_real
-mpf_approx_pow(dd_real x, dd_real y)
+__float128
+mpf_approx_pow(__float128 x, __float128 y)
 {
 #if defined ___MPACK_BUILD_WITH_GMP___
-    dd_real mtemp1, mtemp2;
+    __float128 mtemp1, mtemp2;
     mtemp1 = y * mpf_approx_log(x);
     mtemp2 = mpf_approx_exp(mtemp1);
     return mtemp2;
@@ -109,11 +109,11 @@ mpf_approx_pow(dd_real x, dd_real y)
 #endif
 }
 
-dd_real
-mpf_approx_cos(dd_real x)
+__float128
+mpf_approx_cos(__float128 x)
 {
 #if defined ___MPACK_BUILD_WITH_GMP___
-    dd_real mtemp1;
+    __float128 mtemp1;
     mtemp1 = cos(x.get_d());
     return mtemp1;
 #endif
@@ -125,11 +125,11 @@ mpf_approx_cos(dd_real x)
 #endif
 }
 
-dd_real
-mpf_approx_sin(dd_real x)
+__float128
+mpf_approx_sin(__float128 x)
 {
 #if defined ___MPACK_BUILD_WITH_GMP___
-    dd_real mtemp1;
+    __float128 mtemp1;
     mtemp1 = sin(x.get_d());
     return mtemp1;
 #endif
@@ -141,11 +141,11 @@ mpf_approx_sin(dd_real x)
 #endif
 }
 
-dd_real
-mpf_approx_exp(dd_real x)
+__float128
+mpf_approx_exp(__float128 x)
 {
 #if defined ___MPACK_BUILD_WITH_GMP___
-    dd_real mtemp1;
+    __float128 mtemp1;
     mtemp1 = exp(x.get_d());
     return mtemp1;
 #endif
@@ -157,11 +157,11 @@ mpf_approx_exp(dd_real x)
 #endif
 }
 
-dd_real
+__float128
 mpf_approx_pi()
 {
 #if defined ___MPACK_BUILD_WITH_GMP___
-    dd_real mtemp1;
+    __float128 mtemp1;
     mtemp1 = M_PI;
     return mtemp1;
 #endif
@@ -169,6 +169,6 @@ mpf_approx_pi()
     return qd_real::_pi;
 #endif
 #if defined ___MPACK_BUILD_WITH_DD___
-    return dd_real::_pi;
+    return __float128::_pi;
 #endif
 }

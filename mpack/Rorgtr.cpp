@@ -68,11 +68,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 
 void
-Rorgtr(const char *uplo, mpackint n, dd_real * A, mpackint lda, dd_real * tau,
-    dd_real * work, mpackint lwork, mpackint *info)
+Rorgtr(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * tau,
+    __float128 * work, mpackint lwork, mpackint *info)
 {
 
-    dd_real Zero = 0.0, One = 1.0;
+    __float128 Zero = 0.0, One = 1.0;
     mpackint lquery, lwkopt, iinfo, upper, nb;
     mpackint i, j;
 

@@ -68,18 +68,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 #include <stdio.h> //for untested part
 void
-Rsteqr(const char *compz, mpackint n, dd_real * d, dd_real * e, dd_real * Z,
-    mpackint ldz, dd_real * work, mpackint *info)
+Rsteqr(const char *compz, mpackint n, __float128 * d, __float128 * e, __float128 * Z,
+    mpackint ldz, __float128 * work, mpackint *info)
 {
     mpackint nmaxit, maxit, jtot, l1, nm1;
     mpackint i, m, mm, mm1, l, lm1, lend, lsv, lendsv, lendm1, iscale, icompz;
     mpackint lendp1, ii, k, j;
 
-    dd_real Zero = 0.0, One = 1.0, Two = 2.0, Three = 3.0;
-    dd_real eps, eps2, safmin, safmax, ssfmax, ssfmin;
-    dd_real c, s, rt1, rt2;
-    dd_real tst, anorm, po;
-    dd_real f, b, p, g, r;
+    __float128 Zero = 0.0, One = 1.0, Two = 2.0, Three = 3.0;
+    __float128 eps, eps2, safmin, safmax, ssfmax, ssfmin;
+    __float128 c, s, rt1, rt2;
+    __float128 tst, anorm, po;
+    __float128 f, b, p, g, r;
 
     maxit = 30;
 

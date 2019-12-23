@@ -75,12 +75,12 @@ vector and A is an m by n matrix.
 #include <mblas_dd.h>
 
 void
-Rger(mpackint m, mpackint n, dd_real alpha, dd_real * x, mpackint incx, dd_real * y,
-    mpackint incy, dd_real * A, mpackint lda)
+Rger(mpackint m, mpackint n, __float128 alpha, __float128 * x, mpackint incx, __float128 * y,
+    mpackint incy, __float128 * A, mpackint lda)
 {
     mpackint ix, kx, jy;
-    dd_real Zero = 0.0, One = 1.0;
-    dd_real temp;
+    __float128 Zero = 0.0, One = 1.0;
+    __float128 temp;
 
 //Test the input parameters.
     mpackint info = 0;

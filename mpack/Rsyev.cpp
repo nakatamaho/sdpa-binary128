@@ -68,17 +68,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <mlapack_dd.h>
 
 void
-Rsyev(const char *jobz, const char *uplo, mpackint n, dd_real * A,
-    mpackint lda, dd_real * w, dd_real * work, mpackint *lwork, mpackint *info)
+Rsyev(const char *jobz, const char *uplo, mpackint n, __float128 * A,
+    mpackint lda, __float128 * w, __float128 * work, mpackint *lwork, mpackint *info)
 {
 
     mpackint wantz, lower, lquery, nb, lwkopt, iscale, imax;
     mpackint inde, indtau, indwrk, llwork, iinfo;
 
-    dd_real Zero = 0.0, One = 1.0, Two = 2.0;
-    dd_real safmin, eps, smlnum, bignum, rmin, rmax;
-    dd_real sigma, anrm;
-    dd_real rtmp;
+    __float128 Zero = 0.0, One = 1.0, Two = 2.0;
+    __float128 safmin, eps, smlnum, bignum, rmin, rmax;
+    __float128 sigma, anrm;
+    __float128 rtmp;
 
     wantz = Mlsame_dd(jobz, "V");
     lower = Mlsame_dd(uplo, "L");

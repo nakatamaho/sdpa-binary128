@@ -71,12 +71,12 @@ Rnrm2 returns the euclidean norm of a vector, sqrt( x'*x ).
 
 #include <mblas_dd.h>
 
-dd_real
-Rnrm2(mpackint n, dd_real * x, mpackint incx)
+__float128
+Rnrm2(mpackint n, __float128 * x, mpackint incx)
 {
-    dd_real Zero = 0.0, One = 1.0;
+    __float128 Zero = 0.0, One = 1.0;
 
-    dd_real norm, scale, ssq, absxi;
+    __float128 norm, scale, ssq, absxi;
 
     if (n < 1 || incx < 1) {
 	norm = Zero;
