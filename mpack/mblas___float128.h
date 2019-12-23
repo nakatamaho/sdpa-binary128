@@ -30,12 +30,12 @@
 /* this is a subset of mpack for SDPA-GMP only */
 /* http://mplapack.sourceforge.net/ */
 
-#ifndef _MBLAS_DD_H_
-#define _MBLAS_DD_H_
+#ifndef _MBLAS___FLOAT128_H_
+#define _MBLAS___FLOAT128_H_
 
 #include <mpack_config.h>
-#include <qd/__float128.h>
-#include <mutils_dd.h>
+#include <quadmath.h>
+#include <mutils___float128.h>
  
 #if !defined __MPACK_ERRNO__
 #define _MPACK_EXTERN_ extern
@@ -52,8 +52,8 @@ void Rcopy(mpackint n, __float128 * dx, mpackint incx, __float128 * dy,
     mpackint incy);
 void Raxpy(mpackint n, __float128 da, __float128 * dx, mpackint incx, __float128 * dy, mpackint incy);
 void Rscal(mpackint n, __float128 ca, __float128 * cx, mpackint incx);
-int Mlsame_dd(const char *a, const char *b);
-void Mxerbla_dd(const char *srname, int info);
+int Mlsame___float128(const char *a, const char *b);
+void Mxerbla___float128(const char *srname, int info);
 void Rswap(mpackint n, __float128 * dx, mpackint incx, __float128 * dy,
     mpackint incy);
 __float128 Rnrm2(mpackint n, __float128 * x, mpackint incx);

@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rorgtr(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * tau,
@@ -82,29 +82,29 @@ Rorgtr(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * 
     else
 	lquery = 0;
 
-    upper = Mlsame_dd(uplo, "U");
-    if (!upper && !Mlsame_dd(uplo, "L")) {
+    upper = Mlsame___float128(uplo, "U");
+    if (!upper && !Mlsame___float128(uplo, "L")) {
 	*info = -1;
     } else if (n < 0) {
 	*info = -2;
-    } else if (lda < max((mpackint)1, n)) {
+    } else if (lda < mpack_max((mpackint)1, n)) {
 	*info = -4;
     } else {
-	if (lwork < max((mpackint)1, n - 1) && !lquery) {
+	if (lwork < mpack_max((mpackint)1, n - 1) && !lquery) {
 	    *info = -7;
 	}
     }
     if (*info == 0) {
 	if (upper) {
-	    nb = iMlaenv_dd(1, "Rorgql", " ", n - 1, n - 1, n - 1, -1);
+	    nb = iMlaenv___float128(1, "Rorgql", " ", n - 1, n - 1, n - 1, -1);
 	} else {
-	    nb = iMlaenv_dd(1, "Rorgqr", " ", n - 1, n - 1, n - 1, -1);
+	    nb = iMlaenv___float128(1, "Rorgqr", " ", n - 1, n - 1, n - 1, -1);
 	}
-        lwkopt = max((mpackint)1, n - 1) * nb;
+        lwkopt = mpack_max((mpackint)1, n - 1) * nb;
 	work[0] = (double)lwkopt;	//needs cast from double to mpf
     }
     if (*info != 0) {
-	Mxerbla_dd("Rorgtr", -(*info));
+	Mxerbla___float128("Rorgtr", -(*info));
 	return;
     } else if (lquery) {
 	return;

@@ -68,7 +68,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Based on http://www.netlib.org/blas/daxpy.f
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 void
 Raxpy(mpackint n, __float128 da, __float128 * dx, mpackint incx, __float128 * dy, mpackint incy)

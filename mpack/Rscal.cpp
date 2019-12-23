@@ -68,7 +68,7 @@ Based on http://www.netlib.org/blas/dscal.f
 scales a vector by a constant.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 void
 Rscal(mpackint n, __float128 da, __float128 * dx, mpackint incx)

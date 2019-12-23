@@ -65,8 +65,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rlae2(__float128 a, __float128 b, __float128 c, __float128 * rt1, __float128 * rt2)
@@ -89,11 +89,11 @@ Rlae2(__float128 a, __float128 b, __float128 c, __float128 * rt1, __float128 * r
 	acmn = a;
     }
     if (adf > ab) {
-	rt = adf * sqrt(One + (ab / adf) * (ab / adf));
+	rt = adf * sqrtq(One + (ab / adf) * (ab / adf));
     } else if (adf < ab) {
-	rt = ab * sqrt(One + (adf / ab) * (adf / ab));
+	rt = ab * sqrtq(One + (adf / ab) * (adf / ab));
     } else {
-	rt = ab * sqrt(Two);
+	rt = ab * sqrtq(Two);
     }
 
     if (sm < 0.0) {

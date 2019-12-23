@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
@@ -78,21 +78,21 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
     mpackint i, j;
 
     info = 0;
-    if (!(Mlsame_dd(side, "L") || Mlsame_dd(side, "R")))
+    if (!(Mlsame___float128(side, "L") || Mlsame___float128(side, "R")))
 	info = 1;
-    else if (!(Mlsame_dd(pivot, "V") || Mlsame_dd(pivot, "T")
-	    || Mlsame_dd(pivot, "B")))
+    else if (!(Mlsame___float128(pivot, "V") || Mlsame___float128(pivot, "T")
+	    || Mlsame___float128(pivot, "B")))
 	info = 2;
-    else if (!(Mlsame_dd(direct, "F") || Mlsame_dd(direct, "B")))
+    else if (!(Mlsame___float128(direct, "F") || Mlsame___float128(direct, "B")))
 	info = 3;
     else if (m < 0)
 	info = 4;
     else if (n < 0)
 	info = 5;
-    else if (lda < max((mpackint)1, m))
+    else if (lda < mpack_max((mpackint)1, m))
 	info = 9;
     if (info != 0) {
-	Mxerbla_dd("Rlasr ", info);
+	Mxerbla___float128("Rlasr ", info);
 	return;
     }
 //Quick return if possible
@@ -100,10 +100,10 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
 	return;
     }
 
-    if (Mlsame_dd(side, "L")) {
+    if (Mlsame___float128(side, "L")) {
 //Form  P * A
-	if (Mlsame_dd(pivot, "V")) {
-	    if (Mlsame_dd(direct, "F")) {
+	if (Mlsame___float128(pivot, "V")) {
+	    if (Mlsame___float128(direct, "F")) {
 		for (j = 0; j < m - 1; j++) {
 		    ctemp = c[j];
 		    stemp = s[j];
@@ -117,7 +117,7 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
 			}
 		    }
 		}
-	    } else if (Mlsame_dd(direct, "B")) {
+	    } else if (Mlsame___float128(direct, "B")) {
 		for (j = m - 2; j >= 0; j--) {
 		    ctemp = c[j];
 		    stemp = s[j];
@@ -134,8 +134,8 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
 	    }
 	}
 
-	else if (Mlsame_dd(pivot, "T")) {
-	    if (Mlsame_dd(direct, "F")) {
+	else if (Mlsame___float128(pivot, "T")) {
+	    if (Mlsame___float128(direct, "F")) {
 		for (j = 1; j < m; j++) {
 		    ctemp = c[j - 1];
 		    stemp = s[j - 1];
@@ -147,7 +147,7 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
 			}
 		    }
 		}
-	    } else if (Mlsame_dd(direct, "B")) {
+	    } else if (Mlsame___float128(direct, "B")) {
 		for (j = m - 1; j >= 1; j--) {
 		    ctemp = c[j - 1];
 		    stemp = s[j - 1];
@@ -162,8 +162,8 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
 	    }
 	}
 
-	else if (Mlsame_dd(pivot, "B")) {
-	    if (Mlsame_dd(direct, "F")) {
+	else if (Mlsame___float128(pivot, "B")) {
+	    if (Mlsame___float128(direct, "F")) {
 		for (j = 0; j < m - 1; j++) {
 		    ctemp = c[j];
 		    stemp = s[j];
@@ -177,7 +177,7 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
 			}
 		    }
 		}
-	    } else if (Mlsame_dd(direct, "B")) {
+	    } else if (Mlsame___float128(direct, "B")) {
 		for (j = m - 2; j >= 0; j--) {
 		    ctemp = c[j];
 		    stemp = s[j];
@@ -195,10 +195,10 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
 	}
     }
 
-    else if (Mlsame_dd(side, "R")) {
+    else if (Mlsame___float128(side, "R")) {
 //Form A * P'
-	if (Mlsame_dd(pivot, "V")) {
-	    if (Mlsame_dd(direct, "F")) {
+	if (Mlsame___float128(pivot, "V")) {
+	    if (Mlsame___float128(direct, "F")) {
 		for (j = 0; j < n - 1; j++) {
 		    ctemp = c[j];
 		    stemp = s[j];
@@ -212,7 +212,7 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
 			}
 		    }
 		}
-	    } else if (Mlsame_dd(direct, "B")) {
+	    } else if (Mlsame___float128(direct, "B")) {
 		for (j = n - 2; j >= 0; j--) {
 		    ctemp = c[j];
 		    stemp = s[j];
@@ -227,8 +227,8 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
 		    }
 		}
 	    }
-	} else if (Mlsame_dd(pivot, "T")) {
-	    if (Mlsame_dd(direct, "F")) {
+	} else if (Mlsame___float128(pivot, "T")) {
+	    if (Mlsame___float128(direct, "F")) {
 		for (j = 1; j < n; j++) {
 		    ctemp = c[j - 1];
 		    stemp = s[j - 1];
@@ -240,7 +240,7 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
 			}
 		    }
 		}
-	    } else if (Mlsame_dd(direct, "B")) {
+	    } else if (Mlsame___float128(direct, "B")) {
 		for (j = n - 1; j >= 1; j--) {
 		    ctemp = c[j - 1];
 		    stemp = s[j - 1];
@@ -253,8 +253,8 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
 		    }
 		}
 	    }
-	} else if (Mlsame_dd(pivot, "B")) {
-	    if (Mlsame_dd(direct, "F")) {
+	} else if (Mlsame___float128(pivot, "B")) {
+	    if (Mlsame___float128(direct, "F")) {
 		for (j = 0; j < n - 1; j++) {
 		    ctemp = c[j];
 		    stemp = s[j];
@@ -268,7 +268,7 @@ Rlasr(const char *side, const char *pivot, const char *direct, mpackint m,
 			}
 		    }
 		}
-	    } else if (Mlsame_dd(direct, "B")) {
+	    } else if (Mlsame___float128(direct, "B")) {
 		for (j = n - 2; j >= 0; j--) {
 		    ctemp = c[j];
 		    stemp = s[j];

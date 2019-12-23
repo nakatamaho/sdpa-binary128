@@ -72,7 +72,7 @@ where alpha and beta are scalars, x and y are n element vectors and
  A is an n by n symmetric matrix.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 void
 Rsymv(const char *uplo, mpackint n, __float128 alpha, __float128 * A, mpackint lda,
@@ -87,11 +87,11 @@ Rsymv(const char *uplo, mpackint n, __float128 alpha, __float128 * A, mpackint l
     //test the input parameters.
     mpackint info = 0;
 
-    if (!Mlsame_dd(uplo, "U") && !Mlsame_dd(uplo, "L"))
+    if (!Mlsame___float128(uplo, "U") && !Mlsame___float128(uplo, "L"))
 	info = 1;
     else if (n < 0)
 	info = 2;
-    else if (lda < max((mpackint) 1, n))
+    else if (lda < mpack_max((mpackint) 1, n))
 	info = 5;
     else if (incx == 0)
 	info = 7;
@@ -99,7 +99,7 @@ Rsymv(const char *uplo, mpackint n, __float128 alpha, __float128 * A, mpackint l
 	info = 10;
 
     if (info != 0) {
-	Mxerbla_dd("Rsymv ", info);
+	Mxerbla___float128("Rsymv ", info);
 	return;
     }
     //quick return if possible.
@@ -138,7 +138,7 @@ Rsymv(const char *uplo, mpackint n, __float128 alpha, __float128 * A, mpackint l
     if (alpha == Zero)
 	return;
 
-    if (Mlsame_dd(uplo, "U")) {
+    if (Mlsame___float128(uplo, "U")) {
 	//form  y  when a is stored in upper triangle.
 	jx = kx;
 	jy = ky;

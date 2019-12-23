@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rlaset(const char *uplo, mpackint m, mpackint n, __float128 alpha, __float128 beta,
@@ -73,18 +73,18 @@ Rlaset(const char *uplo, mpackint m, mpackint n, __float128 alpha, __float128 be
 {
     mpackint i, j;
 
-    if (Mlsame_dd(uplo, "U")) {
+    if (Mlsame___float128(uplo, "U")) {
 //Set the strictly upper triangular or trapezoidal part of the
 //array to ALPHA.
 	for (j = 1; j < n; j++) {
-	    for (i = 0; i < min(j, m); i++) {
+	    for (i = 0; i < mpack_min(j, m); i++) {
 		A[i + j * lda] = alpha;
 	    }
 	}
-    } else if (Mlsame_dd(uplo, "L")) {
+    } else if (Mlsame___float128(uplo, "L")) {
 //Set the strictly lower triangular or trapezoidal part of the
 //array to ALPHA.
-	for (j = 0; j < min(m, n); j++) {
+	for (j = 0; j < mpack_min(m, n); j++) {
 	    for (i = j + 1; i < m; i++) {
 		A[i + j * lda] = alpha;
 	    }
@@ -98,7 +98,7 @@ Rlaset(const char *uplo, mpackint m, mpackint n, __float128 alpha, __float128 be
 	}
     }
 //Set the first min(M,N) diagonal elements to BETA.
-    for (i = 0; i < min(m, n); i++) {
+    for (i = 0; i < mpack_min(m, n); i++) {
 	A[i + i * lda] = beta;
     }
     return;

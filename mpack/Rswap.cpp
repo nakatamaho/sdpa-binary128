@@ -69,7 +69,7 @@ Based on http://www.netlib.org/blas/dswap.f
 mpackinterchanges two vectors.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 void
 Rswap(mpackint n, __float128 * dx, mpackint incx, __float128 * dy, mpackint incy)

@@ -1,13 +1,13 @@
-bin_PROGRAMS = sdpa_dd
+bin_PROGRAMS = sdpa_binary128
 
 if SYSTEM_MPACK
-sdpa_dd_SOURCES = sdpa_chordal.cpp sdpa_dataset.cpp sdpa_io.cpp \
+sdpa_binary128_SOURCES = sdpa_chordal.cpp sdpa_dataset.cpp sdpa_io.cpp \
 sdpa_jordan.cpp sdpa_linear.cpp sdpa_main.cpp sdpa_newton.cpp sdpa_parts.cpp \
 sdpa_struct.cpp sdpa_tool.cpp sdpa_chordal.h sdpa_dataset.h \
 sdpa_include.h sdpa_io.h sdpa_jordan.h sdpa_linear.h sdpa_newton.h \
 sdpa_parts.h sdpa_right.h sdpa_struct.h sdpa_tool.h
 else
-sdpa_dd_SOURCES = sdpa_chordal.cpp sdpa_dataset.cpp sdpa_io.cpp \
+sdpa_binary128_SOURCES = sdpa_chordal.cpp sdpa_dataset.cpp sdpa_io.cpp \
 sdpa_jordan.cpp sdpa_linear.cpp sdpa_main.cpp sdpa_newton.cpp sdpa_parts.cpp \
 sdpa_struct.cpp sdpa_tool.cpp sdpa_chordal.h sdpa_dataset.h \
 sdpa_include.h sdpa_io.h sdpa_jordan.h sdpa_linear.h sdpa_newton.h \
@@ -29,15 +29,15 @@ endif
 
 if ENABLE_SHARED
 else
-sdpa_dd_LDFLAGS = -static
+sdpa_binary128_LDFLAGS = -static
 endif
 
 if SYSTEM_MPACK
-sdpa_dd_LDADD = $(pthread_lib) -L$(SPOOLES_LIBDIR) -lspooles -L$(QD_LIBDIR) -lqd $(OPENMPLIB) -L$(MPACK_LIBDIR) -lmlapack_dd -lmblas_dd
-sdpa_dd_CXXFLAGS= $(pthread_cflags) -I$(SPOOLES_INCLUDEDIR) -DUseMETIS=0 -I$(QD_INCLUDEDIR) $(OPENMPFLAGS) -I$(MPACK_INCLUDEDIR)
+sdpa_binary128_LDADD = $(pthread_lib) -L$(SPOOLES_LIBDIR) -lspooles -lquadmath $(OPENMPLIB) -L$(MPACK_LIBDIR) -lmlapack_binary128 -lmblas_binary128
+sdpa_binary128_CXXFLAGS= $(pthread_cflags) -I$(SPOOLES_INCLUDEDIR) -DUseMETIS=0 $(OPENMPFLAGS) -I$(MPACK_INCLUDEDIR)
 else
-sdpa_dd_LDADD = $(pthread_lib) -L$(SPOOLES_LIBDIR) -lspooles -L$(QD_LIBDIR) -lqd $(OPENMPLIB)
-sdpa_dd_CXXFLAGS= $(pthread_cflags) -I$(SPOOLES_INCLUDEDIR) -DUseMETIS=0 -I$(QD_INCLUDEDIR) $(OPENMPFLAGS) -I./mpack
+sdpa_binary128_LDADD = $(pthread_lib) -L$(SPOOLES_LIBDIR) -lspooles -lquadmath $(OPENMPLIB)
+sdpa_binary128_CXXFLAGS= $(pthread_cflags) -I$(SPOOLES_INCLUDEDIR) -DUseMETIS=0 -I$(MPACK_INCLUDEDIR) $(OPENMPFLAGS) -I./mpack
 endif
 
 if BUILD_SPOOLES

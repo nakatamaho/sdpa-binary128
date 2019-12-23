@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 #include <sdpa_newton.h>
 #include <sdpa_parts.h>
-
+#define BINARY128BUFFER 10240
 namespace sdpa {
 
 Newton::Newton()
@@ -1548,7 +1548,10 @@ void Newton::display_sparse_bMat(FILE* fpout)
     __float128 value = sparse_bMat.sp_ele[index];
     int ii = ordering[i];
     int jj = ordering[j];
-    fprintf(fpout,"val[%d,%d] = %e\n", ii,jj,value.x[0]);
+
+    char buf[BINARY128BUFFER];
+    quadmath_snprintf(buf,BINARY128BUFFER,"%e",value);
+    fprintf(fpout,"val[%d,%d] = %s\n", ii,jj,buf);
   }
   fprintf(fpout,"}\n");
 }

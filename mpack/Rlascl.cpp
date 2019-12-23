@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 #define MTRUE 1
 #define MFALSE 0
@@ -81,19 +81,19 @@ Rlascl(const char *type, mpackint kl, mpackint ku, __float128 cfrom, __float128 
     mpackint done = MFALSE;
 
     *info = 0;
-    if (Mlsame_dd(type, "G")) {
+    if (Mlsame___float128(type, "G")) {
 	itype = 0;
-    } else if (Mlsame_dd(type, "L")) {
+    } else if (Mlsame___float128(type, "L")) {
 	itype = 1;
-    } else if (Mlsame_dd(type, "U")) {
+    } else if (Mlsame___float128(type, "U")) {
 	itype = 2;
-    } else if (Mlsame_dd(type, "H")) {
+    } else if (Mlsame___float128(type, "H")) {
 	itype = 3;
-    } else if (Mlsame_dd(type, "B")) {
+    } else if (Mlsame___float128(type, "B")) {
 	itype = 4;
-    } else if (Mlsame_dd(type, "Q")) {
+    } else if (Mlsame___float128(type, "Q")) {
 	itype = 5;
-    } else if (Mlsame_dd(type, "Z")) {
+    } else if (Mlsame___float128(type, "Z")) {
 	itype = 6;
     } else {
 	itype = -1;
@@ -106,13 +106,13 @@ Rlascl(const char *type, mpackint kl, mpackint ku, __float128 cfrom, __float128 
 	*info = -6;
     } else if (n < 0 || (itype == 4 && n != m) || (itype == 5 && n != m) ) {
 	*info = -7;
-    } else if (itype <= 3 && lda < max((mpackint)1, m)) {
+    } else if (itype <= 3 && lda < mpack_max((mpackint)1, m)) {
 	*info = -9;
     } else if (itype >= 4) {
-	if (kl < 0 || kl > max(m - 1, (mpackint)0)) {
+	if (kl < 0 || kl > mpack_max(m - 1, (mpackint)0)) {
 	    *info = -2;
 	} else {
-	    if (ku < 0 || ku > max(n - 1, (mpackint)0) || ((itype == 4 || itype == 5) &&
+	    if (ku < 0 || ku > mpack_max(n - 1, (mpackint)0) || ((itype == 4 || itype == 5) &&
 		kl != ku)) {
 		*info = -3;
 	    } else if ( (itype == 4 && lda < kl + 1) || (itype == 5 && lda < ku + 1)
@@ -123,7 +123,7 @@ Rlascl(const char *type, mpackint kl, mpackint ku, __float128 cfrom, __float128 
     }
 
     if (*info != 0) {
-	Mxerbla_dd("Rlascl", -(*info));
+	Mxerbla___float128("Rlascl", -(*info));
 	return;
     }
 //Quick return if possible 
@@ -131,7 +131,7 @@ Rlascl(const char *type, mpackint kl, mpackint ku, __float128 cfrom, __float128 
 	return;
     }
 //Get machine parameters 
-    smlnum = Rlamch_dd("S");
+    smlnum = Rlamch___float128("S");
     bignum = One / smlnum;
 
     cfromc = cfrom;
@@ -169,14 +169,14 @@ Rlascl(const char *type, mpackint kl, mpackint ku, __float128 cfrom, __float128 
 	} else if (itype == 2) {
 //Upper triangular matrix
 	    for (j = 0; j < n; j++) {
-		for (i = 0; i <= min(j, m - 1); i++) {
+		for (i = 0; i <= mpack_min(j, m - 1); i++) {
 		    A[i + j * lda] = A[i + j * lda] * mul;
 		}
 	    }
 	} else if (itype == 3) {
 //Upper Hessenberg matrix
 	    for (j = 0; j < n; j++) {
-		for (i = 0; i <= min(j + 1, m - 1); i++) {
+		for (i = 0; i <= mpack_min(j + 1, m - 1); i++) {
 		    A[i + j * lda] = A[i + j * lda] * mul;
 		}
 	    }
@@ -185,7 +185,7 @@ Rlascl(const char *type, mpackint kl, mpackint ku, __float128 cfrom, __float128 
 	    k3 = kl + 1;
 	    k4 = n + 1;
 	    for (j = 0; j < n; j++) {
-		for (i = 0; i < min(k3, k4 - j - 1); i++) {
+		for (i = 0; i < mpack_min(k3, k4 - j - 1); i++) {
 		    A[i + j * lda] *= mul;
 		}
 	    }
@@ -195,7 +195,7 @@ Rlascl(const char *type, mpackint kl, mpackint ku, __float128 cfrom, __float128 
 	    k1 = ku + 2;
 	    k3 = ku + 1;
 	    for (j = 0; j < n; j++) {
- 	        for (i = max(k1 - j - 1, (mpackint)1) - 1; i < k3; i++) {
+ 	        for (i = mpack_max(k1 - j - 1, (mpackint)1) - 1; i < k3; i++) {
 		    A[i + j * lda] = A[i + j * lda] * mul;
 		}
 	    }
@@ -206,7 +206,7 @@ Rlascl(const char *type, mpackint kl, mpackint ku, __float128 cfrom, __float128 
 	    k3 = (kl << 1) + ku + 1;
 	    k4 = kl + ku + 1 + m;
 	    for (j = 0; j < n; j++) {
-	        for (i = max(k1 - j - 1, k2) - 1; i < min(k3, k4 - j - 1); i++) {
+	        for (i = mpack_max(k1 - j - 1, k2) - 1; i < mpack_min(k3, k4 - j - 1); i++) {
 		    A[i + j * lda] = A[i + j * lda] * mul;
 		}
 	    }

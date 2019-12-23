@@ -1,8 +1,8 @@
-nl
-dnl Configure for SDPA-DD 7.1.2
+dnl
+dnl Configure for SDPA-BINARY128 7.1.2
 dnl
 
-AC_INIT(sdpa-dd, 7.1.2)
+AC_INIT(sdpa-binary128, 7.1.2)
 AM_INIT_AUTOMAKE
 AC_PROG_CC
 AC_PROG_CXX
@@ -17,16 +17,6 @@ AC_ARG_WITH(system-mpack,
 [  --with-system-mpack      Use mpack already on system],
 WITH_SYSTEM_MPACK=$withval, WITH_SYSTEM_MPACK=no)
 AM_CONDITIONAL(BUILD_MPACK, test x$WITH_SYSTEM_MPACK = xno)
-
-AC_ARG_WITH(qd-includedir,
-[  --with-qd-includedir    Gives qd include dir you use(e.g., /usr/local/include).],
-QD_INCLUDEDIR=$withval
-)
-
-AC_ARG_WITH(qd-libdir,
-[  --with-qd-libdir    Gives qd lib dir you use(e.g., /usr/local/lib).],
-QD_LIBDIR=$withval
-)
 
 AC_ARG_WITH(mpack-includedir,
 [  --with-mpack-includedir    Gives mpack include dir you use(e.g., /usr/local/include).],
@@ -195,37 +185,36 @@ fi
 AC_SUBST(SPOOLES_LIBDIR)
 AC_SUBST(SPOOLES_INCLUDEDIR)
 
-dnl Check for QD include and library files
+dnl Check for BINARY128 include and library files
 dnl some dummy settings
-if test x$QD_INCLUDEDIR = x; then
-QD_INCLUDEDIR="."
+if test x$BINARY128_INCLUDEDIR = x; then
+BINARY128_INCLUDEDIR="."
 fi
-if test x$QD_LIBDIR = x; then
-QD_LIBDIR="."
+if test x$BINARY128_LIBDIR = x; then
+BINARY128_LIBDIR="."
 fi
 
-HAVE_QD_HEADER=""
-HAVE_QD=""
+HAVE_BINARY128_HEADER=""
+HAVE_BINARY128=""
 AC_LANG_PUSH([C++])
 save_CPPFLAGS="$CPPFLAGS"
-CPPFLAGS="$CPPFLAGS -I$QD_INCLUDEDIR"
-AC_CHECK_HEADER(qd/qd_real.h, HAVE_QD_HEADER=yes)
+CPPFLAGS="$CPPFLAGS -I$BINARY128_INCLUDEDIR"
+AC_CHECK_HEADER(quadmath.h, HAVE_BINARY128_HEADER=yes)
 CPPFLAGS=$save_CPPFLAGS
 
-if test x$HAVE_QD_HEADER = xyes; then
+if test x$HAVE_BINARY128_HEADER = xyes; then
   save_LDFLAGS="$LDFLAGS"
-  LDFLAGS="$LDFLAGS -L$QD_LIBDIR"
-  AC_CHECK_LIB(qd, c_qd_sqrt, [QD_LIBS="-lqd"; HAVE_QD=yes])
+  LDFLAGS="$LDFLAGS -L$BINARY128_LIBDIR"
+  AC_CHECK_LIB(quadmath, sin, [BINARY128_LIBS="-lquadmath"; HAVE_BINARY128=yes])
   LDFLAGS=$save_LDFLAGS
 fi
 
-if test x$HAVE_QD != xyes; then
-  echo "Please install QD"
-  echo "Double-Double and Quad-Double Arithmetic http://www.cs.berkeley.edu/~yozo/"
-  AC_MSG_ERROR([No QD found])
+if test x$HAVE_BINARY128 != xyes; then
+  echo "Please use C++ compilers which supports binary128 (e.g. gcc 4.6 and later)"
+  AC_MSG_ERROR([No BINARY128 support found])
 fi
-AC_SUBST(QD_LIBDIR)
-AC_SUBST(QD_INCLUDEDIR)
+AC_SUBST(BINARY128_LIBDIR)
+AC_SUBST(BINARY128_INCLUDEDIR)
 
 dnl Check for MPACK include and library files
 dnl some dummy settings
@@ -242,13 +231,13 @@ HAVE_MPACK=""
 save_CPPFLAGS="$CPPFLAGS"
 CPPFLAGS="$CPPFLAGS -I$MPACK_INCLUDEDIR"
 AC_LANG_PUSH([C++])
-AC_CHECK_HEADER(mblas_qd.h, HAVE_MPACK_HEADER=yes)
+AC_CHECK_HEADER(mblas___float128.h, HAVE_MPACK_HEADER=yes)
 CPPFLAGS=$save_CPPFLAGS
 
 if test x$HAVE_MPACK_HEADER = xyes; then
   save_LDFLAGS="$LDFLAGS"
   LDFLAGS="$LDFLAGS -L$MPACK_LIBDIR"
-  LIBS="$LDFLAGS -L$MPACK_LIBDIR -lmlapack_dd -lmblas_dd -lqd";
+  LIBS="$LDFLAGS -L$MPACK_LIBDIR -lmlapack___float128 -lmblas___float128 -lquadmath";
  # AC_CHECK_FUNC(Rsyev, [HAVE_MPACK=yes])
   HAVE_MPACK=yes
   LDFLAGS=$save_LDFLAGS

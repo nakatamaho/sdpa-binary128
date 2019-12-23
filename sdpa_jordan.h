@@ -35,19 +35,19 @@ class Jal
 {
 public:
 
-  static dd_real trace(DenseLinearSpace& aMat);
+  static __float128 trace(DenseLinearSpace& aMat);
 
   // calculate the minimum eigen value of lMat*xMat*(lMat^T)
   // by Lanczos methods.
   // lMat is lower triangular¡¢xMat is symmetric
   // block size > 20   : Lanczos method
   // block size <= 20  : QR method
-  static dd_real getMinEigen(DenseLinearSpace& lMat,
+  static __float128 getMinEigen(DenseLinearSpace& lMat,
 			    DenseLinearSpace& xMat,
 			    WorkVariables& work);
 
   // calculate the minimum eigen value of xMat by QR method.
-  static dd_real getMinEigen(DenseLinearSpace& xMat,
+  static __float128 getMinEigen(DenseLinearSpace& xMat,
 			    WorkVariables& work);
 
   static bool getInvChol(DenseLinearSpace& invCholMat,
@@ -62,18 +62,18 @@ public:
   static bool multiply(DenseLinearSpace& retMat,
 		       DenseLinearSpace& aMat,
 		       DenseLinearSpace& bMat,
-		       dd_real* scalar = NULL);
+		       __float128* scalar = NULL);
 #if 0
 // CAUTION!!! We don't initialize retMat to zero matrix for efficiently.
   static bool multiply(DenseLinearSpace& retMat,
 		       SparseLinearSpace& aMat,
 		       DenseLinearSpace& bMat,
-		       dd_real* scalar = NULL);
+		       __float128* scalar = NULL);
 // CAUTION!!! We don't initialize retMat to zero matrix for efficiently.
   static bool multiply(DenseLinearSpace& retMat,
 		       DenseLinearSpace& aMat,
 		       SparseLinearSpace& bMat,
-		       dd_real* scalar = NULL);
+		       __float128* scalar = NULL);
 #endif
 
   //  retMat = L_{A} B = (A * B + B * A)/2

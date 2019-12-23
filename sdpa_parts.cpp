@@ -550,8 +550,8 @@ void StepLength::MehrotraCorrector(InputData& inputData,
 	  primal *= maxRatio;
 	  dual *= maxRatio;
 #if 0
-	  printf("max stepsise ratio: %9.1e\n",maxRatio.x[0]);
-	  printf("new stepsize  primal:%9.1e, dual:%9.1e\n",primal.x[0],dual.x[0]);
+	  printf("max stepsise ratio: %9.1e\n",(double)maxRatio);
+	  printf("new stepsize  primal:%9.1e, dual:%9.1e\n",(double)primal,(double)dual);
 #endif
 	}
   }
@@ -563,8 +563,8 @@ void StepLength::display(FILE* fpout)
     return;
   }
 
-  fprintf(fpout,"alpha.primal = %8.3e\n",primal.x[0]);
-  fprintf(fpout,"alpha.dual   = %8.3e\n",dual.x[0]);
+  fprintf(fpout,"alpha.primal = %8.3e\n",(double)primal);
+  fprintf(fpout,"alpha.dual   = %8.3e\n",(double)dual);
 }
 
 //-------------------------------------------------
@@ -642,7 +642,7 @@ void DirectionParameter::display(FILE* fpout)
   if (fpout == NULL) {
     return;
   }
-  fprintf(fpout,"beta.value = %8.3e\n",value.x[0]);
+  fprintf(fpout,"beta.value = %8.3e\n",(double)value);
 }
 
 //---------------------------------------------------
@@ -727,8 +727,8 @@ void AverageComplementarity::display(FILE* fpout)
     return;
   }
 
-  fprintf(fpout,"mu0 = %8.3e\n",initial.x[0]);
-  fprintf(fpout,"mu  = %8.3e\n",current.x[0]);
+  fprintf(fpout,"mu0 = %8.3e\n",(double)initial);
+  fprintf(fpout,"mu  = %8.3e\n",(double)current);
 }
 
 //--------------------------------------------------
@@ -800,8 +800,8 @@ void RatioInitResCurrentRes::display(FILE* fpout)
     return;
   }
 
-  fprintf(fpout,"theta.primal = %8.3e\n",primal.x[0]);
-  fprintf(fpout,"theta.dual   = %8.3e\n",dual.x[0]);
+  fprintf(fpout,"theta.primal = %8.3e\n",(double)primal);
+  fprintf(fpout,"theta.dual   = %8.3e\n",(double)dual);
 }
 
 //---------------------------------------------------
@@ -1004,34 +1004,34 @@ void SolveInfo::check(InputData& inputData,
 
   Lal::let(tmp,'=',inputData.b,'.',currentPt.yVec);
   tmp1p = - tmp;
-  printf("Primal: %9.1e",tmp1p.x[0]);
+  printf("Primal: %9.1e",(double)tmp1p);
   Lal::let(tmp,'=',currentRes.dualMat,'.',currentPt.xMat);
   tmp2p = -tmp;
-  printf(" + %9.1e",tmp2p.x[0]);
+  printf(" + %9.1e",(double)tmp2p);
   tmp3p = tmp1p + tmp2p;
-  printf(" = %9.1e",tmp3p.x[0]);
-  printf(",   residual:%-9.1e",currentRes.normDualMat.x[0]);
+  printf(" = %9.1e",(double)tmp3p);
+  printf(",   residual:%-9.1e",(double)currentRes.normDualMat);
   tmp5p = currentRes.computeMaxNorm(currentPt.zMat);
-  printf(" norm:%-9.1e\n",tmp5p.x[0]);
+  printf(" norm:%-9.1e\n",(double)tmp5p);
 
   Lal::let(tmp,'=',inputData.C,'.',currentPt.xMat);
   tmp1d = - tmp;
-  printf("Dual:   %9.1e",tmp1d.x[0]);
+  printf("Dual:   %9.1e",(double)tmp1d);
   Lal::let(tmp,'=',currentRes.primalVec,'.',currentPt.yVec);
   tmp2d = -tmp;
-  printf(" + %9.1e",tmp2d.x[0]);
+  printf(" + %9.1e",(double)tmp2d);
   tmp3d = tmp1d + tmp2d;
-  printf(" = %9.1e",tmp3d.x[0]);
-  printf(",   residual:%-9.1e", currentRes.normPrimalVec.x[0]);
+  printf(" = %9.1e",(double)tmp3d);
+  printf(",   residual:%-9.1e", (double)currentRes.normPrimalVec);
   tmp5d = currentRes.computeMaxNorm(currentPt.xMat);
-  printf(" norm:%-9.1e\n",tmp5d.x[0]);
+  printf(" norm:%-9.1e\n",(double)tmp5d);
 
   tmp4 = tmp1p - tmp1d;
-  printf("P-D:    %9.1e",tmp4.x[0]);
+  printf("P-D:    %9.1e",(double)tmp4);
   tmp4 = tmp3p - tmp3d;
-  printf("               %9.1e",tmp4.x[0]);
+  printf("               %9.1e",(double)tmp4);
   tmp4 = mu.current * currentPt.nDim;
-  printf(",    mu * n:%-9.1e\n",tmp4.x[0]);
+  printf(",    mu * n:%-9.1e\n",(double)tmp4);
 
 }
 
@@ -1042,11 +1042,11 @@ void SolveInfo::display(FILE* fpout)
     return;
   }
 
-  fprintf(fpout,"rSolveInfo.rho          = %8.3e\n",rho.x[0]);
-  fprintf(fpout,"rSolveInfo.etaPrimal    = %8.3e\n",etaPrimal.x[0]);
-  fprintf(fpout,"rSolveInfo.etaDual      = %8.3e\n",etaDual.x[0]);
-  fprintf(fpout,"rSolveInfo.objValPrimal = %8.3e\n",objValPrimal.x[0]);
-  fprintf(fpout,"rSolveInfo.objValDual   = %8.3e\n",objValDual.x[0]);
+  fprintf(fpout,"rSolveInfo.rho          = %8.3e\n",(double)rho);
+  fprintf(fpout,"rSolveInfo.etaPrimal    = %8.3e\n",(double)etaPrimal);
+  fprintf(fpout,"rSolveInfo.etaDual      = %8.3e\n",(double)etaDual);
+  fprintf(fpout,"rSolveInfo.objValPrimal = %8.3e\n",(double)objValPrimal);
+  fprintf(fpout,"rSolveInfo.objValDual   = %8.3e\n",(double)objValDual);
 }
 
 // ----------------------------------------------------

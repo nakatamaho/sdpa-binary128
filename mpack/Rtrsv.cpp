@@ -72,7 +72,7 @@ where b and x are n element vectors and A is an n by n unit, or
 non-unit, upper or lower triangular matrix.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 void
 Rtrsv(const char *uplo, const char *trans, const char *diag, mpackint n,
@@ -87,27 +87,27 @@ Rtrsv(const char *uplo, const char *trans, const char *diag, mpackint n,
 //Test the input parameters.
     mpackint info = 0;
 
-    if (!Mlsame_dd(uplo, "U") && !Mlsame_dd(uplo, "L"))
+    if (!Mlsame___float128(uplo, "U") && !Mlsame___float128(uplo, "L"))
 	info = 1;
-    else if (!Mlsame_dd(trans, "N") && !Mlsame_dd(trans, "T") && !Mlsame_dd(trans, "C"))
+    else if (!Mlsame___float128(trans, "N") && !Mlsame___float128(trans, "T") && !Mlsame___float128(trans, "C"))
 	info = 2;
-    else if (!Mlsame_dd(diag, "U") && !Mlsame_dd(diag, "N"))
+    else if (!Mlsame___float128(diag, "U") && !Mlsame___float128(diag, "N"))
 	info = 3;
     else if (n < 0)
 	info = 4;
-    else if (lda < max((mpackint) 1, n))
+    else if (lda < mpack_max((mpackint) 1, n))
 	info = 6;
     else if (incx == 0)
 	info = 8;
     if (info != 0) {
-	Mxerbla_dd("Rtrsv ", info);
+	Mxerbla___float128("Rtrsv ", info);
 	return;
     }
     //quick return if possible.
     if (n == 0)
 	return;
 
-    mpackint nounit = Mlsame_dd(diag, "N");
+    mpackint nounit = Mlsame___float128(diag, "N");
 
     //set up the start point in x if the increment is not unity. this
     //will be (n-1)*incx too small for descending loops.
@@ -118,9 +118,9 @@ Rtrsv(const char *uplo, const char *trans, const char *diag, mpackint n,
 
     //start the operations. in this version the elements of a are
     //accessed sequentially with one pass through A.
-    if (Mlsame_dd(trans, "N")) {
+    if (Mlsame___float128(trans, "N")) {
 	//form  x := inv(A)*x.
-	if (Mlsame_dd(uplo, "U")) {
+	if (Mlsame___float128(uplo, "U")) {
 	    jx = kx + (n - 1) * incx;
 	    for (mpackint j = n - 1; j >= 0; j--) {
 		if (x[jx] != Zero) {
@@ -153,7 +153,7 @@ Rtrsv(const char *uplo, const char *trans, const char *diag, mpackint n,
 	}
     } else {
 	//form x := inv(A')*x.
-	if (Mlsame_dd(uplo, "U")) {
+	if (Mlsame___float128(uplo, "U")) {
 	    jx = kx;
 	    for (mpackint j = 0; j < n; j++) {
 		ix = kx;

@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 #include <stdlib.h>
 
 void
@@ -77,16 +77,16 @@ Rpotf2(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *inf
     __float128 One = 1.0;
 
     *info = 0;
-    upper = Mlsame_dd(uplo, "U");
-    if (!upper && !Mlsame_dd(uplo, "L")) {
+    upper = Mlsame___float128(uplo, "U");
+    if (!upper && !Mlsame___float128(uplo, "L")) {
 	*info = -1;
     } else if (n < 0) {
 	*info = -2;
-    } else if (lda < max((mpackint)1, n)) {
+    } else if (lda < mpack_max((mpackint)1, n)) {
 	*info = -4;
     }
     if (*info != 0) {
-	Mxerbla_dd("Rpotf2", -(*info));
+	Mxerbla___float128("Rpotf2", -(*info));
 	return;
     }
 //Quick return if possible
@@ -103,7 +103,7 @@ Rpotf2(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *inf
 		success = 0;
 		break;
 	    }
-	    ajj = sqrt(ajj);
+	    ajj = sqrtq(ajj);
 	    A[j + j * lda] = ajj;
 //Compute elements J+1:N of row J.
 	    if (j < n) {
@@ -122,7 +122,7 @@ Rpotf2(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *inf
 		success = 0;
 		break;
 	    }
-	    ajj = sqrt(ajj);
+	    ajj = sqrtq(ajj);
 	    A[j + j * lda] = ajj;
 
 //Compute elements J+1:N of column J.

@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rsytrd(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * d,
@@ -78,28 +78,28 @@ Rsytrd(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * 
     __float128 One = 1.0;
 
     *info = 0;
-    upper = Mlsame_dd(uplo, "U");
+    upper = Mlsame___float128(uplo, "U");
     lquery = 0;
     if (lwork == -1)
 	lquery = 1;
 
-    if (!upper && !Mlsame_dd(uplo, "L")) {
+    if (!upper && !Mlsame___float128(uplo, "L")) {
 	*info = -1;
     } else if (n < 0) {
 	*info = -2;
-    } else if (lda < max((mpackint)1, n)) {
+    } else if (lda < mpack_max((mpackint)1, n)) {
 	*info = -4;
     } else if (lwork < 1 && !lquery) {
 	*info = -9;
     }
     if (*info == 0) {
 //Determine the block size.
-	nb = iMlaenv_dd(1, "Rsytrd", uplo, n, -1, -1, -1);
+	nb = iMlaenv___float128(1, "Rsytrd", uplo, n, -1, -1, -1);
 	lwkopt = n * nb;
 	work[0] = (double)lwkopt;	//cast from mpackint to mpf
     }
     if (*info != 0) {
-	Mxerbla_dd("Rsytrd", -(*info));
+	Mxerbla___float128("Rsytrd", -(*info));
 	return;
     } else if (lquery) {
 	return;
@@ -115,7 +115,7 @@ Rsytrd(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * 
     if (nb > 1 && nb < n) {
 //Determine when to cross over from blocked to unblocked code
 //(last block is always handled by unblocked code).
-        nx = max(nb, iMlaenv_dd(3, "Rsytrd", uplo, n, -1, -1, -1));
+        nx = mpack_max(nb, iMlaenv___float128(3, "Rsytrd", uplo, n, -1, -1, -1));
 	if (nx < n) {
 //Determine if workspace is large enough for blocked code.
 	    ldwork = n;
@@ -124,8 +124,8 @@ Rsytrd(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * 
 //Not enough workspace to use optimal NB:  determine the
 //minimum value of NB, and reduce NB or force use of
 //unblocked code by setting NX = N.
-	        nb = max(lwork / ldwork, (mpackint)1);
-		nbmin = iMlaenv_dd(2, "Rsytrd", uplo, n, -1, -1, -1);
+	        nb = mpack_max(lwork / ldwork, (mpackint)1);
+		nbmin = iMlaenv___float128(2, "Rsytrd", uplo, n, -1, -1, -1);
 		if (nb < nbmin) {
 		    nx = n;
 		}

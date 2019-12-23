@@ -72,7 +72,7 @@ where alpha is a scalar, x and y are n element vectors and A is an n
 by n symmetric matrix.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 void
 Rsyr2(const char *uplo, mpackint n, __float128 alpha, __float128 * x, mpackint incx,
@@ -87,7 +87,7 @@ Rsyr2(const char *uplo, mpackint n, __float128 alpha, __float128 * x, mpackint i
     //test the input parameters.
     mpackint info = 0;
 
-    if (!Mlsame_dd(uplo, "U") && !Mlsame_dd(uplo, "L"))
+    if (!Mlsame___float128(uplo, "U") && !Mlsame___float128(uplo, "L"))
 	info = 1;
     else if (n < 0)
 	info = 2;
@@ -95,10 +95,10 @@ Rsyr2(const char *uplo, mpackint n, __float128 alpha, __float128 * x, mpackint i
 	info = 5;
     else if (incy == 0)
 	info = 7;
-    else if (lda < max((mpackint) 1, n))
+    else if (lda < mpack_max((mpackint) 1, n))
 	info = 9;
     if (info != 0) {
-	Mxerbla_dd("Rsyr2 ", info);
+	Mxerbla___float128("Rsyr2 ", info);
 	return;
     }
     //quick return if possible.
@@ -116,7 +116,7 @@ Rsyr2(const char *uplo, mpackint n, __float128 alpha, __float128 * x, mpackint i
     jx = kx;
     jy = ky;
 
-    if (Mlsame_dd(uplo, "U")) {
+    if (Mlsame___float128(uplo, "U")) {
 	for (mpackint j = 0; j < n; j++) {
 	    if ((x[jx] != Zero) || (y[jy] != Zero)) {
 		temp1 = alpha * y[jy];

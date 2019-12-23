@@ -28,8 +28,9 @@
 #ifndef _MUTILS_DD_H_
 #define _MUTILS_DD_H_
 
-using std::max;
-using std::min;
+
+#define mpack_max(a, b) ((a) > (b) ? (a) : (b))
+#define mpack_min(a, b) ((a) < (b) ? (a) : (b))
 
 __float128 Msign(__float128 a, __float128 b);
 double cast2double(__float128 a);
@@ -58,7 +59,7 @@ inline __float128 Msign(__float128 a, __float128 b)
 inline double
 cast2double(__float128 a)
 {
-    return a.x[0];
+    return (double)a;
 }
 
 inline int
@@ -67,8 +68,8 @@ M2int(__float128 a)
     int i;
     __float128 tmp;
     a = a + 0.5;
-    tmp = floor(a);
-    i = (int)tmp.x[0];
+    tmp = floorq(a);
+    i = (int)tmp;
     return i;
 }
 

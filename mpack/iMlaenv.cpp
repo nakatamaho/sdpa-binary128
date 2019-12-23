@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -217,7 +217,7 @@ iMlaenv16(const char *Mlaname, const char *opts, mpackint n1, mpackint n2, mpack
 }
 
 mpackint
-iMlaenv_dd(mpackint ispec, const char *name, const char *opts, mpackint n1, mpackint n2, mpackint n3,
+iMlaenv___float128(mpackint ispec, const char *name, const char *opts, mpackint n1, mpackint n2, mpackint n3,
     mpackint n4)
 {
     mpackint iret, i, up;
@@ -232,7 +232,7 @@ iMlaenv_dd(mpackint ispec, const char *name, const char *opts, mpackint n1, mpac
 	Mlaname[i] = up;
     }
 
-    if (!Mlsame_dd(Mlaname, "r") && !Mlsame_dd(Mlaname, "c"))
+    if (!Mlsame___float128(Mlaname, "r") && !Mlsame___float128(Mlaname, "c"))
 	return iret;
 
     switch (ispec) {

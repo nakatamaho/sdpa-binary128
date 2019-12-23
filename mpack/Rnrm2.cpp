@@ -69,7 +69,7 @@ Based on http://www.netlib.org/blas/dnrm2.f
 Rnrm2 returns the euclidean norm of a vector, sqrt( x'*x ).
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 __float128
 Rnrm2(mpackint n, __float128 * x, mpackint incx)
@@ -96,7 +96,7 @@ Rnrm2(mpackint n, __float128 * x, mpackint incx)
 		}
 	    }
 	}
-	norm = scale * sqrt(ssq);
+	norm = scale * sqrtq(ssq);
     }
     return norm;
 }

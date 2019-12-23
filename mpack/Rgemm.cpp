@@ -74,7 +74,7 @@ alpha and beta are scalars, and A, B and C are matrices, with op( A )
 an m by k matrix, op(B) a k by n matrix and C an m by n matrix.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 void
 Rgemm(const char *transa, const char *transb, mpackint m, mpackint n, mpackint k,
@@ -89,8 +89,8 @@ Rgemm(const char *transa, const char *transb, mpackint m, mpackint n, mpackint k
     __float128 Zero = 0.0, One = 1.0;
     __float128 temp;
 
-    nota = Mlsame_dd(transa, "N");
-    notb = Mlsame_dd(transb, "N");
+    nota = Mlsame___float128(transa, "N");
+    notb = Mlsame___float128(transb, "N");
 
     if (nota) {
 	nrowa = m;
@@ -107,9 +107,9 @@ Rgemm(const char *transa, const char *transb, mpackint m, mpackint n, mpackint k
 
     //Test the input parameters.
     info = 0;
-    if (!nota && (!Mlsame_dd(transa, "C")) && (!Mlsame_dd(transa, "T")))
+    if (!nota && (!Mlsame___float128(transa, "C")) && (!Mlsame___float128(transa, "T")))
 	info = 1;
-    else if (!notb && (!Mlsame_dd(transb, "C")) && (!Mlsame_dd(transb, "T")))
+    else if (!notb && (!Mlsame___float128(transb, "C")) && (!Mlsame___float128(transb, "T")))
 	info = 2;
     else if (m < 0)
 	info = 3;
@@ -117,14 +117,14 @@ Rgemm(const char *transa, const char *transb, mpackint m, mpackint n, mpackint k
 	info = 4;
     else if (k < 0)
 	info = 5;
-    else if (lda < max((mpackint) 1, nrowa))
+    else if (lda < mpack_max((mpackint) 1, nrowa))
 	info = 8;
-    else if (ldb < max((mpackint) 1, nrowb))
+    else if (ldb < mpack_max((mpackint) 1, nrowb))
 	info = 10;
-    else if (ldc < max((mpackint) 1, m))
+    else if (ldc < mpack_max((mpackint) 1, m))
 	info = 13;
     if (info != 0) {
-	Mxerbla_dd("Rgemm ", info);
+	Mxerbla___float128("Rgemm ", info);
 	return;
     }
 //Quick return if possible.

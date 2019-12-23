@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rorg2l(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float128 * tau,
@@ -81,11 +81,11 @@ Rorg2l(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float
 	*info = -2;
     } else if (k < 0 || k > n) {
 	*info = -3;
-    } else if (lda < max((mpackint)1, m)) {
+    } else if (lda < mpack_max((mpackint)1, m)) {
 	*info = -5;
     }
     if (*info != 0) {
-	Mxerbla_dd("Rorg2l", -(*info));
+	Mxerbla___float128("Rorg2l", -(*info));
 	return;
     }
 //quick return if possible

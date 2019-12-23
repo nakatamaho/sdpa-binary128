@@ -374,19 +374,19 @@ void Chordal::ordering_bMat(int m, int nBlock,
     return;
   }
   for (int b=0; b<inputData.SDP_nBlock; b++){
-    if (inputData.SDP_nConstraint[b] > m * sqrt(aggregate_threshold)){
+    if (inputData.SDP_nConstraint[b] > m * sqrtq(aggregate_threshold)){
       best = -1;
       return;
     }      
   }
   for (int b=0; b<inputData.SOCP_nBlock; b++){
-    if (inputData.SOCP_nConstraint[b] > m * sqrt(aggregate_threshold)){
+    if (inputData.SOCP_nConstraint[b] > m * sqrtq(aggregate_threshold)){
       best = -1;
       return;
     }      
   }
   for (int b=0; b<inputData.LP_nBlock; b++){
-    if (inputData.LP_nConstraint[b] > m * sqrt(aggregate_threshold)){
+    if (inputData.LP_nConstraint[b] > m * sqrtq(aggregate_threshold)){
       best = -1;
       return;
     }     

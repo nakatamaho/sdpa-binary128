@@ -64,8 +64,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rlarfb(const char *side, const char *trans, const char *direct,
@@ -82,19 +82,19 @@ Rlarfb(const char *side, const char *trans, const char *direct,
     if (m <= 0 || n <= 0)
 	return;
 
-    if (Mlsame_dd(trans, "N")) {
+    if (Mlsame___float128(trans, "N")) {
 	transt = 'T';
     } else {
 	transt = 'N';
     }
 
-    if (Mlsame_dd(storev, "C")) {
-	if (Mlsame_dd(direct, "F")) {
+    if (Mlsame___float128(storev, "C")) {
+	if (Mlsame___float128(direct, "F")) {
 
 //Let V = (V1) (first K rows)
 //        (V2)
 // where V1 is unit lower triangular.
-	    if (Mlsame_dd(side, "L")) {
+	    if (Mlsame___float128(side, "L")) {
 
 //Form H * C or H ' * C  where  C = ( C1 )
 //                                  ( C2 )
@@ -130,7 +130,7 @@ Rlarfb(const char *side, const char *trans, const char *direct,
 			C[j + i * ldc] -= work[i + j * ldwork];
 		    }
 		}
-	    } else if (Mlsame_dd(side, "R")) {
+	    } else if (Mlsame___float128(side, "R")) {
 //Form C * H or C * H '  where  C = ( C1  C2 )
 //W: = C * V = (C1 * V1 + C2 * V2) (stored in WORK)
 //W: = C1
@@ -168,7 +168,7 @@ Rlarfb(const char *side, const char *trans, const char *direct,
 //Let V = (V1)
 //        (V2) (last K rows)
 // where V2 is unit upper triangular.
-	    if (Mlsame_dd(side, "L")) {
+	    if (Mlsame___float128(side, "L")) {
 //Form H * C or H ' * C  where  C = ( C1 )
 //                                  ( C2 )
 //W: = C ' * V  =  (C1' * V1 + C2 '*V2)  (stored in WORK)
@@ -202,7 +202,7 @@ Rlarfb(const char *side, const char *trans, const char *direct,
 			C[m - k + j + i * ldc] -= work[i + j * ldwork];
 		    }
 		}
-	    } else if (Mlsame_dd(side, "R")) {
+	    } else if (Mlsame___float128(side, "R")) {
 //Form C * H or C * H '  where  C = ( C1  C2 )
 // W: = C * V = (C1 * V1 + C2 * V2) (stored in WORK)
 // W: = C2
@@ -237,12 +237,12 @@ Rlarfb(const char *side, const char *trans, const char *direct,
 		}
 	    }
 	}
-    } else if (Mlsame_dd(storev, "R")) {
-	if (Mlsame_dd(direct, "F")) {
+    } else if (Mlsame___float128(storev, "R")) {
+	if (Mlsame___float128(direct, "F")) {
 //Let V = (V1 V2) (V1:first K columns)
 //where V1 is unit upper triangular.
 
-	    if (Mlsame_dd(side, "L")) {
+	    if (Mlsame___float128(side, "L")) {
 //Form H * C or H ' * C  where  C = ( C1 )
 //                                  ( C2 )
 // W:= C ' * V' = (C1 '*V1' + C2 '*V2') (stored in WORK)
@@ -276,7 +276,7 @@ Rlarfb(const char *side, const char *trans, const char *direct,
 			C[j + i * ldc] -= work[i + j * ldwork];
 		    }
 		}
-	    } else if (Mlsame_dd(side, "R")) {
+	    } else if (Mlsame___float128(side, "R")) {
 //Form C * H or C * H '  where  C = ( C1  C2 )
 // W:= C * V '  =  (C1*V1' + C2 * V2 ')  (stored in WORK)
 // W:= C1
@@ -315,7 +315,7 @@ Rlarfb(const char *side, const char *trans, const char *direct,
 	} else {
 //Let V = (V1 V2) (V2:last K columns)
 // where V2 is unit lower triangular.
-	    if (Mlsame_dd(side, "L")) {
+	    if (Mlsame___float128(side, "L")) {
 //Form H * C or H ' * C  where  C = ( C1 )
 //                                  ( C2 )
 //W:= C ' * V' = (C1 '*V1' + C2 '*V2') (stored in WORK)
@@ -353,7 +353,7 @@ Rlarfb(const char *side, const char *trans, const char *direct,
 			C[m - k + j + i * ldc] -= work[i + j * ldwork];
 		    }
 		}
-	    } else if (Mlsame_dd(side, "R")) {
+	    } else if (Mlsame___float128(side, "R")) {
 //Form C * H or C * H '  where  C = ( C1  C2 )
 // W:= C * V '  =  (C1*V1' + C2 * V2 ')  (stored in WORK)
 // W:= C2

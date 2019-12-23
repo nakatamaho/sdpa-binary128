@@ -74,7 +74,7 @@ and A is an n by k matrix in the first case and a k by n matrix
 in the second case.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 void
 Rsyrk(const char *uplo, const char *trans, mpackint n, mpackint k, __float128 alpha,
@@ -87,28 +87,28 @@ Rsyrk(const char *uplo, const char *trans, mpackint n, mpackint k, __float128 al
     __float128 temp;
 
     //Test the input parameters.
-    if (Mlsame_dd(trans, "N"))
+    if (Mlsame___float128(trans, "N"))
 	nrowa = n;
     else
 	nrowa = k;
-    upper = Mlsame_dd(uplo, "U");
+    upper = Mlsame___float128(uplo, "U");
 
     info = 0;
-    if ((!upper) && (!Mlsame_dd(uplo, "L")))
+    if ((!upper) && (!Mlsame___float128(uplo, "L")))
 	info = 1;
-    else if ((!Mlsame_dd(trans, "N")) && (!Mlsame_dd(trans, "T"))
-	&& (!Mlsame_dd(trans, "C")))
+    else if ((!Mlsame___float128(trans, "N")) && (!Mlsame___float128(trans, "T"))
+	&& (!Mlsame___float128(trans, "C")))
 	info = 2;
     else if (n < 0)
 	info = 3;
     else if (k < 0)
 	info = 4;
-    else if (lda < max((mpackint) 1, nrowa))
+    else if (lda < mpack_max((mpackint) 1, nrowa))
 	info = 7;
-    else if (ldc < max((mpackint) 1, n))
+    else if (ldc < mpack_max((mpackint) 1, n))
 	info = 10;
     if (info != 0) {
-	Mxerbla_dd("Rsyrk ", info);
+	Mxerbla___float128("Rsyrk ", info);
 	return;
     }
     //quick return if possible.
@@ -149,7 +149,7 @@ Rsyrk(const char *uplo, const char *trans, mpackint n, mpackint k, __float128 al
 	return;
     }
     //start the operations.
-    if (Mlsame_dd(trans, "N")) {
+    if (Mlsame___float128(trans, "N")) {
 	//Form C := alpha*A*A' + beta*C.
 	if (upper) {
 	    for (mpackint j = 0; j < n; j++) {

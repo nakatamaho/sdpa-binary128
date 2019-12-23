@@ -4,7 +4,7 @@
  * 
  * Copyright 2008 by Nakata, Maho
  * 
- * $Id: mlapack_dd.h,v 1.6 2009/09/22 20:27:18 nakatamaho Exp $ 
+ * $Id: mlapack___float128.h,v 1.6 2009/09/22 20:27:18 nakatamaho Exp $ 
  *
  * MPACK - multiple precision arithmetic library
  *
@@ -27,9 +27,6 @@
  *
  ************************************************************************/
 
-#ifndef _MLAPACK_DD_H_
-#define _MLAPACK_DD_H_
-
 /* this is a subset of mpack for SDPA-GMP only */
 /* http://mplapack.sourceforge.net/ */
 
@@ -40,9 +37,9 @@ void
     Rsyev(const char *jobz, const char *uplo, mpackint n, __float128 * A,
     mpackint lda, __float128 * w, __float128 * work, mpackint *lwork, mpackint *info);
 void Rpotrf(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *info);
-mpackint iMlaenv_dd(mpackint ispec, const char *name, const char *opts, mpackint n1, mpackint n2,
+mpackint iMlaenv___float128(mpackint ispec, const char *name, const char *opts, mpackint n1, mpackint n2,
     mpackint n3, mpackint n4);
-__float128 Rlamch_dd(const char *cmach);
+__float128 Rlamch___float128(const char *cmach);
 __float128 Rlansy(const char *norm, const char *uplo, mpackint n, __float128 * A,
     mpackint lda, __float128 * work);
 void Rlascl(const char *type, mpackint kl, mpackint ku, __float128 cfrom, __float128 cto,
@@ -89,4 +86,3 @@ void Rlatrd(const char *uplo, mpackint n, mpackint nb, __float128 * A, mpackint 
 void Rsterf(mpackint n, __float128 * d, __float128 * e, mpackint *info);
 void Rorgtr(const char *uplo, mpackint n, __float128 * a, mpackint lda, __float128 * tau,
     __float128 * work, mpackint lwork, mpackint *info);
-#endif

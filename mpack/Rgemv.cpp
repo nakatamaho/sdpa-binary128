@@ -72,7 +72,7 @@ where alpha and beta are scalars, x and y are vectors and A is an
 m by n matrix.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 void
 Rgemv(const char *trans, mpackint m, mpackint n, __float128 alpha, __float128 * A, mpackint lda,
@@ -87,20 +87,20 @@ Rgemv(const char *trans, mpackint m, mpackint n, __float128 alpha, __float128 * 
     __float128 temp;
 
     //Test the input parameters.
-    if (!Mlsame_dd(trans, "N") && !Mlsame_dd(trans, "T") && !Mlsame_dd(trans, "C"))
+    if (!Mlsame___float128(trans, "N") && !Mlsame___float128(trans, "T") && !Mlsame___float128(trans, "C"))
 	info = 1;
     else if (m < 0)
 	info = 2;
     else if (n < 0)
 	info = 3;
-    else if (lda < max((mpackint) 1, m))
+    else if (lda < mpack_max((mpackint) 1, m))
 	info = 6;
     else if (incx == 0)
 	info = 8;
     else if (incy == 0)
 	info = 11;
     if (info != 0) {
-	Mxerbla_dd("Rgemv ", info);
+	Mxerbla___float128("Rgemv ", info);
 	return;
     }
     //Quick return if possible.
@@ -109,7 +109,7 @@ Rgemv(const char *trans, mpackint m, mpackint n, __float128 alpha, __float128 * 
 
     //Set lenx and leny, the lengths of the vectors x and y, and set
     //up the start points in x and y.
-    if (Mlsame_dd(trans, "N")) {
+    if (Mlsame___float128(trans, "N")) {
 	lenx = n;
 	leny = m;
     } else {
@@ -144,7 +144,7 @@ Rgemv(const char *trans, mpackint m, mpackint n, __float128 alpha, __float128 * 
     }
     if (alpha == Zero)
 	return;
-    if (Mlsame_dd(trans, "N")) {
+    if (Mlsame___float128(trans, "N")) {
 	//form y := alpha*A*x + y.
 	jx = kx;
 	for (mpackint j = 0; j < n; j++) {

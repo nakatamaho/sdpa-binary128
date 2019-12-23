@@ -560,8 +560,6 @@ int main(int argc, char** argv)
   time( &ltime );
 
   unsigned int oldcw;
-  fpu_fix_start(&oldcw);
-
   cout << "SDPA-DD start at    " << ctime(&ltime);
   // << "... (built at "<< __DATE__ << " " <<__TIME__ ")" << endl;
   // cout << "let me see your ..." << endl;
@@ -741,6 +739,5 @@ int main(int argc, char** argv)
   	 isInitSparse, isDataSparse, isParameter,
 	 parameterType, Display);
   return 0;
-  fpu_fix_end(&oldcw);
 }
 

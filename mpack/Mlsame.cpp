@@ -66,13 +66,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /*
 Based on http://www.netlib.org/blas/lsame.f
-Mlsame_dd returns 1 if CA is the same letter as CB regardless of case.
+Mlsame___float128 returns 1 if CA is the same letter as CB regardless of case.
 */
 
 #include <ctype.h>
 
 int
-Mlsame_dd(const char *a, const char *b)
+Mlsame___float128(const char *a, const char *b)
 {
     if (toupper(*a) == toupper(*b))
 	return 1;

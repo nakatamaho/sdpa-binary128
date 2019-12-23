@@ -74,7 +74,7 @@ non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
 The matrix X is overwritten on B.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 void
 Rtrsm(const char *side, const char *uplo, const char *transa, const char *diag,
@@ -87,35 +87,35 @@ Rtrsm(const char *side, const char *uplo, const char *transa, const char *diag,
     __float128 temp;
 
     //test the input parameters.
-    lside = Mlsame_dd(side, "L");
+    lside = Mlsame___float128(side, "L");
     if (lside)
 	nrowa = m;
     else
 	nrowa = n;
 
-    nounit = Mlsame_dd(diag, "N");
-    upper = Mlsame_dd(uplo, "U");
+    nounit = Mlsame___float128(diag, "N");
+    upper = Mlsame___float128(uplo, "U");
 
     info = 0;
-    if ((!lside) && (!Mlsame_dd(side, "R")))
+    if ((!lside) && (!Mlsame___float128(side, "R")))
 	info = 1;
-    else if ((!upper) && (!Mlsame_dd(uplo, "L")))
+    else if ((!upper) && (!Mlsame___float128(uplo, "L")))
 	info = 2;
-    else if ((!Mlsame_dd(transa, "N")) && (!Mlsame_dd(transa, "T"))
-	&& (!Mlsame_dd(transa, "C")))
+    else if ((!Mlsame___float128(transa, "N")) && (!Mlsame___float128(transa, "T"))
+	&& (!Mlsame___float128(transa, "C")))
 	info = 3;
-    else if ((!Mlsame_dd(diag, "U")) && (!Mlsame_dd(diag, "N")))
+    else if ((!Mlsame___float128(diag, "U")) && (!Mlsame___float128(diag, "N")))
 	info = 4;
     else if (m < 0)
 	info = 5;
     else if (n < 0)
 	info = 6;
-    else if (lda < max((mpackint) 1, nrowa))
+    else if (lda < mpack_max((mpackint) 1, nrowa))
 	info = 9;
-    else if (ldb < max((mpackint) 1, m))
+    else if (ldb < mpack_max((mpackint) 1, m))
 	info = 11;
     if (info != 0) {
-	Mxerbla_dd("Rtrsm ", info);
+	Mxerbla___float128("Rtrsm ", info);
 	return;
     }
     //quick return if possible.
@@ -133,7 +133,7 @@ Rtrsm(const char *side, const char *uplo, const char *transa, const char *diag,
     }
     //start the operations.
     if (lside) {
-	if (Mlsame_dd(transa, "N")) {
+	if (Mlsame___float128(transa, "N")) {
 	    //Form B := alpha*inv(A)*B.
 	    if (upper) {
 		for (mpackint j = 0; j < n; j++) {
@@ -205,7 +205,7 @@ Rtrsm(const char *side, const char *uplo, const char *transa, const char *diag,
 	    }
 	}
     } else {
-	if (Mlsame_dd(transa, "N")) {
+	if (Mlsame___float128(transa, "N")) {
 	    //Form B := alpha*B*inv(A).
 	    if (upper) {
 		for (mpackint j = 0; j < n; j++) {

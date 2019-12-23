@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rsytd2(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * d,
@@ -78,16 +78,16 @@ Rsytd2(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * 
     mpackint i;
 
     *info = 0;
-    upper = Mlsame_dd(uplo, "U");
-    if (!upper && !Mlsame_dd(uplo, "L")) {
+    upper = Mlsame___float128(uplo, "U");
+    if (!upper && !Mlsame___float128(uplo, "L")) {
 	*info = -1;
     } else if (n < 0) {
 	*info = -2;
-    } else if (lda < max((mpackint)1, n)) {
+    } else if (lda < mpack_max((mpackint)1, n)) {
 	*info = -4;
     }
     if (*info != 0) {
-	Mxerbla_dd("Rsytd2", -(*info));
+	Mxerbla___float128("Rsytd2", -(*info));
 	return;
     }
 //Quick return if possible
@@ -122,7 +122,7 @@ Rsytd2(const char *uplo, mpackint n, __float128 * A, mpackint lda, __float128 * 
 	for (i = 1; i <= n - 1; i++) {
 //Generate elementary reflector H(i) = I - tau * v * v'
 //to annihilate A(i+2:n,i)
-	    Rlarfg(n - i, &A[i + (i - 1) * lda], &A[min(i + 2,
+	    Rlarfg(n - i, &A[i + (i - 1) * lda], &A[mpack_min(i + 2,
 			n) - 1 + (i - 1) * lda], 1, &taui);
 	    e[i - 1] = A[i + (i - 1) * lda];
 	    if (taui != Zero) {

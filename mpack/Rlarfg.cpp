@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 #include <stdio.h> //for debugging
 void
 Rlarfg(mpackint N, __float128 * alpha, __float128 * x, mpackint incx, __float128 * tau)
@@ -87,7 +87,7 @@ Rlarfg(mpackint N, __float128 * alpha, __float128 * x, mpackint incx, __float128
 	*tau = 0.0;
     } else {
 	beta = -1.0 * Msign(Rlapy2(*alpha, xnorm), *alpha);
-	safmin = Rlamch_dd("S") / Rlamch_dd("E");
+	safmin = Rlamch___float128("S") / Rlamch___float128("E");
 
 //XNORM, BETA may be inaccurate; scale X and recompute them
 	if (abs(beta) < safmin) {

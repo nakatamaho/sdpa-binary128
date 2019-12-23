@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 #include <sdpa_dataset.h>
 #include <sdpa_parts.h>
+#define BINARY128BUFFER 10240
 
 namespace sdpa {
 
@@ -74,11 +75,11 @@ void Solutions::initialize(int m,
   invCholeskyX.initialize(SDP_nBlock,SDP_blockStruct,
 			  SOCP_nBlock,SOCP_blockStruct,
 			  LP_nBlock);
-  invCholeskyX.setIdentity(1.0/sqrt(lambda));
+  invCholeskyX.setIdentity(1.0/sqrtq(lambda));
   invCholeskyZ.initialize(SDP_nBlock,SDP_blockStruct,
 			  SOCP_nBlock,SOCP_blockStruct,
 			  LP_nBlock);
-  invCholeskyZ.setIdentity(1.0/sqrt(lambda));
+  invCholeskyZ.setIdentity(1.0/sqrtq(lambda));
   invzMat.initialize(SDP_nBlock,SDP_blockStruct,
 		     SOCP_nBlock,SOCP_blockStruct,
 		     LP_nBlock);
@@ -779,6 +780,7 @@ void Residuals::compute(int m,
 
 void Residuals::display(FILE* fpout)
 {
+  char tmpbuffer[BINARY128BUFFER];
   if (fpout == NULL) {
     return;
   }
@@ -786,10 +788,10 @@ void Residuals::display(FILE* fpout)
   primalVec.display(fpout);
   fprintf(fpout," currentRes.dualMat = \n");
   dualMat.display(fpout);
-
-  fprintf(fpout," currentRes.normPrimalVec = %8.3e\n",
-	  normPrimalVec.x[0]);
-  fprintf(fpout," currentRes.normDualMat = %8.3e\n", normDualMat.x[0]);
+  quadmath_snprintf(tmpbuffer,BINARY128BUFFER,"%8.3Qe",normPrimalVec);
+  fprintf(fpout," currentRes.normPrimalVec = %s\n",tmpbuffer);
+  quadmath_snprintf(tmpbuffer,BINARY128BUFFER,"%8.3Qe",normDualMat);
+  fprintf(fpout," currentRes.normDualMat = %s\n", tmpbuffer);
 }
 
 

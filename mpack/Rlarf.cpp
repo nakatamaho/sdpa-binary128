@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rlarf(const char *side, mpackint m, mpackint n, __float128 * v, mpackint incv, __float128 tau,
@@ -73,7 +73,7 @@ Rlarf(const char *side, mpackint m, mpackint n, __float128 * v, mpackint incv, _
 {
     __float128 One = 1.0, Zero = 0.0;
 
-    if (Mlsame_dd(side, "L")) {
+    if (Mlsame___float128(side, "L")) {
 //Form  H * C
 	if (tau != Zero) {
 //w := C' * v

@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rlatrd(const char *uplo, mpackint n, mpackint nb, __float128 * A, mpackint lda, __float128 * e,
@@ -79,7 +79,7 @@ Rlatrd(const char *uplo, mpackint n, mpackint nb, __float128 * A, mpackint lda, 
     if (n <= 0)
 	return;
 
-    if (Mlsame_dd(uplo, "U")) {
+    if (Mlsame___float128(uplo, "U")) {
 //Reduce last NB columns of upper triangle
 	for (i = n; i >= n - nb + 1; i--) {
 	    iw = i - n + nb;
@@ -137,7 +137,7 @@ Rlatrd(const char *uplo, mpackint n, mpackint nb, __float128 * A, mpackint lda, 
 	    if (i < n) {
 //Generate elementary reflector H(i) to annihilate 
 //A(i+2:n,i)
-	        Rlarfg(n - i, &A[i + (i - 1) * lda], &A[min(i + 2,
+	        Rlarfg(n - i, &A[i + (i - 1) * lda], &A[mpack_min(i + 2,
 			    n) - 1 + (i - 1) * lda], 1, &tau[i - 1]);
 		e[i - 1] = A[i + (i - 1) * lda];
 		A[i + (i - 1) * lda] = One;

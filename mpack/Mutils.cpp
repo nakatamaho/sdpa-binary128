@@ -27,148 +27,55 @@
  *
  ************************************************************************/
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
-
-#define ___MPACK_BUILD_WITH_DD___
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 __float128
 mpf_approx_log2(__float128 x)
 {
-#if defined ___MPACK_BUILD_WITH_GMP___
-    double d;
-    double ln2_app;
-    signed long int exp;
-
-    d = mpf_get_d_2exp(&exp, x.get_mpf_t());
-    ln2_app = (double)exp + log10(d) / log10(2);
-    return ln2_app;
-#endif
-#if defined ___MPACK_BUILD_WITH_QD___
-  return log10(x) / (qd_real::_log2/qd_real::_log10);
-#endif
-#if defined ___MPACK_BUILD_WITH_DD___
-  return log10(x) / (__float128::_log2/__float128::_log10);
-#endif
+  return log2q(x);
 }
 
 __float128
 mpf_approx_log(__float128 x)
 {
-#if defined ___MPACK_BUILD_WITH_GMP___
-    double d;
-    double ln_app;
-    signed long int exp;
-
-    d = mpf_get_d_2exp(&exp, x.get_mpf_t());
-    ln_app = (double)exp * log (2.0) + log(d);
-    return ln_app;
-#endif
-#if defined ___MPACK_BUILD_WITH_QD___
-    return log(x);
-#endif
-#if defined ___MPACK_BUILD_WITH_DD___
-    return log(x);
-#endif
+    return logq(x);
 }
 
 __float128
 mpf_approx_log10(__float128 x)
 {
-#if defined ___MPACK_BUILD_WITH_GMP___
-    double d;
-    double ln10_app;
-    signed long int exp;
-
-    d = mpf_get_d_2exp(&exp, x.get_mpf_t());
-    ln10_app = (double)exp * log10(2.0) + log10(d);
-    return ln10_app;
-#endif
-#if defined ___MPACK_BUILD_WITH_QD___
-    return log10(x);
-#endif
-#if defined ___MPACK_BUILD_WITH_DD___
-    return log10(x);
-#endif
+    return log10q(x);
 }
 
 __float128
 mpf_approx_pow(__float128 x, __float128 y)
 {
-#if defined ___MPACK_BUILD_WITH_GMP___
-    __float128 mtemp1, mtemp2;
-    mtemp1 = y * mpf_approx_log(x);
-    mtemp2 = mpf_approx_exp(mtemp1);
-    return mtemp2;
-#endif
-#if defined ___MPACK_BUILD_WITH_QD___
-    return pow(x, y);
-#endif
-#if defined ___MPACK_BUILD_WITH_DD___
-    return pow(x, y);
-#endif
+    return powq(x, y);
 }
 
 __float128
 mpf_approx_cos(__float128 x)
 {
-#if defined ___MPACK_BUILD_WITH_GMP___
-    __float128 mtemp1;
-    mtemp1 = cos(x.get_d());
-    return mtemp1;
-#endif
-#if defined ___MPACK_BUILD_WITH_QD___
-    return cos(x);
-#endif
-#if defined ___MPACK_BUILD_WITH_DD___
-    return cos(x);
-#endif
+    return cosq(x);
 }
 
 __float128
 mpf_approx_sin(__float128 x)
 {
-#if defined ___MPACK_BUILD_WITH_GMP___
-    __float128 mtemp1;
-    mtemp1 = sin(x.get_d());
-    return mtemp1;
-#endif
-#if defined ___MPACK_BUILD_WITH_QD___
-    return sin(x);
-#endif
-#if defined ___MPACK_BUILD_WITH_DD___
-    return sin(x);
-#endif
+    return sinq(x);
 }
 
 __float128
 mpf_approx_exp(__float128 x)
 {
-#if defined ___MPACK_BUILD_WITH_GMP___
-    __float128 mtemp1;
-    mtemp1 = exp(x.get_d());
-    return mtemp1;
-#endif
-#if defined ___MPACK_BUILD_WITH_QD___
-    return exp(x);
-#endif
-#if defined ___MPACK_BUILD_WITH_DD___
-    return exp(x);
-#endif
+    return expq(x);
 }
 
 __float128
 mpf_approx_pi()
 {
-#if defined ___MPACK_BUILD_WITH_GMP___
     __float128 mtemp1;
-    mtemp1 = M_PI;
+    mtemp1 = M_PIq;
     return mtemp1;
-#endif
-#if defined ___MPACK_BUILD_WITH_QD___
-    return qd_real::_pi;
-#endif
-#if defined ___MPACK_BUILD_WITH_DD___
-    return __float128::_pi;
-#endif
 }

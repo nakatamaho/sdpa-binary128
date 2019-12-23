@@ -66,8 +66,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // http://www.netlib.org/lapack/double/dlaev2.f
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 #include <stdio.h> //for printf. shall be removed
 
 void
@@ -98,12 +98,12 @@ Rlaev2(__float128 a, __float128 b, __float128 c, __float128 * rt1, __float128 * 
 	acmn = a;
     }
     if (adf > ab) {
-	rt = adf * sqrt(one + (ab / adf) * (ab / adf));
+	rt = adf * sqrtq(one + (ab / adf) * (ab / adf));
     } else if (adf < ab) {
-	rt = ab * sqrt(one + (adf / ab) * (adf / ab));
+	rt = ab * sqrtq(one + (adf / ab) * (adf / ab));
     } else {
 //Includes case AB=ADF=0
-	rt = ab * sqrt(two);
+	rt = ab * sqrtq(two);
     }
     if (sm < zero) {
 	*rt1 = half * (sm - rt);
@@ -136,7 +136,7 @@ Rlaev2(__float128 a, __float128 b, __float128 c, __float128 * rt1, __float128 * 
     acs = abs(cs);
     if (acs > ab) {
 	ct = -tb / cs;
-	*sn1 = one / sqrt(one + ct * ct);
+	*sn1 = one / sqrtq(one + ct * ct);
 	*cs1 = ct * (*sn1);
     } else {
 	if (ab == zero) {
@@ -146,7 +146,7 @@ Rlaev2(__float128 a, __float128 b, __float128 c, __float128 * rt1, __float128 * 
 	    printf("#Rlaev2 Checkpoint 13 Not checked\n");
             exit(1);
 	    tn = -cs / tb;
-	    *cs1 = one / sqrt(one + tn * tn);
+	    *cs1 = one / sqrtq(one + tn * tn);
 	    *sn1 = tn * (*cs1);
 	}
     }

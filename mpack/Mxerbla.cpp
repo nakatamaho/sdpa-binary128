@@ -28,10 +28,10 @@
  ************************************************************************/
 /*
 Based on http://www.netlib.org/blas/xerbla.f
-Mxerbla_dd is an error handler for the Mlapack routines.
+Mxerbla___float128 is an error handler for the Mlapack routines.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 #include <stdio.h>
 
 #if !defined  __MPACK_ERRNO__
@@ -40,7 +40,7 @@ int mpack_errno;
 #endif
 
 void
-Mxerbla_dd(const char *srname, int info)
+Mxerbla___float128(const char *srname, int info)
 {
     fprintf(stderr,
 	" ** On entry to %s parameter number %2d had an illegal value\n",

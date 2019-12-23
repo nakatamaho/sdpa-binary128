@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rpotrf(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *info)
@@ -75,16 +75,16 @@ Rpotrf(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *inf
     __float128 Zero = 0.0, One = 1.0;
 
     *info = 0;
-    upper = Mlsame_dd(uplo, "U");
-    if (!upper && !Mlsame_dd(uplo, "L")) {
+    upper = Mlsame___float128(uplo, "U");
+    if (!upper && !Mlsame___float128(uplo, "L")) {
 	*info = -1;
     } else if (n < 0) {
 	*info = -2;
-    } else if (lda < max((mpackint)1, n)) {
+    } else if (lda < mpack_max((mpackint)1, n)) {
 	*info = -4;
     }
     if (*info != 0) {
-	Mxerbla_dd("Rpotrf", -(*info));
+	Mxerbla___float128("Rpotrf", -(*info));
 	return;
     }
 //Quick return if possible
@@ -92,7 +92,7 @@ Rpotrf(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *inf
 	return;
 
 //Determine the block size for this environment.
-    nb = iMlaenv_dd(1, "Rpotrf", uplo, n, -1, -1, -1);
+    nb = iMlaenv___float128(1, "Rpotrf", uplo, n, -1, -1, -1);
     if (nb <= 1 || nb >= n) {
 //Use unblocked code.
 	Rpotf2(uplo, n, A, lda, info);
@@ -103,7 +103,7 @@ Rpotrf(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *inf
 	    for (j = 1; j <= n; j = j + nb) {
 //Update and factorize the current diagonal block and test
 //for non-positive-definiteness.
-	        jb = min(nb, n - j + 1);
+	        jb = mpack_min(nb, n - j + 1);
 		Rsyrk("Upper", "Transpose", jb, j - 1, -One,
 		    &A[0 + (j - 1) * lda], lda, One,
 		    &A[(j - 1) + (j - 1) * lda], lda);
@@ -127,7 +127,7 @@ Rpotrf(const char *uplo, mpackint n, __float128 * A, mpackint lda, mpackint *inf
 	    for (j = 1; j <= n; j = j + nb) {
 //Update and factorize the current diagonal block and test
 //for non-positive-definiteness.
-	        jb = min(nb, n - j + 1);
+	        jb = mpack_min(nb, n - j + 1);
 		Rsyrk("Lower", "No transpose", jb, j - 1, -One, &A[(j - 1) +
 			0 * lda], lda, One, &A[(j - 1) + (j - 1) * lda], lda);
 		Rpotf2("Lower", jb, &A[(j - 1) + (j - 1) * lda], lda, info);

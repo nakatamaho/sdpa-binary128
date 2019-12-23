@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 #include <stdio.h> //for printf
 
 void
@@ -85,11 +85,11 @@ Rlartg(__float128 f, __float128 g, __float128 * cs, __float128 * sn, __float128 
     __float128 safmn2;
     __float128 safmx2, eps, scale;
 
-    safmin = Rlamch_dd("S");
-    eps = Rlamch_dd("E");
+    safmin = Rlamch___float128("S");
+    eps = Rlamch___float128("E");
 // SAFMN2 = DLAMCH( 'B' )**INT( LOG( SAFMIN / EPS ) / LOG( DLAMCH( 'B' ) ) / TWO );
-//        ~ 2^(ln(safmin/eps) / 2ln2 ) (dlamchB=2)  = sqrt(safmin/eps).
-    safmn2 = sqrt(safmin / eps);
+//        ~ 2^(ln(safmin/eps) / 2ln2 ) (dlamchB=2)  = sqrtq(safmin/eps).
+    safmn2 = sqrtq(safmin / eps);
     safmx2 = 1.0 / safmn2;
 
     if (g == Zero) {
@@ -103,7 +103,7 @@ Rlartg(__float128 f, __float128 g, __float128 * cs, __float128 * sn, __float128 
     } else {
 	f1 = f;
 	g1 = g;
-	scale = max(abs(f1), abs(g1));
+	scale = mpack_max(abs(f1), abs(g1));
 	count = 0;
 	if (scale >= safmx2) {
 	    printf("#XXX Rlartg :1: not yet implemented.\n");
@@ -111,11 +111,11 @@ Rlartg(__float128 f, __float128 g, __float128 * cs, __float128 * sn, __float128 
 		count++;
 		f1 = f1 * safmn2;
 		g1 = g1 * safmn2;
-		scale = max(abs(f1), abs(g1));
+		scale = mpack_max(abs(f1), abs(g1));
 		if (scale >= safmx2)
 		    continue;
 
-		*r = sqrt(f1 * f1 + g1 * g1);
+		*r = sqrtq(f1 * f1 + g1 * g1);
 		*cs = f1 / (*r);
 		*sn = g1 / (*r);
 		for (i = 0; i < count; i++) {
@@ -129,10 +129,10 @@ Rlartg(__float128 f, __float128 g, __float128 * cs, __float128 * sn, __float128 
 		count++;
 		f1 = f1 * safmx2;
 		g1 = g1 * safmn2;
-		scale = max(abs(f1), abs(g1));
+		scale = mpack_max(abs(f1), abs(g1));
 		if (scale >= safmx2)
 		    continue;
-		*r = sqrt(f1 * f1 + g1 * g1);
+		*r = sqrtq(f1 * f1 + g1 * g1);
 		*cs = f1 / (*r);
 		*sn = g1 / (*r);
 		for (i = 0; i < count; i++) {
@@ -141,7 +141,7 @@ Rlartg(__float128 f, __float128 g, __float128 * cs, __float128 * sn, __float128 
 		break;
 	    }
 	} else {
-	    *r = sqrt(f1 * f1 + g1 * g1);
+	    *r = sqrtq(f1 * f1 + g1 * g1);
 	    *cs = f1 / (*r);
 	    *sn = g1 / (*r);
 	}

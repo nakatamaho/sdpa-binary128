@@ -69,7 +69,7 @@ Based on http://www.netlib.org/blas/ddot.f
 Rdot forms the dot product of two vectors.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 __float128
 Rdot(mpackint n, __float128 * dx, mpackint incx, __float128 * dy, mpackint incy)

@@ -72,7 +72,7 @@ where alpha is a scalar, x is an m element vector, y is an n element
 vector and A is an m by n matrix.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 void
 Rger(mpackint m, mpackint n, __float128 alpha, __float128 * x, mpackint incx, __float128 * y,
@@ -93,10 +93,10 @@ Rger(mpackint m, mpackint n, __float128 alpha, __float128 * x, mpackint incx, __
 	info = 5;
     else if (incy == 0)
 	info = 7;
-    else if (lda < max((mpackint) 1, m))
+    else if (lda < mpack_max((mpackint) 1, m))
 	info = 9;
     if (info != 0) {
-	Mxerbla_dd("Rger  ", info);
+	Mxerbla___float128("Rger  ", info);
 	return;
     }
     //quick return if possible.

@@ -65,11 +65,11 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
-#ifndef max
-#define max(a,b) (((a)>(b))?(a):(b))
+#ifndef mpack_max
+#define mpack_max(a,b) (((a)>(b))?(a):(b))
 #endif
 #ifndef min
 #define min(a,b) (((a)<(b))?(a):(b))
@@ -86,27 +86,27 @@ Rlanst(const char *norm, mpackint n, __float128 * d, __float128 * e)
 
     if (n <= 0) {
 	anorm = Zero;
-    } else if (Mlsame_dd(norm, "M")) {
-//Find max(abs(A(i,j))).
+    } else if (Mlsame___float128(norm, "M")) {
+//Find mpack_max(abs(A(i,j))).
 	anorm = abs(d[n - 1]);
 	for (i = 0; i < n - 1; i++) {
 	    mtmp1 = abs(d[i]);
 	    mtmp2 = abs(e[i]);
-	    anorm = max(anorm, mtmp1);
-	    anorm = max(anorm, mtmp2);
-//          anorm = max(anorm, abs(d[i]));
-//          anorm = max(anorm, abs(e[i]));
+	    anorm = mpack_max(anorm, mtmp1);
+	    anorm = mpack_max(anorm, mtmp2);
+//          anorm = mpack_max(anorm, abs(d[i]));
+//          anorm = mpack_max(anorm, abs(e[i]));
 	}
-    } else if (Mlsame_dd(norm, "O") || Mlsame_dd(norm, "1") || Mlsame_dd(norm, "I")) {
+    } else if (Mlsame___float128(norm, "O") || Mlsame___float128(norm, "1") || Mlsame___float128(norm, "I")) {
 	if (n == 1) {
 	    anorm = abs(d[0]);
 	} else {
-	    anorm = max(abs(d[0]) + abs(e[0]), abs(e[n - 2]) + abs(d[n - 1]));
+	    anorm = mpack_max(abs(d[0]) + abs(e[0]), abs(e[n - 2]) + abs(d[n - 1]));
 	    for (i = 1; i < n - 1; i++) {
-		anorm = max(anorm, abs(d[i]) + abs(e[i]) + abs(e[i - 1]));
+		anorm = mpack_max(anorm, abs(d[i]) + abs(e[i]) + abs(e[i - 1]));
 	    }
 	}
-    } else if (Mlsame_dd(norm, "F") || Mlsame_dd(norm, "E")) {
+    } else if (Mlsame___float128(norm, "F") || Mlsame___float128(norm, "E")) {
 //Find normF(A).
 	scale = Zero;
 	sum = One;
@@ -115,7 +115,7 @@ Rlanst(const char *norm, mpackint n, __float128 * d, __float128 * e)
 	    sum *= 2.0;
 	}
 	Rlassq(n, d, 1, &scale, &sum);
-	anorm = scale * sqrt(sum);
+	anorm = scale * sqrtq(sum);
     }
     return anorm;
 }

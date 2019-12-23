@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 __float128
 Rlapy2(__float128 x, __float128 y)
@@ -78,12 +78,12 @@ Rlapy2(__float128 x, __float128 y)
 
     xabs = abs(x);
     yabs = abs(y);
-    w = max(xabs, yabs);
-    z = min(xabs, yabs);
+    w = mpack_max(xabs, yabs);
+    z = mpack_min(xabs, yabs);
     if (z == Zero) {
 	return w;
     } else {
-	w = w * sqrt(One + (z / w) * (z / w));
+	w = w * sqrtq(One + (z / w) * (z / w));
 	return w;
     }
 //not reached

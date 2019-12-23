@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 __float128
 Rlansy(const char *norm, const char *uplo, mpackint n, __float128 * A, mpackint lda,
@@ -80,28 +80,28 @@ Rlansy(const char *norm, const char *uplo, mpackint n, __float128 * A, mpackint 
 	value = Zero;
 	return value;
     }
-    if (Mlsame_dd(norm, "M")) {
-//Find max(abs(A(i,j))).
+    if (Mlsame___float128(norm, "M")) {
+//Find mpack_max(abs(A(i,j))).
 	value = Zero;
-	if (Mlsame_dd(uplo, "U")) {
+	if (Mlsame___float128(uplo, "U")) {
 	    for (j = 0; j < n; j++) {
 		for (i = 0; i <= j; i++) {
 		    mtmp = abs(A[i + j * lda]);
-		    value = max(value, mtmp);
+		    value = mpack_max(value, mtmp);
 		}
 	    }
 	} else {
 	    for (j = 0; j < n; j++) {
 		for (i = j; i < n; i++) {
 		    mtmp = abs(A[i + j * lda]);
-		    value = max(value, mtmp);
+		    value = mpack_max(value, mtmp);
 		}
 	    }
 	}
-    } else if (Mlsame_dd(norm, "I") || Mlsame_dd(norm, "O") || Mlsame_dd(norm, "1")) {
+    } else if (Mlsame___float128(norm, "I") || Mlsame___float128(norm, "O") || Mlsame___float128(norm, "1")) {
 // Find normI(A) ( = norm1(A), since A is symmetric).
 	value = Zero;
-	if (Mlsame_dd(uplo, "U")) {
+	if (Mlsame___float128(uplo, "U")) {
 	    for (j = 0; j < n; j++) {
 		sum = Zero;
 		for (i = 0; i < j; i++) {
@@ -112,7 +112,7 @@ Rlansy(const char *norm, const char *uplo, mpackint n, __float128 * A, mpackint 
 		work[j] = sum + abs(A[j + j * lda]);
 	    }
 	    for (i = 0; i < n; i++) {
-		value = max(value, work[i]);
+		value = mpack_max(value, work[i]);
 	    }
 	} else {
 	    for (i = 0; i < n; i++) {
@@ -125,14 +125,14 @@ Rlansy(const char *norm, const char *uplo, mpackint n, __float128 * A, mpackint 
 		    sum += absa;
 		    work[i] += absa;
 		}
-		value = max(value, sum);
+		value = mpack_max(value, sum);
 	    }
 	}
-    } else if (Mlsame_dd(norm, "F") || Mlsame_dd(norm, "E")) {
+    } else if (Mlsame___float128(norm, "F") || Mlsame___float128(norm, "E")) {
 //Find normF(A).
 	scale = Zero;
 	sum = One;
-	if (Mlsame_dd(uplo, "U")) {
+	if (Mlsame___float128(uplo, "U")) {
 	    for (j = 1; j < n; j++) {
 		Rlassq(j, &A[j * lda], 1, &scale, &sum);
 	    }
@@ -143,7 +143,7 @@ Rlansy(const char *norm, const char *uplo, mpackint n, __float128 * A, mpackint 
 	}
 	sum *= 2.0;
 	Rlassq(n, A, lda + 1, &scale, &sum);
-	value = scale * sqrt(sum);
+	value = scale * sqrtq(sum);
     }
     return value;
 }

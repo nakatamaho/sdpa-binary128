@@ -27,8 +27,8 @@
  *
  ************************************************************************/
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 #include <stdlib.h>
 
 int
@@ -59,20 +59,20 @@ void
 Rlasrt(const char *id, mpackint n, __float128 * d, mpackint *info)
 {
     //Error check
-    if (!Mlsame_dd(id, "I") && !Mlsame_dd(id, "D")) {
+    if (!Mlsame___float128(id, "I") && !Mlsame___float128(id, "D")) {
 	*info = -1;
-	Mxerbla_dd("Rlasrt", -(*info));
+	Mxerbla___float128("Rlasrt", -(*info));
 	return;
     }
     if (n < 0) {
 	*info = -2;
-	Mxerbla_dd("Rlasrt", -(*info));
+	Mxerbla___float128("Rlasrt", -(*info));
 	return;
     }
-    if (Mlsame_dd(id, "I")) {
+    if (Mlsame___float128(id, "I")) {
 	qsort(d, n, sizeof(__float128), (int (*)(const void *, const void *))compare_mpf_gt);
     }
-    if (Mlsame_dd(id, "d")) {
+    if (Mlsame___float128(id, "d")) {
 	qsort(d, n, sizeof(__float128), (int (*)(const void *, const void *))compare_mpf_lt);
     }
     *info = 0;

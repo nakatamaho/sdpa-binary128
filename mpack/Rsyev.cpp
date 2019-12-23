@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rsyev(const char *jobz, const char *uplo, mpackint n, __float128 * A,
@@ -80,34 +80,34 @@ Rsyev(const char *jobz, const char *uplo, mpackint n, __float128 * A,
     __float128 sigma, anrm;
     __float128 rtmp;
 
-    wantz = Mlsame_dd(jobz, "V");
-    lower = Mlsame_dd(uplo, "L");
+    wantz = Mlsame___float128(jobz, "V");
+    lower = Mlsame___float128(uplo, "L");
     lquery = 0;
     if (*lwork == -1)
 	lquery = 1;
 
     *info = 0;
-    if (!(wantz || Mlsame_dd(jobz, "N"))) {
+    if (!(wantz || Mlsame___float128(jobz, "N"))) {
 	*info = -1;
-    } else if (!(lower || Mlsame_dd(uplo, "U"))) {
+    } else if (!(lower || Mlsame___float128(uplo, "U"))) {
 	*info = -2;
     } else if (n < 0) {
 	*info = -3;
-    } else if (lda < max((mpackint)1, n)) {
+    } else if (lda < mpack_max((mpackint)1, n)) {
 	*info = -5;
     }
 
     if (*info == 0) {
-	nb = iMlaenv_dd(1, "Rsytrd", uplo, n, -1, -1, -1);
-        lwkopt = max((mpackint)1, (nb + 2) * n);
+	nb = iMlaenv___float128(1, "Rsytrd", uplo, n, -1, -1, -1);
+        lwkopt = mpack_max((mpackint)1, (nb + 2) * n);
 	work[0] = (double)lwkopt;	//needs cast mpackint to mpf
-	if (*lwork < max((mpackint)1, 3 * n - 1) && !lquery) {
+	if (*lwork < mpack_max((mpackint)1, 3 * n - 1) && !lquery) {
 	    *info = -8;
 	}
     }
 
     if (*info != 0) {
-	Mxerbla_dd("Rsyev ", -(*info));
+	Mxerbla___float128("Rsyev ", -(*info));
 	return;
     } else if (lquery) {
 	return;
@@ -125,12 +125,12 @@ Rsyev(const char *jobz, const char *uplo, mpackint n, __float128 * A,
 	return;
     }
 //Get machine constants.
-    safmin = Rlamch_dd("Safe minimum");
-    eps = Rlamch_dd("Precision");
+    safmin = Rlamch___float128("Safe minimum");
+    eps = Rlamch___float128("Precision");
     smlnum = safmin / eps;
     bignum = One / smlnum;
-    rmin = sqrt(smlnum);
-    rmax = sqrt(bignum);
+    rmin = sqrtq(smlnum);
+    rmax = sqrtq(bignum);
 
 //Scale matrix to allowable range, if necessary.
     anrm = Rlansy("M", uplo, n, A, lda, work);

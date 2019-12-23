@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rorgql(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float128 * tau,
@@ -88,7 +88,7 @@ Rorgql(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float
 	*info = -2;
     } else if (k < 0 || k > n) {
 	*info = -3;
-    } else if (lda < max((mpackint)1, m)) {
+    } else if (lda < mpack_max((mpackint)1, m)) {
 	*info = -5;
     }
 
@@ -96,16 +96,16 @@ Rorgql(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float
 	if (n == 0) {
 	    lwkopt = 1;
 	} else {
-	    nb = iMlaenv_dd(1, "Rorgql", " ", m, n, k, -1);
+	    nb = iMlaenv___float128(1, "Rorgql", " ", m, n, k, -1);
 	    lwkopt = n * nb;
 	}
 	work[0] = (double)lwkopt;	//needs cast mpackint to mpf
-	if (lwork < max((mpackint)1, n) && !lquery) {
+	if (lwork < mpack_max((mpackint)1, n) && !lquery) {
 	    *info = -8;
 	}
     }
     if (*info != 0) {
-	Mxerbla_dd("Rorgql", -(*info));
+	Mxerbla___float128("Rorgql", -(*info));
 	return;
     } else if (lquery) {
 	return;
@@ -118,7 +118,7 @@ Rorgql(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float
     iws = n;
     if (nb > 1 && nb < k) {
 //Determine when to cross over from blocked to unblocked code.
-        nx = max((mpackint)0, iMlaenv_dd(3, "Rorgql", " ", m, n, k, -1));
+        nx = mpack_max((mpackint)0, iMlaenv___float128(3, "Rorgql", " ", m, n, k, -1));
 	if (nx < k) {
 //Determine if workspace is large enough for blocked code.
 	    ldwork = n;
@@ -127,14 +127,14 @@ Rorgql(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float
 //Not enough workspace to use optimal NB:  reduce NB and
 //determine the minimum value of NB.
 		nb = lwork / ldwork;
-	        nbmin = max((mpackint)2, iMlaenv_dd(2, "Rorgql", " ", m, n, k, -1));
+	        nbmin = mpack_max((mpackint)2, iMlaenv___float128(2, "Rorgql", " ", m, n, k, -1));
 	    }
 	}
     }
     if (nb >= nbmin && nb < k && nx < k) {
 //Use blocked code after the first block.
 //The last kk columns are handled by the block method.
-        kk = min(k, (k - nx + nb - 1) / nb * nb);
+        kk = mpack_min(k, (k - nx + nb - 1) / nb * nb);
 //Set A(m-kk+1:m,1:n-kk) to zero.
 	for (j = 1; j <= n - kk; j++) {
 	    for (i = m - kk + 1; i <= m; i++) {
@@ -148,7 +148,7 @@ Rorgql(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float
     Rorg2l(m - kk, n - kk, k - kk, A, lda, tau, work, &iinfo);
     if (kk > 0) {
 	for (i = k - kk + 1; i <= k; i = i + nb) {
-	    ib = min(nb, k - i + 1);
+	    ib = mpack_min(nb, k - i + 1);
 	    if (n - k + i > 1) {
 //Form the triangular factor of the block reflector
 //H = H(i+ib-1) . . . H(i+1) H(i)

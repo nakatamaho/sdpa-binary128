@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 #include <stdio.h> //for untested part
 void
 Rsterf(mpackint n, __float128 * d, __float128 * e, mpackint *info)
@@ -86,18 +86,18 @@ Rsterf(mpackint n, __float128 * d, __float128 * e, mpackint *info)
 //Quick return if possible
     if (n < 0) {
 	*info = -1;
-	Mxerbla_dd("Rsterf", -(*info));
+	Mxerbla___float128("Rsterf", -(*info));
 	return;
     }
     if (n <= 1)
 	return;
 //Determine the unit roundoff for this environment.
-    eps = Rlamch_dd("E");
+    eps = Rlamch___float128("E");
     eps2 = eps * eps;
-    safmin = Rlamch_dd("S");
+    safmin = Rlamch___float128("S");
     safmax = One / safmin;
-    ssfmax = sqrt(safmax) / Three;
-    ssfmin = sqrt(safmin) / eps2;
+    ssfmax = sqrtq(safmax) / Three;
+    ssfmin = sqrtq(safmin) / eps2;
 //Compute the eigenvalues of the tridiagonal matrix.
     nmaxit = n * 30;
     sigma = Zero;
@@ -114,7 +114,7 @@ Rsterf(mpackint n, __float128 * d, __float128 * e, mpackint *info)
 	e[l1 - 2] = Zero;
     }
     for (m = l1; m <= n - 1; m++) {
-	if (abs(e[m - 1]) <= sqrt(abs(d[m - 1])) * sqrt(abs(d[m])) * eps) {
+	if (abs(e[m - 1]) <= sqrtq(abs(d[m - 1])) * sqrtq(abs(d[m])) * eps) {
 	    e[m - 1] = Zero;
 	    goto L30;
 	}
@@ -174,7 +174,7 @@ Rsterf(mpackint n, __float128 * d, __float128 * e, mpackint *info)
 //If remaining matrix is 2 by 2, use DLAE2 to compute its
 //eigenvalues.
 	if (m == l + 1) {
-	    rte = sqrt(e[l - 1]);
+	    rte = sqrtq(e[l - 1]);
 	    Rlae2(d[l - 1], rte, d[l], &rt1, &rt2);
 	    d[l - 1] = rt1;
 	    d[l] = rt2;
@@ -190,7 +190,7 @@ Rsterf(mpackint n, __float128 * d, __float128 * e, mpackint *info)
 	}
 	jtot++;
 //Form shift.
-	rte = sqrt(e[l - 1]);
+	rte = sqrtq(e[l - 1]);
 	sigma = (d[l] - p) / (rte * Two);
 	r = Rlapy2(sigma, One);
 	sigma = p - rte / (sigma + Msign(r, sigma));
@@ -250,7 +250,7 @@ Rsterf(mpackint n, __float128 * d, __float128 * e, mpackint *info)
 //If remaining matrix is 2 by 2, use DLAE2 to compute its
 //eigenvalues.
 	if (m == l - 1) {
-	    rte = sqrt(e[l - 2]);
+	    rte = sqrtq(e[l - 2]);
 	    Rlae2(d[l - 1], rte, d[l - 2], &rt1, &rt2);
 	    d[l - 1] = rt1;
 	    d[l - 2] = rt2;
@@ -267,7 +267,7 @@ Rsterf(mpackint n, __float128 * d, __float128 * e, mpackint *info)
 	}
 	jtot++;
 //Form shift.
-	rte = sqrt(e[l - 2]);
+	rte = sqrtq(e[l - 2]);
 	sigma = (d[l - 2] - p) / (rte * Two);
 	r = Rlapy2(sigma, One);
 	sigma = p - rte / (sigma + Msign(r, sigma));

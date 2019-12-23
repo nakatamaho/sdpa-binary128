@@ -75,7 +75,7 @@ and  A and B  are  n by k  matrices  in the  first  case  and  k by n
 matrices in the second case.
 */
 
-#include <mblas_dd.h>
+#include <mblas___float128.h>
 
 void
 Rsyr2k(const char *uplo, const char *trans, mpackint n, mpackint k, __float128 alpha,
@@ -88,30 +88,30 @@ Rsyr2k(const char *uplo, const char *trans, mpackint n, mpackint k, __float128 a
     __float128 temp1, temp2;
 
     //test the input parameters.
-    if (Mlsame_dd(trans, "N"))
+    if (Mlsame___float128(trans, "N"))
 	nrowa = n;
     else
 	nrowa = k;
-    upper = Mlsame_dd(uplo, "U");
+    upper = Mlsame___float128(uplo, "U");
 
     info = 0;
-    if ((!upper) && (!Mlsame_dd(uplo, "L")))
+    if ((!upper) && (!Mlsame___float128(uplo, "L")))
 	info = 1;
-    else if ((!Mlsame_dd(trans, "N")) && (!Mlsame_dd(trans, "T"))
-	&& (!Mlsame_dd(trans, "C")))
+    else if ((!Mlsame___float128(trans, "N")) && (!Mlsame___float128(trans, "T"))
+	&& (!Mlsame___float128(trans, "C")))
 	info = 2;
     else if (n < 0)
 	info = 3;
     else if (k < 0)
 	info = 4;
-    else if (lda < max((mpackint) 1, nrowa))
+    else if (lda < mpack_max((mpackint) 1, nrowa))
 	info = 7;
-    else if (ldb < max((mpackint) 1, nrowa))
+    else if (ldb < mpack_max((mpackint) 1, nrowa))
 	info = 9;
-    else if (ldc < max((mpackint) 1, n))
+    else if (ldc < mpack_max((mpackint) 1, n))
 	info = 12;
     if (info != 0) {
-	Mxerbla_dd("Rsyr2k", info);
+	Mxerbla___float128("Rsyr2k", info);
 	return;
     }
     //quick return if possible.
@@ -152,7 +152,7 @@ Rsyr2k(const char *uplo, const char *trans, mpackint n, mpackint k, __float128 a
 	return;
     }
     //start the operations.
-    if (Mlsame_dd(trans, "N")) {
+    if (Mlsame___float128(trans, "N")) {
 	//form C:= alpha*A*B' + alpha*B*A'+C.
 	if (upper) {
 	    for (mpackint j = 0; j < n; j++) {

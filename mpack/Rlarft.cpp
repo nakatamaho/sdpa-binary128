@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rlarft(const char *direct, const char *storev, mpackint n, mpackint k, __float128 * v,
@@ -79,7 +79,7 @@ Rlarft(const char *direct, const char *storev, mpackint n, mpackint k, __float12
     if (n == 0)
 	return;
 
-    if (Mlsame_dd(direct, "F")) {
+    if (Mlsame___float128(direct, "F")) {
 	for (i = 1; i <= k; i++) {
 	    if (tau[i - 1] == Zero) {
 		//H(i)  =  I
@@ -90,7 +90,7 @@ Rlarft(const char *direct, const char *storev, mpackint n, mpackint k, __float12
 		//general case
 		vii = v[(i - 1) + (i - 1) * ldv];
 		v[(i - 1) + (i - 1) * ldv] = One;
-		if (Mlsame_dd(storev, "C")) {
+		if (Mlsame___float128(storev, "C")) {
 		    // T(1:i-1,i) := - tau(i) * V(i:n,1:i-1)' * V(i:n,i)
 		    Rgemv("Transpose", n - i + 1, i - 1, -tau[i - 1],
 			&v[(i - 1) + 0 * ldv], ldv,
@@ -120,7 +120,7 @@ Rlarft(const char *direct, const char *storev, mpackint n, mpackint k, __float12
 	    } else {
 		//general case
 		if (i < k) {
-		    if (Mlsame_dd(storev, "C")) {
+		    if (Mlsame___float128(storev, "C")) {
 			vii = v[(n - k + i - 1) + (i - 1) * ldv];
 			v[(n - k + i - 1) + (i - 1) * ldv] = One;
 			//T(i+1:k,i) := - tau(i) * V(1:n-k+i,i+1:k)' * V(1:n-k+i,i)

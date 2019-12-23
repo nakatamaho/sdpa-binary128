@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 #include <stdio.h> //for untested part
 void
 Rsteqr(const char *compz, mpackint n, __float128 * d, __float128 * e, __float128 * Z,
@@ -84,11 +84,11 @@ Rsteqr(const char *compz, mpackint n, __float128 * d, __float128 * e, __float128
     maxit = 30;
 
     *info = 0;
-    if (Mlsame_dd(compz, "N")) {
+    if (Mlsame___float128(compz, "N")) {
 	icompz = 0;
-    } else if (Mlsame_dd(compz, "V")) {
+    } else if (Mlsame___float128(compz, "V")) {
 	icompz = 1;
-    } else if (Mlsame_dd(compz, "I")) {
+    } else if (Mlsame___float128(compz, "I")) {
 	icompz = 2;
     } else {
 	icompz = -1;
@@ -97,11 +97,11 @@ Rsteqr(const char *compz, mpackint n, __float128 * d, __float128 * e, __float128
 	*info = -1;
     } else if (n < 0) {
 	*info = -2;
-    } else if (ldz < 1 || (icompz > 0 && ldz < max((mpackint)1, n)) ) {
+    } else if (ldz < 1 || (icompz > 0 && ldz < mpack_max((mpackint)1, n)) ) {
 	*info = -6;
     }
     if (*info != 0) {
-	Mxerbla_dd("Rsteqr", -(*info));
+	Mxerbla___float128("Rsteqr", -(*info));
 	return;
     }
 //Quick return if possible
@@ -114,12 +114,12 @@ Rsteqr(const char *compz, mpackint n, __float128 * d, __float128 * e, __float128
 	return;
     }
 //Determine the unit roundoff and over/underflow thresholds.
-    eps = Rlamch_dd("E");
+    eps = Rlamch___float128("E");
     eps2 = eps * eps;
-    safmin = Rlamch_dd("S");
+    safmin = Rlamch___float128("S");
     safmax = One / safmin;
-    ssfmax = sqrt(safmax) / Three;
-    ssfmin = sqrt(safmin) / eps2;
+    ssfmax = sqrtq(safmax) / Three;
+    ssfmin = sqrtq(safmin) / eps2;
 //Compute the eigenvalues and eigenvectors of the tridiagonal
 //matrix.
     if (icompz == 2)
@@ -146,7 +146,7 @@ Rsteqr(const char *compz, mpackint n, __float128 * d, __float128 * e, __float128
 	    if (tst == Zero) {
 		goto L30;
 	    }
-	    if (tst <= sqrt(abs(d[m - 1])) * sqrt(abs(d[m])) * eps) {
+	    if (tst <= sqrtq(abs(d[m - 1])) * sqrtq(abs(d[m])) * eps) {
 		e[m - 1] = Zero;
 		goto L30;
 	    }

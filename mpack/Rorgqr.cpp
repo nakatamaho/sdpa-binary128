@@ -64,8 +64,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
 
-#include <mblas_dd.h>
-#include <mlapack_dd.h>
+#include <mblas___float128.h>
+#include <mlapack___float128.h>
 
 void
 Rorgqr(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float128 * tau,
@@ -77,9 +77,9 @@ Rorgqr(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float
 
 //Test the input arguments
     *info = 0;
-    nb = iMlaenv_dd(1, "Rorgqr", " ", m, n, k, -1);
+    nb = iMlaenv___float128(1, "Rorgqr", " ", m, n, k, -1);
 
-    lwkopt = max((mpackint)1, n) * nb;
+    lwkopt = mpack_max((mpackint)1, n) * nb;
     work[0] = (double)lwkopt;	//needs cast mpackint to mpf
     if (lwork == -1)
 	lquery = 1;
@@ -92,13 +92,13 @@ Rorgqr(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float
 	*info = -2;
     } else if (k < 0 || k > n) {
 	*info = -3;
-    } else if (lda < max((mpackint)1, m)) {
+    } else if (lda < mpack_max((mpackint)1, m)) {
 	*info = -5;
-    } else if (lwork < max((mpackint)1, n) && !lquery) {
+    } else if (lwork < mpack_max((mpackint)1, n) && !lquery) {
 	*info = -8;
     }
     if (*info != 0) {
-	Mxerbla_dd("Rorgqr", -(*info));
+	Mxerbla___float128("Rorgqr", -(*info));
 	return;
     } else if (lquery) {
 	return;
@@ -113,7 +113,7 @@ Rorgqr(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float
     iws = n;
     if (nb > 1 && nb < k) {
 //Determine when to cross over from blocked to unblocked code.
-        nx = max((mpackint)0, iMlaenv_dd(3, "Rorgqr", " ", m, n, k, -1));
+        nx = mpack_max((mpackint)0, iMlaenv___float128(3, "Rorgqr", " ", m, n, k, -1));
 	if (nx < k) {
 //Determine if workspace is large enough for blocked code.
 	    ldwork = n;
@@ -122,7 +122,7 @@ Rorgqr(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float
 //Not enough workspace to use optimal NB:  reduce NB and
 //determine the minimum value of NB.
 		nb = lwork / ldwork;
-	        nbmin = max((mpackint)2, iMlaenv_dd(2, "Rorgqr", " ", m, n, k, -1));
+	        nbmin = mpack_max((mpackint)2, iMlaenv___float128(2, "Rorgqr", " ", m, n, k, -1));
 	    }
 	}
     }
@@ -130,7 +130,7 @@ Rorgqr(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float
 //Use blocked code after the last block.
 //The first kk columns are handled by the block method.
 	ki = (k - nx - 1) / nb * nb;
-        kk = min(k, ki + nb);
+        kk = mpack_min(k, ki + nb);
 //Set A(1:kk,kk+1:n) to zero.
 	for (j = kk + 1; j <= n; j++) {
 	    for (i = 1; i <= kk; i++) {
@@ -148,7 +148,7 @@ Rorgqr(mpackint m, mpackint n, mpackint k, __float128 * A, mpackint lda, __float
     if (kk > 0) {
 //Use blocked code
 	for (i = ki + 1; i >= 1; i = i - nb) {
-	    ib = min(nb, k - i + 1);
+	    ib = mpack_min(nb, k - i + 1);
 	    if (i + ib <= n) {
 //Form the triangular factor of the block reflector
 //H = H(i) H(i+1) . . . H(i+ib-1)

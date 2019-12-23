@@ -45,10 +45,10 @@ __float128 Lal::getMinEigen(DenseMatrix& lMat,
   diagVec2.setZero();
   q.setZero();
   r.initialize(MONE);
-  beta = sqrt((__float128)nDim);  // norm of "r"
+  beta = sqrtq((__float128)nDim);  // norm of "r"
 
   // nakata 2004/12/12
-  while (k<nDim && k<sqrt((__float128)nDim)+10
+  while (k<nDim && k<sqrtq((__float128)nDim)+10
 	 && beta > 1.0e-16
 	 && (abs(min-min_old) > (1.0e-5)*abs(min)+(1.0e-8)
 	     // && (fabs(min-min_old) > (1.0e-3)*fabs(min)+(1.0e-6)
@@ -75,7 +75,7 @@ __float128 Lal::getMinEigen(DenseMatrix& lMat,
     // rMessage("r = ");
     // r.display();
 
-    if ( kk>=sqrt((__float128)k) || k==nDim-1 || k>sqrt((__float128)nDim+9) ) {
+    if ( kk>=sqrtq((__float128)k) || k==nDim-1 || k>sqrtq((__float128)nDim+9) ) {
       kk = 0;
       out.copyFrom(diagVec);
       b.copyFrom(diagVec2);
@@ -121,11 +121,11 @@ __float128 Lal::getMinEigen(DenseMatrix& lMat,
       error = Q.de_ele[k];
       #endif
 
-    } // end of 'if ( kk>=sqrt(k) ...)'
+    } // end of 'if ( kk>=sqrtq(k) ...)'
     // printf("\n");
 
     Lal::let(value,'=',r,'.',r);
-    beta = sqrt(value);
+    beta = sqrtq(value);
     diagVec2.ele[k] = beta;
     ++k;
     ++kk;
@@ -406,7 +406,7 @@ bool Lal::getCholesky(SparseMatrix& aMat, int* diagonalIndex)
       aMat.sp_ele[indexA1] = 0.0;
     } else {
       // inverse diagonal
-      aMat.sp_ele[indexA1] = 1.0 / sqrt(aMat.sp_ele[indexA1]);
+      aMat.sp_ele[indexA1] = 1.0 / sqrtq(aMat.sp_ele[indexA1]);
     }
     for (k1= indexA1+1 ; k1<indexA2 ; ++k1) {
       aMat.sp_ele[k1] *= aMat.sp_ele[indexA1];
@@ -559,7 +559,7 @@ int Lal::rdpotf2_(char*uplo, int *n, double *a, int *lda, int *info)
       ajj = 1e100;
       a[j + j * nRow] = ajj;
     } else {
-      ajj = sqrt(ajj);
+      ajj = sqrtq(ajj);
       a[j + j * nRow] = ajj;
     }
     // Here is point.(end)
@@ -682,8 +682,8 @@ bool Lal::choleskyFactorWithAdjust(DenseMatrix& aMat)
 	  shita = NONZERO * 0.1;
 	} else if (migi*shita > NONZERO*mishi) {
 	  // rMessage(" migi*migi > NONZERO*mishi ");
-	  migi  = sqrt(NONZERO*mishi) * 0.99;
-	  shita = sqrt(NONZERO*mishi) * 0.99;
+	  migi  = sqrtq(NONZERO*mishi) * 0.99;
+	  shita = sqrtq(NONZERO*mishi) * 0.99;
 	}
       }
     }
