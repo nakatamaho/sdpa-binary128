@@ -32,6 +32,11 @@
 #define mpack_max(a, b) ((a) > (b) ? (a) : (b))
 #define mpack_min(a, b) ((a) < (b) ? (a) : (b))
 
+inline __float128 abs (__float128 a)
+{
+    return fabsq(a);
+}
+
 __float128 Msign(__float128 a, __float128 b);
 double cast2double(__float128 a);
 int M2int(__float128 a);
