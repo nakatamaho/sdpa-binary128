@@ -108,9 +108,8 @@ am__sdpa_binary128_SOURCES_DIST = sdpa_chordal.cpp sdpa_dataset.cpp \
 	sdpa_newton.cpp sdpa_parts.cpp sdpa_struct.cpp sdpa_tool.cpp \
 	sdpa_chordal.h sdpa_dataset.h sdpa_include.h sdpa_io.h \
 	sdpa_jordan.h sdpa_linear.h sdpa_newton.h sdpa_parts.h \
-	sdpa_right.h sdpa_struct.h sdpa_tool.h mpack/Rdot.cpp \
-	mpack/Rtrsm.cpp mpack/Rsyrk.cpp mpack/Raxpy.cpp \
-	mpack/Rgemm.cpp mpack/Rtrmm.cpp mpack/Rtrsv.cpp \
+	sdpa_right.h sdpa_struct.h sdpa_tool.h mpack/Rtrsm.cpp \
+	mpack/Rsyrk.cpp mpack/Rtrmm.cpp mpack/Rtrsv.cpp \
 	mpack/iMlaenv.cpp mpack/Rlamch.cpp mpack/Rlascl.cpp \
 	mpack/Rsytrd.cpp mpack/Rsterf.cpp mpack/Rorgtr.cpp \
 	mpack/Rlatrd.cpp mpack/Rsyr2k.cpp mpack/Rsytd2.cpp \
@@ -121,11 +120,14 @@ am__sdpa_binary128_SOURCES_DIST = sdpa_chordal.cpp sdpa_dataset.cpp \
 	mpack/Rlarfb.cpp mpack/Rorg2r.cpp mpack/Rnrm2.cpp \
 	mpack/Rlarf.cpp mpack/Rger.cpp mpack/Rpotrf.cpp \
 	mpack/Mxerbla.cpp mpack/Rpotf2.cpp mpack/Mlsame.cpp \
-	mpack/Rscal.cpp mpack/Rcopy.cpp mpack/Rgemv.cpp \
-	mpack/Rtrmv.cpp mpack/Rsteqr.cpp mpack/Rlaset.cpp \
-	mpack/Rlaev2.cpp mpack/Rlasr.cpp mpack/Rlartg.cpp \
-	mpack/Rswap.cpp mpack/Rsyev.cpp mpack/Rlansy.cpp \
-	mpack/Mutils.cpp
+	mpack/Rscal.cpp mpack/Rgemv.cpp mpack/Rtrmv.cpp \
+	mpack/Rsteqr.cpp mpack/Rlaset.cpp mpack/Rlaev2.cpp \
+	mpack/Rlasr.cpp mpack/Rlartg.cpp mpack/Rswap.cpp \
+	mpack/Rsyev.cpp mpack/Rlansy.cpp mpack/Mutils.cpp \
+	mpack/Rgemm_omp.cpp mpack/Raxpy_omp.cpp mpack/Rcopy_omp.cpp \
+	mpack/Rdot_omp.cpp mpack/Rgemm_NN_omp.cpp \
+	mpack/Rgemm_NT_omp.cpp mpack/Rgemm_TN_omp.cpp \
+	mpack/Rgemm_TT_omp.cpp
 am__dirstamp = $(am__leading_dot)dirstamp
 @SYSTEM_MPACK_FALSE@am_sdpa_binary128_OBJECTS =  \
 @SYSTEM_MPACK_FALSE@	sdpa_binary128-sdpa_chordal.$(OBJEXT) \
@@ -138,11 +140,8 @@ am__dirstamp = $(am__leading_dot)dirstamp
 @SYSTEM_MPACK_FALSE@	sdpa_binary128-sdpa_parts.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	sdpa_binary128-sdpa_struct.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	sdpa_binary128-sdpa_tool.$(OBJEXT) \
-@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rdot.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rtrsm.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rsyrk.$(OBJEXT) \
-@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Raxpy.$(OBJEXT) \
-@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rgemm.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rtrmm.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rtrsv.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-iMlaenv.$(OBJEXT) \
@@ -176,7 +175,6 @@ am__dirstamp = $(am__leading_dot)dirstamp
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rpotf2.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Mlsame.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rscal.$(OBJEXT) \
-@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rcopy.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rgemv.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rtrmv.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rsteqr.$(OBJEXT) \
@@ -187,7 +185,15 @@ am__dirstamp = $(am__leading_dot)dirstamp
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rswap.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rsyev.$(OBJEXT) \
 @SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rlansy.$(OBJEXT) \
-@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Mutils.$(OBJEXT)
+@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Mutils.$(OBJEXT) \
+@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rgemm_omp.$(OBJEXT) \
+@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Raxpy_omp.$(OBJEXT) \
+@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rcopy_omp.$(OBJEXT) \
+@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rdot_omp.$(OBJEXT) \
+@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rgemm_NN_omp.$(OBJEXT) \
+@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rgemm_NT_omp.$(OBJEXT) \
+@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rgemm_TN_omp.$(OBJEXT) \
+@SYSTEM_MPACK_FALSE@	mpack/sdpa_binary128-Rgemm_TT_omp.$(OBJEXT)
 @SYSTEM_MPACK_TRUE@am_sdpa_binary128_OBJECTS =  \
 @SYSTEM_MPACK_TRUE@	sdpa_binary128-sdpa_chordal.$(OBJEXT) \
 @SYSTEM_MPACK_TRUE@	sdpa_binary128-sdpa_dataset.$(OBJEXT) \
@@ -460,8 +466,8 @@ top_srcdir = @top_srcdir@
 @SYSTEM_MPACK_FALSE@sdpa_struct.cpp sdpa_tool.cpp sdpa_chordal.h sdpa_dataset.h \
 @SYSTEM_MPACK_FALSE@sdpa_include.h sdpa_io.h sdpa_jordan.h sdpa_linear.h sdpa_newton.h \
 @SYSTEM_MPACK_FALSE@sdpa_parts.h sdpa_right.h sdpa_struct.h sdpa_tool.h \
-@SYSTEM_MPACK_FALSE@mpack/Rdot.cpp  mpack/Rtrsm.cpp mpack/Rsyrk.cpp mpack/Raxpy.cpp \
-@SYSTEM_MPACK_FALSE@mpack/Rgemm.cpp mpack/Rtrmm.cpp mpack/Rtrsv.cpp mpack/iMlaenv.cpp\
+@SYSTEM_MPACK_FALSE@mpack/Rtrsm.cpp mpack/Rsyrk.cpp\
+@SYSTEM_MPACK_FALSE@mpack/Rtrmm.cpp mpack/Rtrsv.cpp mpack/iMlaenv.cpp\
 @SYSTEM_MPACK_FALSE@mpack/Rlamch.cpp mpack/Rlascl.cpp mpack/Rsytrd.cpp mpack/Rsterf.cpp\
 @SYSTEM_MPACK_FALSE@mpack/Rorgtr.cpp mpack/Rlatrd.cpp mpack/Rsyr2k.cpp mpack/Rsytd2.cpp \
 @SYSTEM_MPACK_FALSE@mpack/Rlanst.cpp mpack/Rlae2.cpp mpack/Rlapy2.cpp mpack/Rlasrt.cpp\
@@ -469,10 +475,18 @@ top_srcdir = @top_srcdir@
 @SYSTEM_MPACK_FALSE@mpack/Rsyr2.cpp mpack/Rlassq.cpp mpack/Rorg2l.cpp mpack/Rlarft.cpp\
 @SYSTEM_MPACK_FALSE@mpack/Rlarfb.cpp mpack/Rorg2r.cpp mpack/Rnrm2.cpp mpack/Rlarf.cpp \
 @SYSTEM_MPACK_FALSE@mpack/Rger.cpp mpack/Rpotrf.cpp mpack/Mxerbla.cpp mpack/Rpotf2.cpp \
-@SYSTEM_MPACK_FALSE@mpack/Mlsame.cpp mpack/Rscal.cpp mpack/Rcopy.cpp mpack/Rgemv.cpp \
+@SYSTEM_MPACK_FALSE@mpack/Mlsame.cpp mpack/Rscal.cpp mpack/Rgemv.cpp \
 @SYSTEM_MPACK_FALSE@mpack/Rtrmv.cpp mpack/Rsteqr.cpp mpack/Rlaset.cpp mpack/Rlaev2.cpp \
 @SYSTEM_MPACK_FALSE@mpack/Rlasr.cpp mpack/Rlartg.cpp mpack/Rswap.cpp mpack/Rsyev.cpp\
-@SYSTEM_MPACK_FALSE@mpack/Rlansy.cpp mpack/Mutils.cpp
+@SYSTEM_MPACK_FALSE@mpack/Rlansy.cpp mpack/Mutils.cpp\
+@SYSTEM_MPACK_FALSE@mpack/Rgemm_omp.cpp\
+@SYSTEM_MPACK_FALSE@mpack/Raxpy_omp.cpp\
+@SYSTEM_MPACK_FALSE@mpack/Rcopy_omp.cpp\
+@SYSTEM_MPACK_FALSE@mpack/Rdot_omp.cpp\
+@SYSTEM_MPACK_FALSE@mpack/Rgemm_NN_omp.cpp\
+@SYSTEM_MPACK_FALSE@mpack/Rgemm_NT_omp.cpp\
+@SYSTEM_MPACK_FALSE@mpack/Rgemm_TN_omp.cpp\
+@SYSTEM_MPACK_FALSE@mpack/Rgemm_TT_omp.cpp
 
 @SYSTEM_MPACK_TRUE@sdpa_binary128_SOURCES = sdpa_chordal.cpp sdpa_dataset.cpp sdpa_io.cpp \
 @SYSTEM_MPACK_TRUE@sdpa_jordan.cpp sdpa_linear.cpp sdpa_main.cpp sdpa_newton.cpp sdpa_parts.cpp \
@@ -571,15 +585,9 @@ mpack/$(am__dirstamp):
 mpack/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) mpack/$(DEPDIR)
 	@: > mpack/$(DEPDIR)/$(am__dirstamp)
-mpack/sdpa_binary128-Rdot.$(OBJEXT): mpack/$(am__dirstamp) \
-	mpack/$(DEPDIR)/$(am__dirstamp)
 mpack/sdpa_binary128-Rtrsm.$(OBJEXT): mpack/$(am__dirstamp) \
 	mpack/$(DEPDIR)/$(am__dirstamp)
 mpack/sdpa_binary128-Rsyrk.$(OBJEXT): mpack/$(am__dirstamp) \
-	mpack/$(DEPDIR)/$(am__dirstamp)
-mpack/sdpa_binary128-Raxpy.$(OBJEXT): mpack/$(am__dirstamp) \
-	mpack/$(DEPDIR)/$(am__dirstamp)
-mpack/sdpa_binary128-Rgemm.$(OBJEXT): mpack/$(am__dirstamp) \
 	mpack/$(DEPDIR)/$(am__dirstamp)
 mpack/sdpa_binary128-Rtrmm.$(OBJEXT): mpack/$(am__dirstamp) \
 	mpack/$(DEPDIR)/$(am__dirstamp)
@@ -647,8 +655,6 @@ mpack/sdpa_binary128-Mlsame.$(OBJEXT): mpack/$(am__dirstamp) \
 	mpack/$(DEPDIR)/$(am__dirstamp)
 mpack/sdpa_binary128-Rscal.$(OBJEXT): mpack/$(am__dirstamp) \
 	mpack/$(DEPDIR)/$(am__dirstamp)
-mpack/sdpa_binary128-Rcopy.$(OBJEXT): mpack/$(am__dirstamp) \
-	mpack/$(DEPDIR)/$(am__dirstamp)
 mpack/sdpa_binary128-Rgemv.$(OBJEXT): mpack/$(am__dirstamp) \
 	mpack/$(DEPDIR)/$(am__dirstamp)
 mpack/sdpa_binary128-Rtrmv.$(OBJEXT): mpack/$(am__dirstamp) \
@@ -670,6 +676,22 @@ mpack/sdpa_binary128-Rsyev.$(OBJEXT): mpack/$(am__dirstamp) \
 mpack/sdpa_binary128-Rlansy.$(OBJEXT): mpack/$(am__dirstamp) \
 	mpack/$(DEPDIR)/$(am__dirstamp)
 mpack/sdpa_binary128-Mutils.$(OBJEXT): mpack/$(am__dirstamp) \
+	mpack/$(DEPDIR)/$(am__dirstamp)
+mpack/sdpa_binary128-Rgemm_omp.$(OBJEXT): mpack/$(am__dirstamp) \
+	mpack/$(DEPDIR)/$(am__dirstamp)
+mpack/sdpa_binary128-Raxpy_omp.$(OBJEXT): mpack/$(am__dirstamp) \
+	mpack/$(DEPDIR)/$(am__dirstamp)
+mpack/sdpa_binary128-Rcopy_omp.$(OBJEXT): mpack/$(am__dirstamp) \
+	mpack/$(DEPDIR)/$(am__dirstamp)
+mpack/sdpa_binary128-Rdot_omp.$(OBJEXT): mpack/$(am__dirstamp) \
+	mpack/$(DEPDIR)/$(am__dirstamp)
+mpack/sdpa_binary128-Rgemm_NN_omp.$(OBJEXT): mpack/$(am__dirstamp) \
+	mpack/$(DEPDIR)/$(am__dirstamp)
+mpack/sdpa_binary128-Rgemm_NT_omp.$(OBJEXT): mpack/$(am__dirstamp) \
+	mpack/$(DEPDIR)/$(am__dirstamp)
+mpack/sdpa_binary128-Rgemm_TN_omp.$(OBJEXT): mpack/$(am__dirstamp) \
+	mpack/$(DEPDIR)/$(am__dirstamp)
+mpack/sdpa_binary128-Rgemm_TT_omp.$(OBJEXT): mpack/$(am__dirstamp) \
 	mpack/$(DEPDIR)/$(am__dirstamp)
 
 sdpa_binary128$(EXEEXT): $(sdpa_binary128_OBJECTS) $(sdpa_binary128_DEPENDENCIES) $(EXTRA_sdpa_binary128_DEPENDENCIES) 
@@ -696,10 +718,14 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Mlsame.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Mutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Mxerbla.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Raxpy.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rcopy.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rdot.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rgemm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Raxpy_omp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rcopy_omp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rdot_omp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NN_omp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NT_omp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TN_omp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TT_omp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rgemm_omp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rgemv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rger.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@mpack/$(DEPDIR)/sdpa_binary128-Rlae2.Po@am__quote@
@@ -900,20 +926,6 @@ sdpa_binary128-sdpa_tool.obj: sdpa_tool.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o sdpa_binary128-sdpa_tool.obj `if test -f 'sdpa_tool.cpp'; then $(CYGPATH_W) 'sdpa_tool.cpp'; else $(CYGPATH_W) '$(srcdir)/sdpa_tool.cpp'; fi`
 
-mpack/sdpa_binary128-Rdot.o: mpack/Rdot.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rdot.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rdot.Tpo -c -o mpack/sdpa_binary128-Rdot.o `test -f 'mpack/Rdot.cpp' || echo '$(srcdir)/'`mpack/Rdot.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rdot.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rdot.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rdot.cpp' object='mpack/sdpa_binary128-Rdot.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rdot.o `test -f 'mpack/Rdot.cpp' || echo '$(srcdir)/'`mpack/Rdot.cpp
-
-mpack/sdpa_binary128-Rdot.obj: mpack/Rdot.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rdot.obj -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rdot.Tpo -c -o mpack/sdpa_binary128-Rdot.obj `if test -f 'mpack/Rdot.cpp'; then $(CYGPATH_W) 'mpack/Rdot.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rdot.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rdot.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rdot.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rdot.cpp' object='mpack/sdpa_binary128-Rdot.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rdot.obj `if test -f 'mpack/Rdot.cpp'; then $(CYGPATH_W) 'mpack/Rdot.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rdot.cpp'; fi`
-
 mpack/sdpa_binary128-Rtrsm.o: mpack/Rtrsm.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rtrsm.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rtrsm.Tpo -c -o mpack/sdpa_binary128-Rtrsm.o `test -f 'mpack/Rtrsm.cpp' || echo '$(srcdir)/'`mpack/Rtrsm.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rtrsm.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rtrsm.Po
@@ -941,34 +953,6 @@ mpack/sdpa_binary128-Rsyrk.obj: mpack/Rsyrk.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rsyrk.cpp' object='mpack/sdpa_binary128-Rsyrk.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rsyrk.obj `if test -f 'mpack/Rsyrk.cpp'; then $(CYGPATH_W) 'mpack/Rsyrk.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rsyrk.cpp'; fi`
-
-mpack/sdpa_binary128-Raxpy.o: mpack/Raxpy.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Raxpy.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Raxpy.Tpo -c -o mpack/sdpa_binary128-Raxpy.o `test -f 'mpack/Raxpy.cpp' || echo '$(srcdir)/'`mpack/Raxpy.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Raxpy.Tpo mpack/$(DEPDIR)/sdpa_binary128-Raxpy.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Raxpy.cpp' object='mpack/sdpa_binary128-Raxpy.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Raxpy.o `test -f 'mpack/Raxpy.cpp' || echo '$(srcdir)/'`mpack/Raxpy.cpp
-
-mpack/sdpa_binary128-Raxpy.obj: mpack/Raxpy.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Raxpy.obj -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Raxpy.Tpo -c -o mpack/sdpa_binary128-Raxpy.obj `if test -f 'mpack/Raxpy.cpp'; then $(CYGPATH_W) 'mpack/Raxpy.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Raxpy.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Raxpy.Tpo mpack/$(DEPDIR)/sdpa_binary128-Raxpy.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Raxpy.cpp' object='mpack/sdpa_binary128-Raxpy.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Raxpy.obj `if test -f 'mpack/Raxpy.cpp'; then $(CYGPATH_W) 'mpack/Raxpy.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Raxpy.cpp'; fi`
-
-mpack/sdpa_binary128-Rgemm.o: mpack/Rgemm.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemm.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemm.Tpo -c -o mpack/sdpa_binary128-Rgemm.o `test -f 'mpack/Rgemm.cpp' || echo '$(srcdir)/'`mpack/Rgemm.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemm.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemm.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rgemm.cpp' object='mpack/sdpa_binary128-Rgemm.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rgemm.o `test -f 'mpack/Rgemm.cpp' || echo '$(srcdir)/'`mpack/Rgemm.cpp
-
-mpack/sdpa_binary128-Rgemm.obj: mpack/Rgemm.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemm.obj -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemm.Tpo -c -o mpack/sdpa_binary128-Rgemm.obj `if test -f 'mpack/Rgemm.cpp'; then $(CYGPATH_W) 'mpack/Rgemm.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rgemm.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemm.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemm.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rgemm.cpp' object='mpack/sdpa_binary128-Rgemm.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rgemm.obj `if test -f 'mpack/Rgemm.cpp'; then $(CYGPATH_W) 'mpack/Rgemm.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rgemm.cpp'; fi`
 
 mpack/sdpa_binary128-Rtrmm.o: mpack/Rtrmm.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rtrmm.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rtrmm.Tpo -c -o mpack/sdpa_binary128-Rtrmm.o `test -f 'mpack/Rtrmm.cpp' || echo '$(srcdir)/'`mpack/Rtrmm.cpp
@@ -1432,20 +1416,6 @@ mpack/sdpa_binary128-Rscal.obj: mpack/Rscal.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rscal.obj `if test -f 'mpack/Rscal.cpp'; then $(CYGPATH_W) 'mpack/Rscal.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rscal.cpp'; fi`
 
-mpack/sdpa_binary128-Rcopy.o: mpack/Rcopy.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rcopy.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rcopy.Tpo -c -o mpack/sdpa_binary128-Rcopy.o `test -f 'mpack/Rcopy.cpp' || echo '$(srcdir)/'`mpack/Rcopy.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rcopy.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rcopy.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rcopy.cpp' object='mpack/sdpa_binary128-Rcopy.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rcopy.o `test -f 'mpack/Rcopy.cpp' || echo '$(srcdir)/'`mpack/Rcopy.cpp
-
-mpack/sdpa_binary128-Rcopy.obj: mpack/Rcopy.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rcopy.obj -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rcopy.Tpo -c -o mpack/sdpa_binary128-Rcopy.obj `if test -f 'mpack/Rcopy.cpp'; then $(CYGPATH_W) 'mpack/Rcopy.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rcopy.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rcopy.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rcopy.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rcopy.cpp' object='mpack/sdpa_binary128-Rcopy.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rcopy.obj `if test -f 'mpack/Rcopy.cpp'; then $(CYGPATH_W) 'mpack/Rcopy.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rcopy.cpp'; fi`
-
 mpack/sdpa_binary128-Rgemv.o: mpack/Rgemv.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemv.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemv.Tpo -c -o mpack/sdpa_binary128-Rgemv.o `test -f 'mpack/Rgemv.cpp' || echo '$(srcdir)/'`mpack/Rgemv.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemv.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemv.Po
@@ -1599,6 +1569,118 @@ mpack/sdpa_binary128-Mutils.obj: mpack/Mutils.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Mutils.cpp' object='mpack/sdpa_binary128-Mutils.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Mutils.obj `if test -f 'mpack/Mutils.cpp'; then $(CYGPATH_W) 'mpack/Mutils.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Mutils.cpp'; fi`
+
+mpack/sdpa_binary128-Rgemm_omp.o: mpack/Rgemm_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemm_omp.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemm_omp.Tpo -c -o mpack/sdpa_binary128-Rgemm_omp.o `test -f 'mpack/Rgemm_omp.cpp' || echo '$(srcdir)/'`mpack/Rgemm_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemm_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemm_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rgemm_omp.cpp' object='mpack/sdpa_binary128-Rgemm_omp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rgemm_omp.o `test -f 'mpack/Rgemm_omp.cpp' || echo '$(srcdir)/'`mpack/Rgemm_omp.cpp
+
+mpack/sdpa_binary128-Rgemm_omp.obj: mpack/Rgemm_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemm_omp.obj -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemm_omp.Tpo -c -o mpack/sdpa_binary128-Rgemm_omp.obj `if test -f 'mpack/Rgemm_omp.cpp'; then $(CYGPATH_W) 'mpack/Rgemm_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rgemm_omp.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemm_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemm_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rgemm_omp.cpp' object='mpack/sdpa_binary128-Rgemm_omp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rgemm_omp.obj `if test -f 'mpack/Rgemm_omp.cpp'; then $(CYGPATH_W) 'mpack/Rgemm_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rgemm_omp.cpp'; fi`
+
+mpack/sdpa_binary128-Raxpy_omp.o: mpack/Raxpy_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Raxpy_omp.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Raxpy_omp.Tpo -c -o mpack/sdpa_binary128-Raxpy_omp.o `test -f 'mpack/Raxpy_omp.cpp' || echo '$(srcdir)/'`mpack/Raxpy_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Raxpy_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Raxpy_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Raxpy_omp.cpp' object='mpack/sdpa_binary128-Raxpy_omp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Raxpy_omp.o `test -f 'mpack/Raxpy_omp.cpp' || echo '$(srcdir)/'`mpack/Raxpy_omp.cpp
+
+mpack/sdpa_binary128-Raxpy_omp.obj: mpack/Raxpy_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Raxpy_omp.obj -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Raxpy_omp.Tpo -c -o mpack/sdpa_binary128-Raxpy_omp.obj `if test -f 'mpack/Raxpy_omp.cpp'; then $(CYGPATH_W) 'mpack/Raxpy_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Raxpy_omp.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Raxpy_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Raxpy_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Raxpy_omp.cpp' object='mpack/sdpa_binary128-Raxpy_omp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Raxpy_omp.obj `if test -f 'mpack/Raxpy_omp.cpp'; then $(CYGPATH_W) 'mpack/Raxpy_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Raxpy_omp.cpp'; fi`
+
+mpack/sdpa_binary128-Rcopy_omp.o: mpack/Rcopy_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rcopy_omp.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rcopy_omp.Tpo -c -o mpack/sdpa_binary128-Rcopy_omp.o `test -f 'mpack/Rcopy_omp.cpp' || echo '$(srcdir)/'`mpack/Rcopy_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rcopy_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rcopy_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rcopy_omp.cpp' object='mpack/sdpa_binary128-Rcopy_omp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rcopy_omp.o `test -f 'mpack/Rcopy_omp.cpp' || echo '$(srcdir)/'`mpack/Rcopy_omp.cpp
+
+mpack/sdpa_binary128-Rcopy_omp.obj: mpack/Rcopy_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rcopy_omp.obj -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rcopy_omp.Tpo -c -o mpack/sdpa_binary128-Rcopy_omp.obj `if test -f 'mpack/Rcopy_omp.cpp'; then $(CYGPATH_W) 'mpack/Rcopy_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rcopy_omp.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rcopy_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rcopy_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rcopy_omp.cpp' object='mpack/sdpa_binary128-Rcopy_omp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rcopy_omp.obj `if test -f 'mpack/Rcopy_omp.cpp'; then $(CYGPATH_W) 'mpack/Rcopy_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rcopy_omp.cpp'; fi`
+
+mpack/sdpa_binary128-Rdot_omp.o: mpack/Rdot_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rdot_omp.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rdot_omp.Tpo -c -o mpack/sdpa_binary128-Rdot_omp.o `test -f 'mpack/Rdot_omp.cpp' || echo '$(srcdir)/'`mpack/Rdot_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rdot_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rdot_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rdot_omp.cpp' object='mpack/sdpa_binary128-Rdot_omp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rdot_omp.o `test -f 'mpack/Rdot_omp.cpp' || echo '$(srcdir)/'`mpack/Rdot_omp.cpp
+
+mpack/sdpa_binary128-Rdot_omp.obj: mpack/Rdot_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rdot_omp.obj -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rdot_omp.Tpo -c -o mpack/sdpa_binary128-Rdot_omp.obj `if test -f 'mpack/Rdot_omp.cpp'; then $(CYGPATH_W) 'mpack/Rdot_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rdot_omp.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rdot_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rdot_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rdot_omp.cpp' object='mpack/sdpa_binary128-Rdot_omp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rdot_omp.obj `if test -f 'mpack/Rdot_omp.cpp'; then $(CYGPATH_W) 'mpack/Rdot_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rdot_omp.cpp'; fi`
+
+mpack/sdpa_binary128-Rgemm_NN_omp.o: mpack/Rgemm_NN_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemm_NN_omp.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NN_omp.Tpo -c -o mpack/sdpa_binary128-Rgemm_NN_omp.o `test -f 'mpack/Rgemm_NN_omp.cpp' || echo '$(srcdir)/'`mpack/Rgemm_NN_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NN_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NN_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rgemm_NN_omp.cpp' object='mpack/sdpa_binary128-Rgemm_NN_omp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rgemm_NN_omp.o `test -f 'mpack/Rgemm_NN_omp.cpp' || echo '$(srcdir)/'`mpack/Rgemm_NN_omp.cpp
+
+mpack/sdpa_binary128-Rgemm_NN_omp.obj: mpack/Rgemm_NN_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemm_NN_omp.obj -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NN_omp.Tpo -c -o mpack/sdpa_binary128-Rgemm_NN_omp.obj `if test -f 'mpack/Rgemm_NN_omp.cpp'; then $(CYGPATH_W) 'mpack/Rgemm_NN_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rgemm_NN_omp.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NN_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NN_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rgemm_NN_omp.cpp' object='mpack/sdpa_binary128-Rgemm_NN_omp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rgemm_NN_omp.obj `if test -f 'mpack/Rgemm_NN_omp.cpp'; then $(CYGPATH_W) 'mpack/Rgemm_NN_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rgemm_NN_omp.cpp'; fi`
+
+mpack/sdpa_binary128-Rgemm_NT_omp.o: mpack/Rgemm_NT_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemm_NT_omp.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NT_omp.Tpo -c -o mpack/sdpa_binary128-Rgemm_NT_omp.o `test -f 'mpack/Rgemm_NT_omp.cpp' || echo '$(srcdir)/'`mpack/Rgemm_NT_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NT_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NT_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rgemm_NT_omp.cpp' object='mpack/sdpa_binary128-Rgemm_NT_omp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rgemm_NT_omp.o `test -f 'mpack/Rgemm_NT_omp.cpp' || echo '$(srcdir)/'`mpack/Rgemm_NT_omp.cpp
+
+mpack/sdpa_binary128-Rgemm_NT_omp.obj: mpack/Rgemm_NT_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemm_NT_omp.obj -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NT_omp.Tpo -c -o mpack/sdpa_binary128-Rgemm_NT_omp.obj `if test -f 'mpack/Rgemm_NT_omp.cpp'; then $(CYGPATH_W) 'mpack/Rgemm_NT_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rgemm_NT_omp.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NT_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemm_NT_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rgemm_NT_omp.cpp' object='mpack/sdpa_binary128-Rgemm_NT_omp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rgemm_NT_omp.obj `if test -f 'mpack/Rgemm_NT_omp.cpp'; then $(CYGPATH_W) 'mpack/Rgemm_NT_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rgemm_NT_omp.cpp'; fi`
+
+mpack/sdpa_binary128-Rgemm_TN_omp.o: mpack/Rgemm_TN_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemm_TN_omp.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TN_omp.Tpo -c -o mpack/sdpa_binary128-Rgemm_TN_omp.o `test -f 'mpack/Rgemm_TN_omp.cpp' || echo '$(srcdir)/'`mpack/Rgemm_TN_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TN_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TN_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rgemm_TN_omp.cpp' object='mpack/sdpa_binary128-Rgemm_TN_omp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rgemm_TN_omp.o `test -f 'mpack/Rgemm_TN_omp.cpp' || echo '$(srcdir)/'`mpack/Rgemm_TN_omp.cpp
+
+mpack/sdpa_binary128-Rgemm_TN_omp.obj: mpack/Rgemm_TN_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemm_TN_omp.obj -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TN_omp.Tpo -c -o mpack/sdpa_binary128-Rgemm_TN_omp.obj `if test -f 'mpack/Rgemm_TN_omp.cpp'; then $(CYGPATH_W) 'mpack/Rgemm_TN_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rgemm_TN_omp.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TN_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TN_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rgemm_TN_omp.cpp' object='mpack/sdpa_binary128-Rgemm_TN_omp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rgemm_TN_omp.obj `if test -f 'mpack/Rgemm_TN_omp.cpp'; then $(CYGPATH_W) 'mpack/Rgemm_TN_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rgemm_TN_omp.cpp'; fi`
+
+mpack/sdpa_binary128-Rgemm_TT_omp.o: mpack/Rgemm_TT_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemm_TT_omp.o -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TT_omp.Tpo -c -o mpack/sdpa_binary128-Rgemm_TT_omp.o `test -f 'mpack/Rgemm_TT_omp.cpp' || echo '$(srcdir)/'`mpack/Rgemm_TT_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TT_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TT_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rgemm_TT_omp.cpp' object='mpack/sdpa_binary128-Rgemm_TT_omp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rgemm_TT_omp.o `test -f 'mpack/Rgemm_TT_omp.cpp' || echo '$(srcdir)/'`mpack/Rgemm_TT_omp.cpp
+
+mpack/sdpa_binary128-Rgemm_TT_omp.obj: mpack/Rgemm_TT_omp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -MT mpack/sdpa_binary128-Rgemm_TT_omp.obj -MD -MP -MF mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TT_omp.Tpo -c -o mpack/sdpa_binary128-Rgemm_TT_omp.obj `if test -f 'mpack/Rgemm_TT_omp.cpp'; then $(CYGPATH_W) 'mpack/Rgemm_TT_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rgemm_TT_omp.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TT_omp.Tpo mpack/$(DEPDIR)/sdpa_binary128-Rgemm_TT_omp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='mpack/Rgemm_TT_omp.cpp' object='mpack/sdpa_binary128-Rgemm_TT_omp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(sdpa_binary128_CXXFLAGS) $(CXXFLAGS) -c -o mpack/sdpa_binary128-Rgemm_TT_omp.obj `if test -f 'mpack/Rgemm_TT_omp.cpp'; then $(CYGPATH_W) 'mpack/Rgemm_TT_omp.cpp'; else $(CYGPATH_W) '$(srcdir)/mpack/Rgemm_TT_omp.cpp'; fi`
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run 'make' without going through this Makefile.
