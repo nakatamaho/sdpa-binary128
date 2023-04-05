@@ -771,9 +771,11 @@ void DenseMatrix::display(FILE* fpout)
       fprintf(fpout,"  {");
     }
     for (int j=0; j<nCol-1; ++j) {
-      fprintf(fpout,P_FORMAT",",(double)de_ele[(nRow-1)+nCol*j]);
+      quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,de_ele[(nRow-1)+nCol*j]); //issue #1
+      fprintf(fpout,"%s,",mpbuffer_sdpa_struct); //issue #1
     }
-    fprintf(fpout,P_FORMAT" }",(double)de_ele[(nRow-1)+nCol*(nCol-1)]);
+    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,de_ele[(nRow-1)+nCol*(nCol-1)]); //issue #1
+    fprintf(fpout,"%s }",mpbuffer_sdpa_struct); //issue #1
     if (nRow>1) {
       fprintf(fpout,"   }\n");
     } else {
