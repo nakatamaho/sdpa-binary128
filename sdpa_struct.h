@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 // printing presicion of such as vector 
 #define P_FORMAT "%+18.12e"
+#define PQ_FORMAT "%+18.12Qe"
 
 #ifndef __sdpa_struct_h__
 #define __sdpa_struct_h__

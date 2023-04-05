@@ -127,13 +127,13 @@ void Vector::display(FILE* fpout,__float128 scalar)
   fprintf(fpout,"{");
   for (int j=0; j<nDim-1; ++j) {
     __float128 mtmp=ele[j]*scalar;
-    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,mtmp);
-    fprintf(fpout,"%s",mpbuffer_sdpa_struct);
+    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,mtmp); //issue #1
+    fprintf(fpout,"%s,",mpbuffer_sdpa_struct); //issue #1
   }
   if (nDim>0) {
     __float128 mtmp=ele[nDim-1]*scalar;
-    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,mtmp);
-    fprintf(fpout,"%s",mpbuffer_sdpa_struct);
+    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,mtmp); //issue #1
+    fprintf(fpout,"%s}\n",mpbuffer_sdpa_struct); //issue #1
   } else {
     fprintf(fpout,"  }\n");
   }
