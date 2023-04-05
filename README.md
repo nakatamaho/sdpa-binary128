@@ -3,7 +3,7 @@
 # how to build
 I verified build on Ubuntu 20.04
 ```
-rm -rf sdpa-dd
+rm -rf sdpa-binary128
 git clone https://github.com/nakatamaho/sdpa-binary128.git
 cd sdpa-dd
 aclocal ; autoconf ; automake --add-missing
