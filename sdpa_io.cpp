@@ -1353,7 +1353,7 @@ void IO::printLastInfo(int pIteration,
     #if 1
     #if REVERSE_PRIMAL_DUAL
     fprintf(fpout,"xVec = \n");
-    currentPt.yVec.display(fpout,-1.0);
+    currentPt.yVec.display(fpout, -1.0); //issue #1
     fprintf(fpout,"xMat = \n");
     displayDenseLinarSpaceLast(currentPt.zMat,
 							   nBlock, blockStruct, blockType, blockNumber,
