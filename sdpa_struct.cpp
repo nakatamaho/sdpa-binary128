@@ -1826,9 +1826,11 @@ void printvec (int N, __float128 *A)
 {
   printf(" [ ");
   for (int i=0; i<N-1; i++){
-    printf( P_FORMAT "; ", (double)A[i]);
+    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,A[i]);
+    printf("%s; ",mpbuffer_sdpa_struct);
   }
-  printf( P_FORMAT " ] ", (double)A[N-1]);
+  quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,A[N-1]);
+  printf("%s ] ",mpbuffer_sdpa_struct);
 }
 
 //print vector as matlab compat format.
@@ -1837,10 +1839,12 @@ void printveci (int N, __float128 *A, int inc)
   int ix=0;
   printf(" [ ");
   for (int i=0; i<N-1; i++){
-    printf( P_FORMAT "; ", (double)A[ix]);
+    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,A[ix]);
+    printf("%s; ",mpbuffer_sdpa_struct);
     ix = ix + inc;
   }
-  printf( P_FORMAT " ] ", (double)A[ix]);
+  quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,A[ix]);
+  printf("%s ] ",mpbuffer_sdpa_struct);
 }
 
 //print matrix as matlab compat format.

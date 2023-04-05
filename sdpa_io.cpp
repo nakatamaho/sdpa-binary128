@@ -1406,7 +1406,7 @@ void IO::displayDenseLinarSpaceLast(DenseLinearSpace& aMat,
 	  }
 	  if (blockStruct[i] > 0) {
 		quadmath_snprintf(mpbuffer_sdpa_io,BINARY128BUFFER,PQ_FORMAT",",aMat.LP_block[blockNumber[i]+blockStruct[i]-1]);
-		fprintf(fpout,P_FORMAT"}\n");
+		fprintf(fpout,mpbuffer_sdpa_io);
 	  } else {
 		fprintf(fpout,"  }\n");
 	  }
