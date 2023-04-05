@@ -108,11 +108,11 @@ void Vector::display(FILE* fpout)
   }
   fprintf(fpout,"{");
   for (int j=0; j<nDim-1; ++j) {
-    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,ele[j]);
+    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,ele[j]);
     fprintf(fpout,"%s",mpbuffer_sdpa_struct);
   }
   if (nDim>0) {
-    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,ele[nDim-1]);
+    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,ele[nDim-1]);
     fprintf(fpout,"%s",mpbuffer_sdpa_struct);
   } else {
     fprintf(fpout,"  }\n");
@@ -410,7 +410,7 @@ void SparseMatrix::display(FILE* fpout)
       int i        = row_index[index];
       int j        = column_index[index];
       __float128 value = sp_ele[index];
-      quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,value);
+      quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,value);
       fprintf(fpout,"val[%d,%d] = %s\n", i,j,mpbuffer_sdpa_struct);
     }
     fprintf(fpout,"}\n");
@@ -425,20 +425,20 @@ void SparseMatrix::display(FILE* fpout)
       }
       fprintf(fpout,"{");
       for (int j=0; j<nCol-1; ++j) {
-        quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,de_ele[i+nCol*j]);
+        quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,de_ele[i+nCol*j]);
         fprintf(fpout, "%s",mpbuffer_sdpa_struct);
       }
-        quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,de_ele[i+nCol*(nCol-1)]);
+        quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,de_ele[i+nCol*(nCol-1)]);
         fprintf(fpout,"%s },\n",mpbuffer_sdpa_struct);
     }
     if (nRow>1) {
       fprintf(fpout,"  {");
     }
     for (int j=0; j<nCol-1; ++j) {
-      quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,de_ele[(nRow-1)+nCol*j]);
+      quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,de_ele[(nRow-1)+nCol*j]);
       fprintf(fpout,"%s,",mpbuffer_sdpa_struct); 
     }
-    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,de_ele[(nRow-1)+nCol*(nCol-1)]);
+    quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,de_ele[(nRow-1)+nCol*(nCol-1)]);
     fprintf(fpout,"%s }",mpbuffer_sdpa_struct);
     if (nRow>1) {
       fprintf(fpout,"   }\n");
@@ -1852,7 +1852,7 @@ void printmat (int N, int M, __float128 *A, int LDA)
     printf("[ ");
     for (int j=0; j<M; j++){
       mtmp=A[i+j*LDA];
-      quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,mtmp);
+      quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,mtmp);
       printf("%s", mpbuffer_sdpa_struct);
       if (j<M-1) printf(", ");
     }
@@ -1870,7 +1870,7 @@ void printsymmmat (int N, __float128 *A, int LDA)
     printf("[ ");
     for (int j=0; j<N; j++){
       mtmp=A[i+j*LDA];
-      quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,mtmp);
+      quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,mtmp);
       printf("%s", mpbuffer_sdpa_struct);
       if (j<N-1) printf(", ");
     }
@@ -1889,15 +1889,15 @@ void printmat3 (int N, __float128 *p, __float128 *q)
     printf(" [ ");
     for (int j=0; j<N; j++){
       if (i==j){
-        quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,p[i]);
+        quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,p[i]);
         printf("%s", mpbuffer_sdpa_struct);
       }
       if(abs(i-j)==1){
-        quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,q[(i<j?i:j)]);
+        quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,q[(i<j?i:j)]);
         printf("%s", mpbuffer_sdpa_struct);
       }
       if(abs(i-j)>1){
-        quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,P_FORMAT,zero);
+        quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,zero);
         printf("%s", mpbuffer_sdpa_struct);
       }
       if (j<N-1)  printf (", ");

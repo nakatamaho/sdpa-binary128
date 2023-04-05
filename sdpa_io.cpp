@@ -1401,11 +1401,11 @@ void IO::displayDenseLinarSpaceLast(DenseLinearSpace& aMat,
 	} else if (blockType[i] == 3){
 	  fprintf(fpout,"{");
 	  for (int l=0; l<blockStruct[i]-1; ++l) {
-		quadmath_snprintf(mpbuffer_sdpa_io,BINARY128BUFFER,P_FORMAT",",aMat.LP_block[blockNumber[i]+l]);
+		quadmath_snprintf(mpbuffer_sdpa_io,BINARY128BUFFER,PQ_FORMAT",",aMat.LP_block[blockNumber[i]+l]);
 		fprintf(fpout,mpbuffer_sdpa_io);
 	  }
 	  if (blockStruct[i] > 0) {
-		quadmath_snprintf(mpbuffer_sdpa_io,BINARY128BUFFER,P_FORMAT",",aMat.LP_block[blockNumber[i]+blockStruct[i]-1]);
+		quadmath_snprintf(mpbuffer_sdpa_io,BINARY128BUFFER,PQ_FORMAT",",aMat.LP_block[blockNumber[i]+blockStruct[i]-1]);
 		fprintf(fpout,P_FORMAT"}\n");
 	  } else {
 		fprintf(fpout,"  }\n");
