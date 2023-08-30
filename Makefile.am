@@ -44,12 +44,9 @@ mplapack/Rgemm_TN_omp.cpp\
 mplapack/Rgemm_TT_omp.cpp
 endif
 
-if ENABLE_SHARED
-else
-sdpa_binary128_LDFLAGS = -static
-endif
+AUTOMAKE_OPTIONS = subdir-objects
 
-if SYSTEM_MPACK
+if SYSTEM_MPLAPACK
 sdpa_binary128_LDADD = $(pthread_lib) -L$(SPOOLES_LIBDIR) -lspooles -lquadmath $(OPENMPLIB) -L$(MPACK_LIBDIR) -lmlapack_binary128 -lmblas_binary128
 sdpa_binary128_CXXFLAGS= $(pthread_cflags) -I$(SPOOLES_INCLUDEDIR) -DUseMETIS=0 $(OPENMPFLAGS) -I$(MPACK_INCLUDEDIR)
 else
@@ -57,6 +54,12 @@ sdpa_binary128_LDADD = $(pthread_lib) -L$(SPOOLES_LIBDIR) -lspooles -lquadmath $
 sdpa_binary128_CXXFLAGS= $(pthread_cflags) -I$(SPOOLES_INCLUDEDIR) -DUseMETIS=0 -I$(MPACK_INCLUDEDIR) $(OPENMPFLAGS) -I./mpack
 endif
 
-if BUILD_SPOOLES
-SUBDIRS = spooles
-endif
+SUBDIRS = external
+
+EXTRA_DIST = \
+param.sdpa \
+external/spooles/download/*.tgz \
+external/spooles/patches/patch* \
+external/spooles/Makefile.am \
+external/spooles/Makefile.in
+
