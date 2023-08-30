@@ -1,32 +1,23 @@
 dnl
-dnl Configure for SDPA-BINARY128 7.1.2
+dnl Configure for SDPA-BINARY128 7.1.3
 dnl
 
-AC_INIT(sdpa-binary128, 7.1.2)
+AC_INIT(sdpa-binary128, 7.1.3)
+AC_CONFIG_AUX_DIR([.])
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_PROG_CC
 AC_PROG_CXX
 AC_CANONICAL_HOST
+AC_OPENMP
+AC_LANG([C++])
+AC_OPENMP
+
+highest_abs_top_srcdir=`cd "$srcdir" && pwd`
 
 AC_ARG_WITH(system-spooles,
 [  --with-system-spooles      Use spooles already on system],
 WITH_SYSTEM_SPOOLES=$withval, WITH_SYSTEM_SPOOLES=no)
 AM_CONDITIONAL(BUILD_SPOOLES, test x$WITH_SYSTEM_SPOOLES = xno)
-
-AC_ARG_WITH(system-mpack,
-[  --with-system-mpack      Use mpack already on system],
-WITH_SYSTEM_MPACK=$withval, WITH_SYSTEM_MPACK=no)
-AM_CONDITIONAL(BUILD_MPACK, test x$WITH_SYSTEM_MPACK = xno)
-
-AC_ARG_WITH(mpack-includedir,
-[  --with-mpack-includedir    Gives mpack include dir you use(e.g., /usr/local/include).],
-MPACK_INCLUDEDIR=$withval
-)
-
-AC_ARG_WITH(mpack-libdir,
-[  --with-mpack-libdir    Gives mpack lib dir you use(e.g., /usr/local/lib).],
-MPACK_LIBDIR=$withval
-)
 
 AC_ARG_WITH(spooles-includedir,
 [  --with-spooles-includedir    Gives spooles include dir you use(e.g., /usr/local/include/spooles).],
@@ -38,51 +29,50 @@ AC_ARG_WITH(spooles-libdir,
 SPOOLES_LIBDIR=$withval
 )
 
-AC_ARG_ENABLE(metis,
-[  --enable-metis    Build with metis],
-[case "${enableval}" in
-  yes) with_metis=yes ;;
-  no)  with_metis=no  ;;
-  *) AC_MSG_ERROR(bad value ${enableval} for --enable-metis) ;;
-esac],[with_metis=no])
-AM_CONDITIONAL(ENABLE_METIS, test x$with_metis = xyes)
+AC_ARG_WITH(system-mplapack,
+[  --with-system-mplapack      Use mplapack already on system],
+WITH_SYSTEM_MPLAPACK=$withval, WITH_SYSTEM_MPLAPACK=no)
+AM_CONDITIONAL(BUILD_MPLAPACK, test x$WITH_SYSTEM_MPLAPACK = xno)
 
-AC_ARG_WITH(metis-includedir,
-[  --with-metis-includedir    Gives metis include dir you use(e.g., /usr/local/include/metis).],
-METIS_INCLUDEDIR=$withval
+AC_ARG_WITH(mplapack-includedir,
+[  --with-mplapack-includedir    Gives mplapack include dir you use(e.g., /usr/local/include).],
+MPLAPACK_INCLUDEDIR=$withval
 )
 
-AC_ARG_WITH(metis-libdir,
-[  --with-metis-libdir    Gives metis lib dir you use(e.g., /usr/local/lib).],
-METIS_LIBDIR=$withval
+AC_ARG_WITH(mplapack-libdir,
+[  --with-mplapack-libdir    Gives mplapack lib dir you use(e.g., /usr/local/lib).],
+MPLAPACK_LIBDIR=$withval
 )
 
-AC_ARG_ENABLE(openmp,
-[  --enable-openmp       Enables openmp
-],WITH_OPENMP=yes)
-
-AC_ARG_WITH(openmplib,
-[  --with-openmplib    Gives openmplib],
-OPENMPLIB=$withval
-)
-
-AC_ARG_WITH(openmpflag,
-[  --with-openmpflag    Gives openmpflag],
-OPENMPFLAG=$withval
-)
-
-AC_ARG_WITH(openmpthreads,
-[  --with-openmpthread   Gives openmpthreads],
-OPENMPTHREADS=$withval
-)
-
-AC_ARG_ENABLE(shared,
-[  --enable-shared       Enables shared link to the libraries (slower)
-],,)
-
-
-dnl spooles and metis requires -lm when linking.
+dnl spooles requires -lm when linking.
 LIBS="-lm"
+
+IS_LINUX=0
+case "$host" in
+    *linux*)
+        IS_LINUX=1
+        ;;
+    *)
+esac
+AM_CONDITIONAL(IS_LINUX, test x$IS_LINUX = x1)
+
+IS_MINGW=0
+case "$host" in
+        *-mingw32*) # mingw
+          IS_MINGW=1
+        ;;
+        *)
+esac
+AM_CONDITIONAL(IS_MINGW, test x$IS_MINGW = x1)
+
+IS_MACOS=0
+case "$host" in
+         *apple-darwin*) # MacOSX
+          IS_MACOS=1
+        ;;
+        *)
+esac
+AM_CONDITIONAL(IS_MACOS, test x$IS_MACOS = x1)
 
 dnl How thread we link thread library esp. needed for spooles.
 case "$host" in
@@ -93,9 +83,6 @@ case "$host" in
         *-*-freebsd*|*-*-dragonfly*)
             pthread_cflags=""
             pthread_lib="-pthread"
-            ;;
-        *-apple-darwin*)
-           enable_shared="yes"
         ;;
 esac
 LIBS="$LIBS $pthread_lib"
@@ -116,46 +103,6 @@ SPOOLES_LIBDIR="."
 fi
 
 dnl
-
-AC_MSG_CHECKING([whether to enable metis])
-if test "$with_metis" = "no"; then
-  AC_MSG_RESULT([no])
-  ENABLE_METIS=NO
-  AC_SUBST(ENABLE_METIS)
-else
-  AC_MSG_RESULT([yes])
-  ENABLE_METIS=YES
-  AC_SUBST(ENABLE_METIS)
-
-  if test x$METIS_INCLUDEDIR = x; then
-  METIS_INCLUDEDIR="."
-  fi
-  if test x$METIS_LIBDIR = x; then
-  METIS_LIBDIR="."
-  fi
-
-  dnl Check for METIS include and library files
-  HAVE_METIS_HEADER=""
-  HAVE_METIS=""
-  save_CPPFLAGS="$CPPFLAGS"
-  CPPFLAGS="$CPPFLAGS -I$METIS_INCLUDEDIR"
-  AC_CHECK_HEADER(metis.h, HAVE_METIS_HEADER=yes)
-  CPPFLAGS=$save_CPPFLAGS
-  if test x$HAVE_METIS_HEADER = xyes; then
-    save_LDFLAGS="$LDFLAGS"
-    LDFLAGS="$LDFLAGS -L$METIS_LIBDIR"
-    AC_CHECK_LIB(metis, METIS_NodeND, [METIS_LIBS="-lmetis"; HAVE_METIS=yes])
-    LDFLAGS=$save_LDFLAGS
-  fi
-
-  if test x$HAVE_METIS != xyes; then
-    echo "Please install METIS"
-    echo "METIS http://glaros.dtc.umn.edu/gkhome/views/metis/index.html"
-    AC_MSG_ERROR([No METIS found])
-  fi
-  AC_SUBST(METIS_LIBDIR)
-  AC_SUBST(METIS_INCLUDEDIR)
-fi
 
 if test x$WITH_SYSTEM_SPOOLES != xno; then
   dnl Check for SPOOLES include and library files
@@ -179,91 +126,152 @@ if test x$WITH_SYSTEM_SPOOLES != xno; then
     AC_MSG_ERROR([No SPOOLES found])
   fi
 else
-SPOOLES_LIBDIR=`pwd`/spooles/build
-SPOOLES_INCLUDEDIR=`pwd`/spooles/build
+SPOOLES_LIBDIR=$highest_abs_top_srcdir/external/i/SPOOLES/lib
+SPOOLES_INCLUDEDIR=$highest_abs_top_srcdir/external/spooles/work/internal #just too messy
 fi
 AC_SUBST(SPOOLES_LIBDIR)
 AC_SUBST(SPOOLES_INCLUDEDIR)
 
-dnl Check for BINARY128 include and library files
-dnl some dummy settings
-if test x$BINARY128_INCLUDEDIR = x; then
-BINARY128_INCLUDEDIR="."
-fi
-if test x$BINARY128_LIBDIR = x; then
-BINARY128_LIBDIR="."
+# For unknown reason, the f128 suffix doesn't work in g++-9, but it does in gcc-9.
+AC_MSG_CHECKING([whether _Float128 is supported])
+AC_LINK_IFELSE([
+   AC_LANG_SOURCE([[
+   #include <stdio.h>
+   #include <math.h>
+   #include <stdlib.h>
+   int main() {
+       _Float128 a, b, c; b = 1.0q; c=3.0q; a = b / c;
+       char buf[1024];
+       strfromf128(buf, sizeof(buf), "%.40g", a);
+       printf("fp128 %s\n",buf);
+   }
+  ]])
+], [have__Float128=yes want_libquadmath=no], [have__Float128=no])
+
+if test x"$have__Float128" = x"yes"; then
+    AC_COMPILE_IFELSE([
+    AC_LANG_SOURCE([[
+        #include <stdio.h>
+        #include <math.h>
+        #include <stdlib.h>
+        int main() {
+           long double *x;
+           _Float128 *y = x;
+        }
+    ]])
+    ], [_Float128islongdouble=yes], [_Float128islongdouble=no])
+
+    if test "$_Float128islongdouble" = "yes"; then
+         AC_MSG_RESULT([_Float128 is long double])
+    else
+         AC_MSG_RESULT([_Float128 is not long double])
+    fi
 fi
 
-HAVE_BINARY128_HEADER=""
-HAVE_BINARY128=""
-AC_LANG_PUSH([C++])
+if test x"$have__Float128" = x"no"; then
+    AC_COMPILE_IFELSE([
+    AC_LANG_SOURCE([[
+       #include <stdio.h>
+       #include <limits>
+       int main(){
+       #if __LDBL_MANT_DIG__  >= 113
+          printf("%d\n",__LDBL_MANT_DIG__);
+       #else
+       #error
+       #endif
+    }
+    ]])
+    ], [longdoubleisbinary128=yes], [longdoubleisbinary128=no])
+
+    if test "$longdoubleisbinary128" = "yes"; then
+        AC_MSG_RESULT([long double is binary128])
+    else
+        AC_MSG_RESULT([long double is not binary128])
+    fi
+    save_LIBS="$LIBS"
+    LIBS="-lquadmath $LIBS"
+    AC_LINK_IFELSE([
+        AC_LANG_SOURCE([[
+            #include <quadmath.h>
+            #include <stdio.h>
+            int main(){
+                char buf[1024];
+                __float128 a, b, c; b = 1.0q; c= 3.0q; a = b / c;
+                quadmath_snprintf(buf,128,"%.40Qf\n",a);
+                printf("%s",buf);
+           }
+       ]])
+    ], [have___float128=yes want_libquadmath=yes], [have___float128=no])
+    LIBS="$save_LIBS"
+fi
+
+if test "$have___float128" = "yes" && test x"$want_libquadmath" = x"yes" ; then
+    AC_MSG_RESULT([_Float128 is supported via __float128 and libquadmath])
+    sed 's/%%MPLAPACK_BINARY128%%/#define ___MPLAPACK_WANT_LIBQUADMATH___/g' include/mplapack_utils__Float128.h.in > include/mplapack_utils__Float128.h
+elif test "$have__Float128" = "yes" && test x"$want_libquadmath" = x"no" && test x"$_Float128islongdouble" = x"yes"; then
+    AC_MSG_RESULT([_Float128 is supported via native libc and _Float128 and long double are the same])
+    sed 's/%%MPLAPACK_BINARY128%%/#define ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___/g' include/mplapack_utils__Float128.h.in > include/mplapack_utils__Float128.h
+elif test "$have__Float128" = "yes" && test x"$want_libquadmath" = x"no" && test x"$_Float128islongdouble" != x"yes"; then
+    AC_MSG_RESULT([_Float128 is supported via native libc and only binary128 in this system])
+    sed 's/%%MPLAPACK_BINARY128%%/#define ___MPLAPACK__FLOAT128_ONLY___/g' include/mplapack_utils__Float128.h.in > include/mplapack_utils__Float128.h
+elif test "$have__Float128" = "no" && test x"$longdoubleisbinary128" = x"yes"; then
+    AC_MSG_RESULT([long double is binary128, but neither _Float128 nor __float128 are supported])
+    sed 's/%%MPLAPACK_BINARY128%%/#define ___MPLAPACK_LONGDOUBLE_IS_BINARY128___/g' include/mplapack_utils__Float128.h.in > include/mplapack_utils__Float128.h
+else
+    AC_MSG_ERROR([binary128 is not supported on this system])
+fi
+AM_CONDITIONAL(ENABLE__FLOAT128, test x$enable__Float128 = xyes)
+AM_CONDITIONAL(WANT_QUADMATH, test x$want_libquadmath = xyes)
+AM_CONDITIONAL(IS__FLOAT128_LONGDOUBLE, test x$_Float128islongdouble = xyes)
+AM_CONDITIONAL(IS_LONGDOUBLE_BINARY128, test x$longdoubleisbinary128 = xyes)
+
+dnl Check for MPLAPACK include and library files
+dnl some dummy settings
+if test x$MPLAPACK_INCLUDEDIR = x; then
+MPLAPACK_INCLUDEDIR="."
+fi
+if test x$MPLAPACK_LIBDIR = x; then
+MPLAPACK_LIBDIR="."
+fi
+
+if test x$WITH_SYSTEM_MPLAPACK != xno; then
+HAVE_MPLAPACK_HEADER=""
+HAVE_MPLAPACK=""
 save_CPPFLAGS="$CPPFLAGS"
-CPPFLAGS="$CPPFLAGS -I$BINARY128_INCLUDEDIR"
-AC_CHECK_HEADER(quadmath.h, HAVE_BINARY128_HEADER=yes)
+CPPFLAGS="$CPPFLAGS -I$MPLAPACK_INCLUDEDIR"
+AC_LANG_PUSH([C++])
+AC_CHECK_HEADER(mpblas__Float128.h, HAVE_MPLAPACK_HEADER=yes)
 CPPFLAGS=$save_CPPFLAGS
 
-if test x$HAVE_BINARY128_HEADER = xyes; then
+if test x$HAVE_MPLAPACK_HEADER = xyes; then
   save_LDFLAGS="$LDFLAGS"
-  LDFLAGS="$LDFLAGS -L$BINARY128_LIBDIR"
-  AC_CHECK_LIB(quadmath, sin, [BINARY128_LIBS="-lquadmath"; HAVE_BINARY128=yes])
-  LDFLAGS=$save_LDFLAGS
+  LDFLAGS="$LDFLAGS -L$MPLAPACK_LIBDIR"
+  LIBS="$LDFLAGS -L$MPLAPACK_LIBDIR -lmplapack__Float128 -lmpblas__Float128_opt"
+ # AC_CHECK_FUNC(Rsyev, [HAVE_MPLAPACK=yes])
+  HAVE_MPLAPACK=yes
+  if test x$IS_LINUX = x1; then
+    LDFLAGS="$save_LDFLAGS -Wl,--rpath=$MPLAPACK_LIBDIR"
+  fi
 fi
 
-if test x$HAVE_BINARY128 != xyes; then
-  echo "Please use C++ compilers which supports binary128 (e.g. gcc 4.6 and later)"
-  AC_MSG_ERROR([No BINARY128 support found])
-fi
-AC_SUBST(BINARY128_LIBDIR)
-AC_SUBST(BINARY128_INCLUDEDIR)
-
-dnl Check for MPACK include and library files
-dnl some dummy settings
-if test x$MPACK_INCLUDEDIR = x; then
-MPACK_INCLUDEDIR="."
-fi
-if test x$MPACK_LIBDIR = x; then
-MPACK_LIBDIR="."
-fi
-
-if test x$WITH_SYSTEM_MPACK != xno; then
-HAVE_MPACK_HEADER=""
-HAVE_MPACK=""
-save_CPPFLAGS="$CPPFLAGS"
-CPPFLAGS="$CPPFLAGS -I$MPACK_INCLUDEDIR"
-AC_LANG_PUSH([C++])
-AC_CHECK_HEADER(mblas__Float128.h, HAVE_MPACK_HEADER=yes)
-CPPFLAGS=$save_CPPFLAGS
-
-if test x$HAVE_MPACK_HEADER = xyes; then
-  save_LDFLAGS="$LDFLAGS"
-  LDFLAGS="$LDFLAGS -L$MPACK_LIBDIR"
-  LIBS="$LDFLAGS -L$MPACK_LIBDIR -lmlapack__Float128 -lmblas__Float128 -lquadmath";
- # AC_CHECK_FUNC(Rsyev, [HAVE_MPACK=yes])
-  HAVE_MPACK=yes
-  LDFLAGS=$save_LDFLAGS
-fi
-
-if test x$HAVE_MPACK != xyes; then
-  echo "Please install MPACK (MBLAS/MLAPACK)"
-  echo "MPACK (MBLAS/MLAPACK) http://mplapack.cvs.sourceforge.net/"
-  AC_MSG_ERROR([No MPACK found])
+if test x$HAVE_MPLAPACK != xyes; then
+  echo "Please install MPLAPACK (MPBLAS/MPLAPACK)"
+  echo "https://github.com/nakatamaho/mplapack/"
+  AC_MSG_ERROR([No MPLAPACK found])
 fi
 else
-MPACK_LIBDIR=`pwd`/mpack
-MPACK_INCLUDEDIR=`pwd`/mpack
+MPLAPACK_LIBDIR=$highest_abs_top_srcdir/mplapack
+MPLAPACK_INCLUDEDIR=$highest_abs_top_srcdir/mplapack
 fi
-AM_CONDITIONAL(SYSTEM_MPACK, test x$with_system_mpack = xyes)
-AC_SUBST(MPACK_LIBDIR)
-AC_SUBST(MPACK_INCLUDEDIR)
+AM_CONDITIONAL(SYSTEM_MPLAPACK, test x$with_system_mplapack = xyes)
+AC_SUBST(MPLAPACK_LIBDIR)
+AC_SUBST(MPLAPACK_INCLUDEDIR)
 
-dnl openmp
-if test -n "$enable_openmp" && test "$enable_openmp" != "no" && test "$WITH_OPENMP" = "yes"; then
-OPENMPFLAGS="-fopenmp -DENABLE_OPENMP -DNUM_OF_THREADS=$OPENMPTHREADS"
-OPENMPLIB=-lgomp
-fi
-AC_SUBST(OPENMPLIB)
-AC_SUBST(OPENMPFLAGS)
+AC_CONFIG_FILES([
+external/Makefile
+external/spooles/Makefile
+external/qd/Makefile
+])
 
-AM_CONDITIONAL(ENABLE_SHARED, test x$enable_shared = xyes)
-
-AC_OUTPUT(Makefile)
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
