@@ -1,339 +1,405 @@
-/*************************************************************************
- *
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- * 
- * Copyright 2008 by Nakata, Maho
- * 
- * $Id: Rsterf.cpp,v 1.8 2009/09/26 02:21:32 nakatamaho Exp $ 
- *
- * MPACK - multiple precision arithmetic library
- *
- * This file is part of MPACK.
- *
- * MPACK is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License version 3
- * only, as published by the Free Software Foundation.
- *
- * MPACK is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License version 3 for more details
- * (a copy is included in the LICENSE file that accompanied this code).
- *
- * You should have received a copy of the GNU Lesser General Public License
- * version 3 along with MPACK.  If not, see
- * <http://www.gnu.org/licenses/lgpl.html>
- * for a copy of the LGPLv3 License.
- *
- ************************************************************************/
 /*
-Copyright (c) 1992-2007 The University of Tennessee.  All rights reserved.
+ * Copyright (c) 2008-2021
+ *      Nakata, Maho
+ *      All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *
+ */
 
-$COPYRIGHT$
+#include <mpblas_dd.h>
+#include <mplapack_dd.h>
 
-Additional copyrights may follow
-
-$HEADER$
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-- Redistributions of source code must retain the above copyright
-  notice, this list of conditions and the following disclaimer. 
-  
-- Redistributions in binary form must reproduce the above copyright
-  notice, this list of conditions and the following disclaimer listed
-  in this license in the documentation and/or other materials
-  provided with the distribution.
-  
-- Neither the name of the copyright holders nor the names of its
-  contributors may be used to endorse or promote products derived from
-  this software without specific prior written permission.
-  
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT  
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
-OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT  
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
-*/
-
-#include <mblas___float128.h>
-#include <mlapack___float128.h>
-#include <stdio.h> //for untested part
-void
-Rsterf(mpackint n, __float128 * d, __float128 * e, mpackint *info)
-{
-    __float128 Zero = 0.0, One = 1.0, Two = 2.0, Three = 3.0;
-    __float128 sigma;
-    __float128 eps, eps2;
-    __float128 safmin, safmax, ssfmax, ssfmin, anorm;
-    __float128 rte, rt1, rt2, s, c, r, oldc, oldgam, gamma, p, bb, alpha;
-
-    mpackint nmaxit;
-    mpackint iscale;
-    mpackint l1, jtot;
-    mpackint i, l, m;
-    mpackint lsv, lend, lendsv;
-
-    *info = 0;
-//Quick return if possible
+void Rsterf(mplapackint const n, _Float128 *d, _Float128 *e, mplapackint &info) {
+    _Float128 eps = 0.0;
+    _Float128 eps2 = 0.0;
+    _Float128 safmin = 0.0;
+    const _Float128 one = 1.0;
+    _Float128 safmax = 0.0;
+    const _Float128 three = 3.0;
+    _Float128 ssfmax = 0.0;
+    _Float128 ssfmin = 0.0;
+    _Float128 rmax = 0.0;
+    const mplapackint maxit = 30;
+    mplapackint nmaxit = 0;
+    const _Float128 zero = 0.0;
+    _Float128 sigma = 0.0;
+    mplapackint jtot = 0;
+    mplapackint l1 = 0;
+    mplapackint m = 0;
+    mplapackint l = 0;
+    mplapackint lsv = 0;
+    mplapackint lend = 0;
+    mplapackint lendsv = 0;
+    _Float128 anorm = 0.0;
+    mplapackint iscale = 0;
+    mplapackint i = 0;
+    _Float128 p = 0.0;
+    _Float128 rte = 0.0;
+    _Float128 rt1 = 0.0;
+    _Float128 rt2 = 0.0;
+    const _Float128 two = 2.0;
+    _Float128 r = 0.0;
+    _Float128 c = 0.0;
+    _Float128 s = 0.0;
+    _Float128 gamma = 0.0;
+    _Float128 bb = 0.0;
+    _Float128 oldc = 0.0;
+    _Float128 oldgam = 0.0;
+    _Float128 alpha = 0.0;
+    //
+    //  -- LAPACK computational routine --
+    //  -- LAPACK is a software package provided by Univ. of Tennessee,    --
+    //  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
+    //
+    //     .. Scalar Arguments ..
+    //     ..
+    //     .. Array Arguments ..
+    //     ..
+    //
+    //  =====================================================================
+    //
+    //     .. Parameters ..
+    //     ..
+    //     .. Local Scalars ..
+    //     ..
+    //     .. External Functions ..
+    //     ..
+    //     .. External Subroutines ..
+    //     ..
+    //     .. Intrinsic Functions ..
+    //     ..
+    //     .. Executable Statements ..
+    //
+    //     Test the input parameters.
+    //
+    info = 0;
+    //
+    //     Quick return if possible
+    //
     if (n < 0) {
-	*info = -1;
-	Mxerbla___float128("Rsterf", -(*info));
-	return;
+        info = -1;
+        Mxerbla_dd("Rsterf", -info);
+        return;
     }
-    if (n <= 1)
-	return;
-//Determine the unit roundoff for this environment.
-    eps = Rlamch___float128("E");
-    eps2 = eps * eps;
-    safmin = Rlamch___float128("S");
-    safmax = One / safmin;
-    ssfmax = sqrtq(safmax) / Three;
-    ssfmin = sqrtq(safmin) / eps2;
-//Compute the eigenvalues of the tridiagonal matrix.
-    nmaxit = n * 30;
-    sigma = Zero;
+    if (n <= 1) {
+        return;
+    }
+    //
+    //     Determine the unit roundoff for this environment.
+    //
+    eps = Rlamch_dd("E");
+    eps2 = pow2(eps);
+    safmin = Rlamch_dd("S");
+    safmax = one / safmin;
+    ssfmax = sqrt(safmax) / three;
+    ssfmin = sqrt(safmin) / eps2;
+    rmax = Rlamch_dd("O");
+    //
+    //     Compute the eigenvalues of the tridiagonal matrix.
+    //
+    nmaxit = n * maxit;
+    sigma = zero;
     jtot = 0;
-//Determine where the matrix splits and choose QL or QR iteration
-//for each block, according to whether top or bottom diagonal
-//element is smaller.
+    //
+    //     Determine where the matrix splits and choose QL or QR iteration
+    //     for each block, according to whether top or bottom diagonal
+    //     element is smaller.
+    //
     l1 = 1;
-  L10:
+//
+statement_10:
     if (l1 > n) {
-	goto L170;
+        goto statement_170;
     }
     if (l1 > 1) {
-	e[l1 - 2] = Zero;
+        e[(l1 - 1) - 1] = zero;
     }
-    for (m = l1; m <= n - 1; m++) {
-	if (abs(e[m - 1]) <= sqrtq(abs(d[m - 1])) * sqrtq(abs(d[m])) * eps) {
-	    e[m - 1] = Zero;
-	    goto L30;
-	}
+    for (m = l1; m <= n - 1; m = m + 1) {
+        if (abs(e[m - 1]) <= (sqrt(abs(d[m - 1])) * sqrt(abs(d[(m + 1) - 1]))) * eps) {
+            e[m - 1] = zero;
+            goto statement_30;
+        }
     }
     m = n;
-  L30:
+//
+statement_30:
     l = l1;
     lsv = l;
     lend = m;
     lendsv = lend;
     l1 = m + 1;
     if (lend == l) {
-	goto L10;
+        goto statement_10;
     }
-//Scale submatrix in rows and columns L to LEND
-    anorm = Rlanst("I", lend - l + 1, &d[l - 1], &e[l - 1]);
+    //
+    //     Scale submatrix in rows and columns L to LEND
+    //
+    anorm = Rlanst("M", lend - l + 1, &d[l - 1], &e[l - 1]);
     iscale = 0;
-    if (anorm > ssfmax) {
-	printf("XXX not tested #1\n");
-	iscale = 1;
-	Rlascl("G", 0, 0, anorm, ssfmax, lend - l + 1, 1, &d[l - 1], n, info);
-	Rlascl("G", 0, 0, anorm, ssfmax, lend - l, 1, &e[l - 1], n, info);
+    if (anorm == zero) {
+        goto statement_10;
+    }
+    if ((anorm > ssfmax)) {
+        iscale = 1;
+        Rlascl("G", 0, 0, anorm, ssfmax, lend - l + 1, 1, &d[l - 1], n, info);
+        Rlascl("G", 0, 0, anorm, ssfmax, lend - l, 1, &e[l - 1], n, info);
     } else if (anorm < ssfmin) {
-	printf("XXX not tested #2\n");
-	iscale = 2;
-	Rlascl("G", 0, 0, anorm, ssfmin, lend - l + 1, 1, &d[l - 1], n, info);
-	Rlascl("G", 0, 0, anorm, ssfmin, lend - l, 1, &e[l - 1], n, info);
+        iscale = 2;
+        Rlascl("G", 0, 0, anorm, ssfmin, lend - l + 1, 1, &d[l - 1], n, info);
+        Rlascl("G", 0, 0, anorm, ssfmin, lend - l, 1, &e[l - 1], n, info);
     }
-    for (i = l; i <= lend - 1; i++) {
-	e[i - 1] = e[i - 1] * e[i - 1];
+    //
+    for (i = l; i <= lend - 1; i = i + 1) {
+        e[i - 1] = pow2(e[i - 1]);
     }
-//Choose between QL and QR iteration
+    //
+    //     Choose between QL and QR iteration
+    //
     if (abs(d[lend - 1]) < abs(d[l - 1])) {
-	lend = lsv;
-	l = lendsv;
+        lend = lsv;
+        l = lendsv;
     }
+    //
     if (lend >= l) {
-//QL Iteration
-//Look for small subdiagonal element.
-      L50:
-	if (l != lend) {
-	    for (m = l; m <= lend - 1; m++) {
-		if (abs(e[m - 1]) <= eps2 * abs(d[m - 1] * d[m])) {
-		    goto L70;
-		}
-	    }
-	}
-	m = lend;
-      L70:
-	if (m < lend) {
-	    e[m - 1] = Zero;
-	}
-	p = d[l - 1];
-	if (m == l) {
-	    goto L90;
-	}
-//If remaining matrix is 2 by 2, use DLAE2 to compute its
-//eigenvalues.
-	if (m == l + 1) {
-	    rte = sqrtq(e[l - 1]);
-	    Rlae2(d[l - 1], rte, d[l], &rt1, &rt2);
-	    d[l - 1] = rt1;
-	    d[l] = rt2;
-	    e[l - 1] = Zero;
-	    l = l + 2;
-	    if (l <= lend) {
-		goto L50;
-	    }
-	    goto L150;
-	}
-	if (jtot == nmaxit) {
-	    goto L150;
-	}
-	jtot++;
-//Form shift.
-	rte = sqrtq(e[l - 1]);
-	sigma = (d[l] - p) / (rte * Two);
-	r = Rlapy2(sigma, One);
-	sigma = p - rte / (sigma + Msign(r, sigma));
-	c = One;
-	s = Zero;
-	gamma = d[m - 1] - sigma;
-	p = gamma * gamma;
-//Inner loop 
-	for (i = m - 1; i >= l; i--) {
-	    bb = e[i - 1];
-	    r = p + bb;
-	    if (i != m - 1) {
-		e[i] = s * r;
-	    }
-	    oldc = c;
-	    c = p / r;
-	    s = bb / r;
-	    oldgam = gamma;
-	    alpha = d[i - 1];
-	    gamma = c * (alpha - sigma) - s * oldgam;
-	    d[i] = oldgam + (alpha - gamma);
-	    if (c != Zero) {
-		p = gamma * gamma / c;
-	    } else {
-		p = oldc * bb;
-	    }
-	}
-	e[l - 1] = s * p;
-	d[l - 1] = sigma + gamma;
-	goto L50;
-//Eigenvalue found.
-      L90:
-	d[l - 1] = p;
-	l++;
-	if (l <= lend) {
-	    goto L50;
-	}
-	goto L150;
+    //
+    //        QL Iteration
+    //
+    //        Look for small subdiagonal element.
+    //
+    statement_50:
+        if (l != lend) {
+            for (m = l; m <= lend - 1; m = m + 1) {
+                if (abs(e[m - 1]) <= eps2 * abs(d[m - 1] * d[(m + 1) - 1])) {
+                    goto statement_70;
+                }
+            }
+        }
+        m = lend;
+    //
+    statement_70:
+        if (m < lend) {
+            e[m - 1] = zero;
+        }
+        p = d[l - 1];
+        if (m == l) {
+            goto statement_90;
+        }
+        //
+        //        If remaining matrix is 2 by 2, use Rlae2 to compute its
+        //        eigenvalues.
+        //
+        if (m == l + 1) {
+            rte = sqrt(e[l - 1]);
+            Rlae2(d[l - 1], rte, d[(l + 1) - 1], rt1, rt2);
+            d[l - 1] = rt1;
+            d[(l + 1) - 1] = rt2;
+            e[l - 1] = zero;
+            l += 2;
+            if (l <= lend) {
+                goto statement_50;
+            }
+            goto statement_150;
+        }
+        //
+        if (jtot == nmaxit) {
+            goto statement_150;
+        }
+        jtot++;
+        //
+        //        Form shift.
+        //
+        rte = sqrt(e[l - 1]);
+        sigma = (d[(l + 1) - 1] - p) / (two * rte);
+        r = Rlapy2(sigma, one);
+        sigma = p - (rte / (sigma + sign(r, sigma)));
+        //
+        c = one;
+        s = zero;
+        gamma = d[m - 1] - sigma;
+        p = gamma * gamma;
+        //
+        //        Inner loop
+        //
+        for (i = m - 1; i >= l; i = i - 1) {
+            bb = e[i - 1];
+            r = p + bb;
+            if (i != m - 1) {
+                e[(i + 1) - 1] = s * r;
+            }
+            oldc = c;
+            c = p / r;
+            s = bb / r;
+            oldgam = gamma;
+            alpha = d[i - 1];
+            gamma = c * (alpha - sigma) - s * oldgam;
+            d[(i + 1) - 1] = oldgam + (alpha - gamma);
+            if (c != zero) {
+                p = (gamma * gamma) / c;
+            } else {
+                p = oldc * bb;
+            }
+        }
+        //
+        e[l - 1] = s * p;
+        d[l - 1] = sigma + gamma;
+        goto statement_50;
+    //
+    //        Eigenvalue found.
+    //
+    statement_90:
+        d[l - 1] = p;
+        //
+        l++;
+        if (l <= lend) {
+            goto statement_50;
+        }
+        goto statement_150;
+        //
     } else {
-//QR Iteration
-//Look for small superdiagonal element.
-      L100:
-	for (m = l; m >= lend + 1; m--) {
-	    if (abs(e[m - 2]) <= eps2 * abs(d[m - 1] * d[m - 2])) {
-		goto L120;
-	    }
-	}
-	m = lend;
-      L120:
-	if (m > lend) {
-	    e[m - 2] = Zero;
-	}
-	p = d[l - 1];
-	if (m == l) {
-	    goto L140;
-	}
-//If remaining matrix is 2 by 2, use DLAE2 to compute its
-//eigenvalues.
-	if (m == l - 1) {
-	    rte = sqrtq(e[l - 2]);
-	    Rlae2(d[l - 1], rte, d[l - 2], &rt1, &rt2);
-	    d[l - 1] = rt1;
-	    d[l - 2] = rt2;
-	    e[l - 2] = Zero;
-	    l = l - 2;
-	    if (l >= lend) {
-		goto L100;
-	    }
-	    goto L150;
-	}
-
-	if (jtot == nmaxit) {
-	    goto L150;
-	}
-	jtot++;
-//Form shift.
-	rte = sqrtq(e[l - 2]);
-	sigma = (d[l - 2] - p) / (rte * Two);
-	r = Rlapy2(sigma, One);
-	sigma = p - rte / (sigma + Msign(r, sigma));
-
-	c = One;
-	s = Zero;
-	gamma = d[m - 1] - sigma;
-	p = gamma * gamma;
-//Inner loop
-	for (i = m; i <= l - 1; i++) {
-	    bb = e[i - 1];
-	    r = p + bb;
-	    if (i != m) {
-		e[i - 2] = s * r;
-	    }
-	    oldc = c;
-	    c = p / r;
-	    s = bb / r;
-	    oldgam = gamma;
-	    alpha = d[i];
-	    gamma = c * (alpha - sigma) - s * oldgam;
-	    d[i - 1] = oldgam + (alpha - gamma);
-	    if (c != Zero) {
-		p = gamma * gamma / c;
-	    } else {
-		p = oldc * bb;
-	    }
-	}
-
-	e[l - 2] = s * p;
-	d[l - 1] = sigma + gamma;
-	goto L100;
-//Eigenvalue found.
-      L140:
-	d[l - 1] = p;
-
-	l--;
-	if (l >= lend) {
-	    goto L100;
-	}
-	goto L150;
+    //
+    //        QR Iteration
+    //
+    //        Look for small superdiagonal element.
+    //
+    statement_100:
+        for (m = l; m >= lend + 1; m = m - 1) {
+            if (abs(e[(m - 1) - 1]) <= eps2 * abs(d[m - 1] * d[(m - 1) - 1])) {
+                goto statement_120;
+            }
+        }
+        m = lend;
+    //
+    statement_120:
+        if (m > lend) {
+            e[(m - 1) - 1] = zero;
+        }
+        p = d[l - 1];
+        if (m == l) {
+            goto statement_140;
+        }
+        //
+        //        If remaining matrix is 2 by 2, use Rlae2 to compute its
+        //        eigenvalues.
+        //
+        if (m == l - 1) {
+            rte = sqrt(e[(l - 1) - 1]);
+            Rlae2(d[l - 1], rte, d[(l - 1) - 1], rt1, rt2);
+            d[l - 1] = rt1;
+            d[(l - 1) - 1] = rt2;
+            e[(l - 1) - 1] = zero;
+            l = l - 2;
+            if (l >= lend) {
+                goto statement_100;
+            }
+            goto statement_150;
+        }
+        //
+        if (jtot == nmaxit) {
+            goto statement_150;
+        }
+        jtot++;
+        //
+        //        Form shift.
+        //
+        rte = sqrt(e[(l - 1) - 1]);
+        sigma = (d[(l - 1) - 1] - p) / (two * rte);
+        r = Rlapy2(sigma, one);
+        sigma = p - (rte / (sigma + sign(r, sigma)));
+        //
+        c = one;
+        s = zero;
+        gamma = d[m - 1] - sigma;
+        p = gamma * gamma;
+        //
+        //        Inner loop
+        //
+        for (i = m; i <= l - 1; i = i + 1) {
+            bb = e[i - 1];
+            r = p + bb;
+            if (i != m) {
+                e[(i - 1) - 1] = s * r;
+            }
+            oldc = c;
+            c = p / r;
+            s = bb / r;
+            oldgam = gamma;
+            alpha = d[(i + 1) - 1];
+            gamma = c * (alpha - sigma) - s * oldgam;
+            d[i - 1] = oldgam + (alpha - gamma);
+            if (c != zero) {
+                p = (gamma * gamma) / c;
+            } else {
+                p = oldc * bb;
+            }
+        }
+        //
+        e[(l - 1) - 1] = s * p;
+        d[l - 1] = sigma + gamma;
+        goto statement_100;
+    //
+    //        Eigenvalue found.
+    //
+    statement_140:
+        d[l - 1] = p;
+        //
+        l = l - 1;
+        if (l >= lend) {
+            goto statement_100;
+        }
+        goto statement_150;
+        //
     }
-//Undo scaling if necessary
-  L150:
+//
+//     Undo scaling if necessary
+//
+statement_150:
     if (iscale == 1) {
-	Rlascl("G", 0, 0, ssfmax, anorm, lendsv - lsv + 1, 1, &d[lsv - 1], n,
-	    info);
+        Rlascl("G", 0, 0, ssfmax, anorm, lendsv - lsv + 1, 1, &d[lsv - 1], n, info);
     }
     if (iscale == 2) {
-	Rlascl("G", 0, 0, ssfmin, anorm, lendsv - lsv + 1, 1, &d[lsv - 1], n,
-	    info);
+        Rlascl("G", 0, 0, ssfmin, anorm, lendsv - lsv + 1, 1, &d[lsv - 1], n, info);
     }
-//Check for no convergence to an eigenvalue after a total
-//of N*MAXIT iterations.
+    //
+    //     Check for no convergence to an eigenvalue after a total
+    //     of N*MAXIT iterations.
+    //
     if (jtot < nmaxit) {
-	goto L10;
+        goto statement_10;
     }
-    for (i = 1; i <= n - 1; i++) {
-	if (e[i - 1] != Zero) {
-	    ++(*info);
-	}
+    for (i = 1; i <= n - 1; i = i + 1) {
+        if (e[i - 1] != zero) {
+            info++;
+        }
     }
-    return;
-
-//Sort eigenvalues in increasing order.
-  L170:
-    Rlasrt("I", n, &d[0], info);
-    return;
+    goto statement_180;
+//
+//     Sort eigenvalues in increasing order.
+//
+statement_170:
+    Rlasrt("I", n, d, info);
+//
+statement_180:;
+    //
+    //     End of Rsterf
+    //
 }

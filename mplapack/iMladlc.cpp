@@ -27,11 +27,14 @@
  */
 
 #include <mpblas_dd.h>
+#include <mplapack_dd.h>
 
-void Rswap(mplapackint const n, _Float128 *dx, mplapackint const incx, _Float128 *dy, mplapackint const incy) {
+mplapackint
+iMladlc(mplapackint const m, mplapackint const n, _Float128 *a, mplapackint const lda) {
+    mplapackint return_value = 0;
     //
-    //  -- Reference BLAS level1 routine --
-    //  -- Reference BLAS is a software package provided by Univ. of Tennessee,    --
+    //  -- LAPACK auxiliary routine --
+    //  -- LAPACK is a software package provided by Univ. of Tennessee,    --
     //  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
     //
     //     .. Scalar Arguments ..
@@ -41,67 +44,28 @@ void Rswap(mplapackint const n, _Float128 *dx, mplapackint const incx, _Float128
     //
     //  =====================================================================
     //
+    //     .. Parameters ..
+    //     ..
     //     .. Local Scalars ..
     //     ..
-    //     .. Intrinsic Functions ..
-    //     ..
-    if (n <= 0) {
-        return;
-    }
-    mplapackint m = 0;
+    //     .. Executable Statements ..
+    //
+    //     Quick test for the common case where one corner is non-zero.
+    const _Float128 zero = 0.0;
     mplapackint i = 0;
-    _Float128 dtemp = 0.0;
-    mplapackint mp1 = 0;
-    mplapackint ix = 0;
-    mplapackint iy = 0;
-    if (incx == 1 && incy == 1) {
-        //
-        //       code for both increments equal to 1
-        //
-        //       clean-up loop
-        //
-        m = fmod(n, 3);
-        if (m != 0) {
-            for (i = 1; i <= m; i = i + 1) {
-                dtemp = dx[i - 1];
-                dx[i - 1] = dy[i - 1];
-                dy[i - 1] = dtemp;
-            }
-            if (n < 3) {
-                return;
-            }
-        }
-        mp1 = m + 1;
-        for (i = mp1; i <= n; i = i + 3) {
-            dtemp = dx[i - 1];
-            dx[i - 1] = dy[i - 1];
-            dy[i - 1] = dtemp;
-            dtemp = dx[(i + 1) - 1];
-            dx[(i + 1) - 1] = dy[(i + 1) - 1];
-            dy[(i + 1) - 1] = dtemp;
-            dtemp = dx[(i + 2) - 1];
-            dx[(i + 2) - 1] = dy[(i + 2) - 1];
-            dy[(i + 2) - 1] = dtemp;
-        }
+    if (n == 0) {
+        return_value = n;
+    } else if (a[(n - 1) * lda] != zero || a[(m - 1) + (n - 1) * lda] != zero) {
+        return_value = n;
     } else {
-        //
-        //       code for unequal increments or equal increments not equal
-        //         to 1
-        //
-        ix = 1;
-        iy = 1;
-        if (incx < 0) {
-            ix = (-n + 1) * incx + 1;
-        }
-        if (incy < 0) {
-            iy = (-n + 1) * incy + 1;
-        }
-        for (i = 1; i <= n; i = i + 1) {
-            dtemp = dx[ix - 1];
-            dx[ix - 1] = dy[iy - 1];
-            dy[iy - 1] = dtemp;
-            ix += incx;
-            iy += incy;
+        //     Now scan each column from the end, returning with the first non-zero.
+        for (return_value = n; return_value >= 1; return_value = return_value - 1) {
+            for (i = 1; i <= m; i = i + 1) {
+                if (a[(i - 1) + (return_value - 1) * lda] != zero) {
+                    return return_value;
+                }
+            }
         }
     }
+    return return_value;
 }

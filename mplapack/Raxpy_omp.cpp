@@ -71,43 +71,39 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Based on http://www.netlib.org/blas/daxpy.f
 */
 
-#include <mblas___float128.h>
+#include <mpblas_dd.h>
 #ifdef _OPENMP
 #include <omp.h>
 #endif
 
-void Raxpy(mpackint n, __float128 da, __float128 * dx, mpackint incx, __float128 * dy, mpackint incy)
+void Raxpy_omp(mplapackint n, _Float128 da, _Float128 * dx, mplapackint incx, _Float128 * dy, mplapackint incy)
 {
-    __float128 Zero = 0.0;
-    mpackint i;
+    _Float128 Zero = 0.0;
+    mplapackint i;
 
-    if (n <= 0)
-	return;
-    if (da == Zero)
-	return;
+    if (n <= 0)	return;
+    if (da == Zero) return;
 
-    mpackint ix = 0;
-    mpackint iy = 0;
+    mplapackint ix = 0;
+    mplapackint iy = 0;
 
-    if (incx < 0)
-	ix = (-n + 1) * incx;
-    if (incy < 0)
-	iy = (-n + 1) * incy;
+    if (incx < 0) ix = (-n + 1) * incx;
+    if (incy < 0) iy = (-n + 1) * incy;
 
-    if (incx == 1 && incy == 1) {
+    if (incx == 1 && incy == 1 ) {
 #ifdef _OPENMP
 #pragma omp parallel for
 #endif
-	for (i = 0; i < n; i++) {
-	    dy[i] += da * dx[i];
-	}
-	return;
+      for (i = 0; i < n; i++) {
+	dy[i] += da * dx[i];
+      }
+      return; 
     }
 
     for (i = 0; i < n; i++) {
-	dy[iy] += da * dx[ix];
-	ix = ix + incx;
-	iy = iy + incy;
+      dy[iy] += da * dx[ix];
+      ix = ix + incx;
+      iy = iy + incy;
     }
-    return;
+  return;
 }

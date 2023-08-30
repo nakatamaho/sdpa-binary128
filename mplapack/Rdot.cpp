@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2008-2010
+ * Copyright (c) 2008-2012
  *	Nakata, Maho
  * 	All rights reserved.
  *
- * $Id: Rgemm_NT.cpp,v 1.1 2010/12/28 06:13:53 nakatamaho Exp $
+ * $Id: Rdot.cpp,v 1.5 2010/08/07 05:50:10 nakatamaho Exp $
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -27,36 +27,20 @@
  * SUCH DAMAGE.
  *
  */
+
 #include <mpblas_dd.h>
 
-void Rgemm_NT_omp(mplapackint m, mplapackint n, mplapackint k, _Float128 alpha, _Float128 *A, mplapackint lda, _Float128 *B, mplapackint ldb, _Float128 beta,
-	      _Float128 *C, mplapackint ldc)
+_Float128 Rdot_ref(mplapackint n, _Float128 * dx, mplapackint incx, _Float128 * dy, mplapackint incy);
+_Float128 Rdot_omp(mplapackint n, _Float128 * dx, mplapackint incx, _Float128 * dy, mplapackint incy);
+
+#define SINGLEOROMP 1000
+
+_Float128 Rdot(mplapackint const n, _Float128 *dx, mplapackint const incx, _Float128 *dy, mplapackint const incy)
 {
-//Form  C := alpha*A*B' + beta*C.
-    mplapackint i, j, l;
-    _Float128 temp;
-    for (j = 0; j < n; j++) {
-	if (beta == 0.0) {
-	    for (i = 0; i < m; i++) {
-		C[i + j * ldc] = 0.0;
-	    }
-	} else if (beta != 1.0) {
-	    for (i = 0; i < m; i++) {
-		C[i + j * ldc] = beta * C[i + j * ldc];
-	    }
-	}
-    }
-//main loop
-#ifdef _OPENMP
-#pragma omp parallel for private(i, j, l, temp)
-#endif
-    for (j = 0; j < n; j++) {
-	for (l = 0; l < k; l++) {
-	    temp = alpha * B[j + l * ldb];
-	    for (i = 0; i < m; i++) {
-		C[i + j * ldc] += temp * A[i + l * lda];
-	    }
-	}
-    }
-    return;
+    mplapackint ix = 0;
+    mplapackint iy = 0;
+    mplapackint i;
+
+    if (0) { return Rdot_ref(n, dx, incx, dy, incy); }
+    else { return Rdot_omp(n, dx, incx, dy, incy); }
 }

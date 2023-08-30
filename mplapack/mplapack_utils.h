@@ -3,7 +3,7 @@
  *	Nakata, Maho
  * 	All rights reserved.
  *
- * $Id: Rgemm_NT.cpp,v 1.1 2010/12/28 06:13:53 nakatamaho Exp $
+ * $Id: mplapack_utils.h,v 1.6 2010/08/07 03:15:46 nakatamaho Exp $
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -27,36 +27,39 @@
  * SUCH DAMAGE.
  *
  */
-#include <mpblas_dd.h>
 
-void Rgemm_NT_omp(mplapackint m, mplapackint n, mplapackint k, _Float128 alpha, _Float128 *A, mplapackint lda, _Float128 *B, mplapackint ldb, _Float128 beta,
-	      _Float128 *C, mplapackint ldc)
-{
-//Form  C := alpha*A*B' + beta*C.
-    mplapackint i, j, l;
-    _Float128 temp;
-    for (j = 0; j < n; j++) {
-	if (beta == 0.0) {
-	    for (i = 0; i < m; i++) {
-		C[i + j * ldc] = 0.0;
-	    }
-	} else if (beta != 1.0) {
-	    for (i = 0; i < m; i++) {
-		C[i + j * ldc] = beta * C[i + j * ldc];
-	    }
-	}
-    }
-//main loop
-#ifdef _OPENMP
-#pragma omp parallel for private(i, j, l, temp)
+#ifndef _MUTILS_H_
+
+#if defined ___MPLAPACK_BUILD_WITH_MPFR___
+#include <mplapack_utils_mpfr.h>
 #endif
-    for (j = 0; j < n; j++) {
-	for (l = 0; l < k; l++) {
-	    temp = alpha * B[j + l * ldb];
-	    for (i = 0; i < m; i++) {
-		C[i + j * ldc] += temp * A[i + l * lda];
-	    }
-	}
-    }
-    return;
-}
+
+#if defined ___MPLAPACK_BUILD_WITH_GMP___
+#include <mplapack_utils_gmp.h>
+#endif
+
+#if defined ___MPLAPACK_BUILD_WITH_QD___
+#include <mplapack_utils_qd.h>
+#endif
+
+#if defined ___MPLAPACK_BUILD_WITH_DD___
+#include <mplapack_utils_dd.h>
+#endif
+
+#if defined ___MPLAPACK_BUILD_WITH_DOUBLE___
+#include <mplapack_utils_double.h>
+#endif
+
+#if defined ___MPLAPACK_BUILD_WITH__FLOAT64X___
+#include <mplapack_utils__Float64x.h>
+#endif
+
+#if defined ___MPLAPACK_BUILD_WITH__FLOAT128___
+#include <mplapack_utils__Float128.h>
+#endif
+
+#if defined ___MPLAPACK_INTERNAL___
+#include <mplapack_print.h>
+#endif
+
+#endif

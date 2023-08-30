@@ -29,8 +29,9 @@
 #include <mpblas_dd.h>
 #include <mplapack_dd.h>
 
-_Float128 Rlanst(const char *norm, mplapackint const n, _Float128 *d, _Float128 *e) {
-    _Float128 return_value = 0.0;
+mplapackint
+iMladlr(mplapackint const m, mplapackint const n, _Float128 *a, mplapackint const lda) {
+    mplapackint return_value = 0;
     //
     //  -- LAPACK auxiliary routine --
     //  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -47,73 +48,26 @@ _Float128 Rlanst(const char *norm, mplapackint const n, _Float128 *d, _Float128 
     //     ..
     //     .. Local Scalars ..
     //     ..
-    //     .. External Functions ..
-    //     ..
-    //     .. External Subroutines ..
-    //     ..
-    //     .. Intrinsic Functions ..
-    //     ..
     //     .. Executable Statements ..
     //
+    //     Quick test for the common case where one corner is non-zero.
     const _Float128 zero = 0.0;
-    _Float128 anorm = 0.0;
+    mplapackint j = 0;
     mplapackint i = 0;
-    _Float128 sum = 0.0;
-    _Float128 scale = 0.0;
-    const _Float128 one = 1.0;
-    if (n <= 0) {
-        anorm = zero;
-    } else if (Mlsame_dd(norm, "M")) {
-        //
-        //        Find std::max(abs(A(i,j))).
-        //
-        anorm = abs(d[n - 1]);
-        for (i = 1; i <= n - 1; i = i + 1) {
-            sum = abs(d[i - 1]);
-            if (anorm < sum || Risnan(sum)) {
-                anorm = sum;
+    if (m == 0) {
+        return_value = m;
+    } else if (a[(m - 1)] != zero || a[(m - 1) + (n - 1) * lda] != zero) {
+        return_value = m;
+    } else {
+        //     Scan up each column tracking the last zero row seen.
+        return_value = 0;
+        for (j = 1; j <= n; j = j + 1) {
+            i = m;
+	    while ((a[(std::max(i, (mplapackint)1) - 1) + (j - 1) * lda] == zero) && (i >= 1)) {
+                i = i - 1;
             }
-            sum = abs(e[i - 1]);
-            if (anorm < sum || Risnan(sum)) {
-                anorm = sum;
-            }
+  	    return_value = std::max(return_value, i);
         }
-    } else if (Mlsame_dd(norm, "O") || (Mlsame_dd(norm, "1")) || Mlsame_dd(norm, "I")) {
-        //
-        //        Find norm1(A).
-        //
-        if (n == 1) {
-            anorm = abs(d[1 - 1]);
-        } else {
-            anorm = abs(d[1 - 1]) + abs(e[1 - 1]);
-            sum = abs(e[(n - 1) - 1]) + abs(d[n - 1]);
-            if (anorm < sum || Risnan(sum)) {
-                anorm = sum;
-            }
-            for (i = 2; i <= n - 1; i = i + 1) {
-                sum = abs(d[i - 1]) + abs(e[i - 1]) + abs(e[(i - 1) - 1]);
-                if (anorm < sum || Risnan(sum)) {
-                    anorm = sum;
-                }
-            }
-        }
-    } else if ((Mlsame_dd(norm, "F")) || (Mlsame_dd(norm, "E"))) {
-        //
-        //        Find normF(A).
-        //
-        scale = zero;
-        sum = one;
-        if (n > 1) {
-            Rlassq(n - 1, e, 1, scale, sum);
-            sum = 2 * sum;
-        }
-        Rlassq(n, d, 1, scale, sum);
-        anorm = scale * sqrt(sum);
     }
-    //
-    return_value = anorm;
     return return_value;
-    //
-    //     End of Rlanst
-    //
 }

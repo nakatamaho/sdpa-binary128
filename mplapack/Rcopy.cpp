@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2010
+ * Copyright (c) 2010, 2011
  *	Nakata, Maho
  * 	All rights reserved.
  *
- * $Id: Rdot.cpp,v 1.5 2010/08/07 05:50:09 nakatamaho Exp $
+ * $Id: Rcopy.cpp,v 1.5 2010/08/07 05:50:09 nakatamaho Exp $
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -30,7 +30,7 @@
 /*
 Copyright (c) 1992-2007 The University of Tennessee.  All rights reserved.
  *
- * $Id: Rdot.cpp,v 1.5 2010/08/07 05:50:09 nakatamaho Exp $
+ * $Id: Rcopy.cpp,v 1.5 2010/08/07 05:50:09 nakatamaho Exp $
 
 $COPYRIGHT$
 
@@ -68,54 +68,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /*
-Based on http://www.netlib.org/blas/ddot.f
-Rdot forms the dot product of two vectors.
+Based on http://www.netlib.org/blas/dcopy.f
+Rcopy copies a vector, x, to a vector, y.
 */
 
 #include <mpblas_dd.h>
-#ifdef _OPENMP
-#include <omp.h>
-#endif
 
-_Float128 Rdot_omp(mplapackint n, _Float128 * dx, mplapackint incx, _Float128 * dy, mplapackint incy)
+void Rcopy_ref(mplapackint n, _Float128 * dx, mplapackint incx, _Float128 * dy, mplapackint incy);
+void Rcopy_omp(mplapackint n, _Float128 * dx, mplapackint incx, _Float128 * dy, mplapackint incy);
+
+#define SINGLEOROMP 1000
+
+void Rcopy(mplapackint const n, _Float128 *dx, mplapackint const incx, _Float128 *dy, mplapackint const incy)
 {
     mplapackint ix = 0;
     mplapackint iy = 0;
     mplapackint i;
-    _Float128 temp, templ;
+    if (n <= 0) return;
 
-    temp = 0.0;
-
-    if (incx < 0)
-	ix = (-n + 1) * incx;
-    if (incy < 0)
-	iy = (-n + 1) * incy;
-
-    temp = 0.0;
-    if (incx == 1 && incy == 1) {
-//no reduction for multiple precision
-#ifdef _OPENMP
-#pragma omp parallel private (i, templ) shared(temp, dx, dy, n)
-#endif
-	{
-	    templ = 0.0;
-#ifdef _OPENMP
-#pragma omp for
-#endif
-	    for (i = 0; i < n; i++) {
-		templ += dx[i] * dy[i];
-	    }
-#ifdef _OPENMP
-#pragma omp critical
-#endif
-	    temp += templ;
-	}
-    } else {
-	for (i = 0; i < n; i++) {
-	    temp += dx[ix] * dy[iy];
-	    ix = ix + incx;
-	    iy = iy + incy;
-	}
-    }
-    return temp;
+    if (0) {
+        Rcopy_ref(n, dx, incx, dy, incy);
+    } else { Rcopy_omp(n, dx, incx, dy, incy); }
+    return;
 }

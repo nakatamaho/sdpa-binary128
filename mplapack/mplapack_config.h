@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2008-2010
+ * Copyright (c) 2008-2021
  *	Nakata, Maho
  * 	All rights reserved.
  *
- * $Id: Rgemm_NT.cpp,v 1.1 2010/12/28 06:13:53 nakatamaho Exp $
+ * $Id: mplapack_config.h,v 1.15 2010/08/07 03:15:46 nakatamaho Exp $
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -27,36 +27,48 @@
  * SUCH DAMAGE.
  *
  */
-#include <mpblas_dd.h>
 
-void Rgemm_NT_omp(mplapackint m, mplapackint n, mplapackint k, _Float128 alpha, _Float128 *A, mplapackint lda, _Float128 *B, mplapackint ldb, _Float128 beta,
-	      _Float128 *C, mplapackint ldc)
-{
-//Form  C := alpha*A*B' + beta*C.
-    mplapackint i, j, l;
-    _Float128 temp;
-    for (j = 0; j < n; j++) {
-	if (beta == 0.0) {
-	    for (i = 0; i < m; i++) {
-		C[i + j * ldc] = 0.0;
-	    }
-	} else if (beta != 1.0) {
-	    for (i = 0; i < m; i++) {
-		C[i + j * ldc] = beta * C[i + j * ldc];
-	    }
-	}
-    }
-//main loop
-#ifdef _OPENMP
-#pragma omp parallel for private(i, j, l, temp)
+/* work in progress */
+/* put some definitons on mplapack */
+
+/* should depend on C compiler and environment
+   our intention is that use 64bit int when USE64BITINT is set.
+   This should be the default on 64bit environment.
+*/
+
+#ifndef _MPLAPACK_CONFIG_H_
+#define _MPLAPACK_CONFIG_H_
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
-    for (j = 0; j < n; j++) {
-	for (l = 0; l < k; l++) {
-	    temp = alpha * B[j + l * ldb];
-	    for (i = 0; i < m; i++) {
-		C[i + j * ldc] += temp * A[i + l * lda];
-	    }
-	}
-    }
-    return;
-}
+
+#include <complex>
+#include <inttypes.h>
+#include <stdlib.h>
+
+#undef F77_FUNC
+#undef F77_FUNC_
+#undef F77_FUNC_EQUIV
+
+#define USE64BITINT
+
+#ifdef USE64BITINT
+    #if defined _WIN32  //workaround for Windows. long int is 32bit and int64_t is long long. Supporting GMP version is not straightfoward.
+        typedef long int mplapackint;
+    #elif defined __APPLE__ //on apple int64_t doesn't work, but it long works and it is 8 bytes.
+        typedef long mplapackint;
+    #else
+        typedef int64_t mplapackint;
+    #endif
+#endif
+
+typedef mplapackint mplapacklogical;
+
+#ifdef __cplusplus
+typedef mplapacklogical (*LFP)(...);
+#else
+typedef mplapacklogical(*LFP);
+#endif
+
+#endif

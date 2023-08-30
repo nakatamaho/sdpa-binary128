@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2010
+ * Copyright (c) 2008-2012
  *	Nakata, Maho
  * 	All rights reserved.
  *
@@ -28,26 +28,24 @@
  *
  */
 
-#include <mblas___float128.h>
+#include <mpblas_dd.h>
 
-void Rgemm_NN(mpackint m, mpackint n, mpackint k, __float128 alpha, __float128 * A, mpackint lda, __float128 * B, mpackint ldb,
-	      __float128 beta, __float128 * C, mpackint ldc);
-void Rgemm_TN(mpackint m, mpackint n, mpackint k, __float128 alpha, __float128 * A, mpackint lda, __float128 * B, mpackint ldb,
-	      __float128 beta, __float128 * C, mpackint ldc);
-void Rgemm_NT(mpackint m, mpackint n, mpackint k, __float128 alpha, __float128 * A, mpackint lda, __float128 * B, mpackint ldb,
-	      __float128 beta, __float128 * C, mpackint ldc);
-void Rgemm_TT(mpackint m, mpackint n, mpackint k, __float128 alpha, __float128 * A, mpackint lda, __float128 * B, mpackint ldb,
-	      __float128 beta, __float128 * C, mpackint ldc);
+void Rgemm_NN_omp(mplapackint m, mplapackint n, mplapackint k, _Float128 alpha, _Float128 * A, mplapackint lda, _Float128 * B, mplapackint ldb, _Float128 beta, _Float128 * C, mplapackint ldc);
+void Rgemm_TN_omp(mplapackint m, mplapackint n, mplapackint k, _Float128 alpha, _Float128 * A, mplapackint lda, _Float128 * B, mplapackint ldb, _Float128 beta, _Float128 * C, mplapackint ldc);
+void Rgemm_NT_omp(mplapackint m, mplapackint n, mplapackint k, _Float128 alpha, _Float128 * A, mplapackint lda, _Float128 * B, mplapackint ldb, _Float128 beta, _Float128 * C, mplapackint ldc);
+void Rgemm_TT_omp(mplapackint m, mplapackint n, mplapackint k, _Float128 alpha, _Float128 * A, mplapackint lda, _Float128 * B, mplapackint ldb, _Float128 beta, _Float128 * C, mplapackint ldc);
+void Rgemm_ref(const char *transa, const char *transb, mplapackint m, mplapackint n, mplapackint k, _Float128 alpha, _Float128 * A, mplapackint lda, _Float128 * B, mplapackint ldb, _Float128 beta, _Float128 * C, mplapackint ldc);
 
-void Rgemm(const char *transa, const char *transb, mpackint m, mpackint n, mpackint k, __float128 alpha, __float128 * A,
-	   mpackint lda, __float128 * B, mpackint ldb, __float128 beta, __float128 * C, mpackint ldc)
+#define SINGLEOROMP 1000000
+
+void Rgemm(const char *transa, const char *transb, mplapackint const m, mplapackint const n, mplapackint const k, _Float128 const alpha, _Float128 *A, mplapackint const lda, _Float128 *B, mplapackint const ldb, _Float128 const beta, _Float128 *C, mplapackint const ldc)
 {
-    mpackint i, j, l, nota, notb, nrowa, ncola, nrowb, info;
-    __float128 temp;
-    __float128 Zero = 0.0, One = 1.0;
+    mplapackint i, j, l, nota, notb, nrowa, ncola, nrowb, info;
+    _Float128 temp;
+    _Float128 Zero = 0.0, One = 1.0;
 
-    nota = Mlsame___float128(transa, "N");
-    notb = Mlsame___float128(transb, "N");
+    nota = Mlsame_dd(transa, "N");
+    notb = Mlsame_dd(transb, "N");
     if (nota) {
 	nrowa = m;
 	ncola = k;
@@ -62,9 +60,9 @@ void Rgemm(const char *transa, const char *transb, mpackint m, mpackint n, mpack
     }
 //Test the input parameters.
     info = 0;
-    if (!nota && (!Mlsame___float128(transa, "C")) && (!Mlsame___float128(transa, "T")))
+    if (!nota && (!Mlsame_dd(transa, "C")) && (!Mlsame_dd(transa, "T")))
 	info = 1;
-    else if (!notb && (!Mlsame___float128(transb, "C")) && (!Mlsame___float128(transb, "T")))
+    else if (!notb && (!Mlsame_dd(transb, "C")) && (!Mlsame_dd(transb, "T")))
 	info = 2;
     else if (m < 0)
 	info = 3;
@@ -72,19 +70,25 @@ void Rgemm(const char *transa, const char *transb, mpackint m, mpackint n, mpack
 	info = 4;
     else if (k < 0)
 	info = 5;
-    else if (lda < mpack_max((mpackint) 1, nrowa))
+    else if (lda < std::max((mplapackint) 1, nrowa))
 	info = 8;
-    else if (ldb < mpack_max((mpackint) 1, nrowb))
+    else if (ldb < std::max((mplapackint) 1, nrowb))
 	info = 10;
-    else if (ldc < mpack_max((mpackint) 1, m))
+    else if (ldc < std::max((mplapackint) 1, m))
 	info = 13;
     if (info != 0) {
-	Mxerbla___float128("Rgemm ", info);
+	Mxerbla_dd("Rgemm ", info);
 	return;
     }
 //Quick return if possible.
     if ((m == 0) || (n == 0) || (((alpha == Zero) || (k == 0)) && (beta == One)))
 	return;
+
+    if (0) {
+        Rgemm_ref(transa, transb, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+        return;
+    }
+
 //And when alpha == 0.0
     if (alpha == Zero) {
 	if (beta == Zero) {
@@ -106,18 +110,18 @@ void Rgemm(const char *transa, const char *transb, mpackint m, mpackint n, mpack
     if (notb) {
 	if (nota) {
 //Form C := alpha*A*B + beta*C.
-	    Rgemm_NN(m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+	    Rgemm_NN_omp(m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
 	} else {
 //Form  C := alpha*A'*B + beta*C.
-	    Rgemm_TN(m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+	    Rgemm_TN_omp(m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
 	}
     } else {
 	if (nota) {
 //Form  C := alpha*A*B' + beta*C.
-	    Rgemm_NT(m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+	    Rgemm_NT_omp(m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
 	} else {
 //Form  C := alpha*A'*B' + beta*C.
-	    Rgemm_TT(m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+	    Rgemm_TT_omp(m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
 	}
     }
     return;

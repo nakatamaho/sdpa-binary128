@@ -1,155 +1,110 @@
-/*************************************************************************
- *
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- * 
- * Copyright 2008 by Nakata, Maho
- * 
- * $Id: Rlartg.cpp,v 1.4 2009/09/26 02:21:32 nakatamaho Exp $ 
- *
- * MPACK - multiple precision arithmetic library
- *
- * This file is part of MPACK.
- *
- * MPACK is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License version 3
- * only, as published by the Free Software Foundation.
- *
- * MPACK is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License version 3 for more details
- * (a copy is included in the LICENSE file that accompanied this code).
- *
- * You should have received a copy of the GNU Lesser General Public License
- * version 3 along with MPACK.  If not, see
- * <http://www.gnu.org/licenses/lgpl.html>
- * for a copy of the LGPLv3 License.
- *
- ************************************************************************/
 /*
-Copyright (c) 1992-2007 The University of Tennessee.  All rights reserved.
+ * Copyright (c) 2008-2021
+ *      Nakata, Maho
+ *      All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *
+ */
 
-$COPYRIGHT$
+#include <mpblas_dd.h>
+#include <mplapack_dd.h>
 
-Additional copyrights may follow
-
-$HEADER$
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-- Redistributions of source code must retain the above copyright
-  notice, this list of conditions and the following disclaimer. 
-  
-- Redistributions in binary form must reproduce the above copyright
-  notice, this list of conditions and the following disclaimer listed
-  in this license in the documentation and/or other materials
-  provided with the distribution.
-  
-- Neither the name of the copyright holders nor the names of its
-  contributors may be used to endorse or promote products derived from
-  this software without specific prior written permission.
-  
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT  
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
-OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT  
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
-*/
-
-#include <mblas___float128.h>
-#include <mlapack___float128.h>
-#include <stdio.h> //for printf
-
-void
-Rlartg(__float128 f, __float128 g, __float128 * cs, __float128 * sn, __float128 * r)
-{
-    __float128 Zero;
-    __float128 One;
-    __float128 Two;
-    __float128 f1, g1;
-    mpackint i, count;
-
-    Zero = 0.0;
-    One = 1.0;
-    Two = 2.0;
-
-    __float128 safmin;
-    __float128 safmn2;
-    __float128 safmx2, eps, scale;
-
-    safmin = Rlamch___float128("S");
-    eps = Rlamch___float128("E");
-// SAFMN2 = DLAMCH( 'B' )**INT( LOG( SAFMIN / EPS ) / LOG( DLAMCH( 'B' ) ) / TWO );
-//        ~ 2^(ln(safmin/eps) / 2ln2 ) (dlamchB=2)  = sqrtq(safmin/eps).
-    safmn2 = sqrtq(safmin / eps);
-    safmx2 = 1.0 / safmn2;
-
-    if (g == Zero) {
-	*cs = One;
-	*sn = Zero;
-	*r = f;
-    } else if (f == Zero) {
-	*cs = Zero;
-	*sn = One;
-	*r = g;
+void Rlartg(_Float128 const f, _Float128 const g, _Float128 &cs, _Float128 &sn, _Float128 &r) {
+    _Float128 safmin = 0.0;
+    _Float128 eps = 0.0;
+    const _Float128 two = 2.0;
+    _Float128 safmn2 = 0.0;
+    const _Float128 one = 1.0;
+    _Float128 safmx2 = 0.0;
+    const _Float128 zero = 0.0;
+    _Float128 f1 = 0.0;
+    _Float128 g1 = 0.0;
+    _Float128 scale = 0.0;
+    mplapackint count = 0;
+    mplapackint i = 0;
+    //
+    safmin = Rlamch_dd("S");
+    eps = Rlamch_dd("E");
+    safmn2 = pow(Rlamch_dd("B"), castINTEGER_dd(log(safmin / eps) / log(Rlamch_dd("B")) / two));
+    safmx2 = one / safmn2;
+    //        FIRST = .FALSE.
+    //     END IF
+    if (g == zero) {
+        cs = one;
+        sn = zero;
+        r = f;
+    } else if (f == zero) {
+        cs = zero;
+        sn = one;
+        r = g;
     } else {
-	f1 = f;
-	g1 = g;
-	scale = mpack_max(abs(f1), abs(g1));
-	count = 0;
-	if (scale >= safmx2) {
-	    printf("#XXX Rlartg :1: not yet implemented.\n");
-	    while (1) {
-		count++;
-		f1 = f1 * safmn2;
-		g1 = g1 * safmn2;
-		scale = mpack_max(abs(f1), abs(g1));
-		if (scale >= safmx2)
-		    continue;
-
-		*r = sqrtq(f1 * f1 + g1 * g1);
-		*cs = f1 / (*r);
-		*sn = g1 / (*r);
-		for (i = 0; i < count; i++) {
-		    *r = (*r) * safmx2;
-		}
-		break;
-	    }
-	} else if (scale <= safmn2) {
-	    printf("#XXX Rlartg :3:very well tested. \n");
-	    while (1) {
-		count++;
-		f1 = f1 * safmx2;
-		g1 = g1 * safmn2;
-		scale = mpack_max(abs(f1), abs(g1));
-		if (scale >= safmx2)
-		    continue;
-		*r = sqrtq(f1 * f1 + g1 * g1);
-		*cs = f1 / (*r);
-		*sn = g1 / (*r);
-		for (i = 0; i < count; i++) {
-		    *r = (*r) * safmx2;
-		}
-		break;
-	    }
-	} else {
-	    *r = sqrtq(f1 * f1 + g1 * g1);
-	    *cs = f1 / (*r);
-	    *sn = g1 / (*r);
-	}
-	if (abs(f) > abs(g) && (*cs) < Zero) {
-	    *cs = -(*cs);
-	    *sn = -(*sn);
-	    *r = -(*r);
-	}
+        f1 = f;
+        g1 = g;
+        scale = std::max(abs(f1), abs(g1));
+        if (scale >= safmx2) {
+            count = 0;
+        statement_10:
+            count++;
+            f1 = f1 * safmn2;
+            g1 = g1 * safmn2;
+            scale = std::max(abs(f1), abs(g1));
+            if (scale >= safmx2 && count < 20) {
+                goto statement_10;
+            }
+            r = sqrt(pow2(f1) + pow2(g1));
+            cs = f1 / r;
+            sn = g1 / r;
+            for (i = 1; i <= count; i = i + 1) {
+                r = r * safmx2;
+            }
+        } else if (scale <= safmn2) {
+            count = 0;
+        statement_30:
+            count++;
+            f1 = f1 * safmx2;
+            g1 = g1 * safmx2;
+            scale = std::max(abs(f1), abs(g1));
+            if (scale <= safmn2) {
+                goto statement_30;
+            }
+            r = sqrt(pow2(f1) + pow2(g1));
+            cs = f1 / r;
+            sn = g1 / r;
+            for (i = 1; i <= count; i = i + 1) {
+                r = r * safmn2;
+            }
+        } else {
+            r = sqrt(pow2(f1) + pow2(g1));
+            cs = f1 / r;
+            sn = g1 / r;
+        }
+        if (abs(f) > abs(g) && cs < zero) {
+            cs = -cs;
+            sn = -sn;
+            r = -r;
+        }
     }
-    return;
+    //
+    //     End of Rlartg
+    //
 }

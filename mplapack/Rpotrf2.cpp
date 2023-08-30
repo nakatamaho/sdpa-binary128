@@ -29,7 +29,7 @@
 #include <mpblas_dd.h>
 #include <mplapack_dd.h>
 
-void Rorgtr(const char *uplo, mplapackint const n, _Float128 *a, mplapackint const lda, _Float128 *tau, _Float128 *work, mplapackint const lwork, mplapackint &info) {
+void Rpotrf2(const char *uplo, mplapackint const n, _Float128 *a, mplapackint const lda, mplapackint &info) {
     //
     //  -- LAPACK computational routine --
     //  -- LAPACK is a software package provided by Univ. of Tennessee,    --
@@ -54,10 +54,9 @@ void Rorgtr(const char *uplo, mplapackint const n, _Float128 *a, mplapackint con
     //     ..
     //     .. Executable Statements ..
     //
-    //     Test the input arguments
+    //     Test the input parameters
     //
     info = 0;
-    bool lquery = (lwork == -1);
     bool upper = Mlsame_dd(uplo, "U");
     if (!upper && !Mlsame_dd(uplo, "L")) {
         info = -1;
@@ -65,91 +64,88 @@ void Rorgtr(const char *uplo, mplapackint const n, _Float128 *a, mplapackint con
         info = -2;
     } else if (lda < std::max((mplapackint)1, n)) {
         info = -4;
-    } else if (lwork < std::max((mplapackint)1, n - 1) && !lquery) {
-        info = -7;
     }
-    //
-    mplapackint nb = 0;
-    mplapackint lwkopt = 0;
-    if (info == 0) {
-        if (upper) {
-            nb = iMlaenv_dd(1, "Rorgql", " ", n - 1, n - 1, n - 1, -1);
-        } else {
-            nb = iMlaenv_dd(1, "Rorgqr", " ", n - 1, n - 1, n - 1, -1);
-        }
-        lwkopt = std::max((mplapackint)1, n - 1) * nb;
-        work[1 - 1] = lwkopt;
-    }
-    //
     if (info != 0) {
-        Mxerbla_dd("Rorgtr", -info);
-        return;
-    } else if (lquery) {
+        Mxerbla_dd("Rpotrf2", -info);
         return;
     }
     //
     //     Quick return if possible
     //
     if (n == 0) {
-        work[1 - 1] = 1;
         return;
     }
     //
-    mplapackint j = 0;
-    mplapackint i = 0;
+    //     N=1 case
+    //
     const _Float128 zero = 0.0;
-    const _Float128 one = 1.0;
+    mplapackint n1 = 0;
+    mplapackint n2 = 0;
     mplapackint iinfo = 0;
-    if (upper) {
+    const _Float128 one = 1.0;
+    if (n == 1) {
         //
-        //        Q was determined by a call to Rsytrd with UPLO = 'U'
+        //        Test for non-positive-definiteness
         //
-        //        Shift the vectors which define the elementary reflectors one
-        //        column to the left, and set the last row and column of Q to
-        //        those of the unit matrix
-        //
-        for (j = 1; j <= n - 1; j = j + 1) {
-            for (i = 1; i <= j - 1; i = i + 1) {
-                a[(i - 1) + (j - 1) * lda] = a[(i - 1) + ((j + 1) - 1) * lda];
-            }
-            a[(n - 1) + (j - 1) * lda] = zero;
+        if (a[(1 - 1)] <= zero || Risnan(a[(1 - 1)])) {
+            info = 1;
+            return;
         }
-        for (i = 1; i <= n - 1; i = i + 1) {
-            a[(i - 1) + (n - 1) * lda] = zero;
-        }
-        a[(n - 1) + (n - 1) * lda] = one;
         //
-        //        Generate Q(1:n-1,1:n-1)
+        //        Factor
         //
-        Rorgql(n - 1, n - 1, n - 1, a, lda, tau, work, lwork, iinfo);
+        a[(1 - 1)] = sqrt(a[(1 - 1)]);
+        //
+        //     Use recursive code
         //
     } else {
+        n1 = n / 2;
+        n2 = n - n1;
         //
-        //        Q was determined by a call to Rsytrd with UPLO = 'L'.
+        //        Factor A11
         //
-        //        Shift the vectors which define the elementary reflectors one
-        //        column to the right, and set the first row and column of Q to
-        //        those of the unit matrix
+        Rpotrf2(uplo, n1, &a[(1 - 1)], lda, iinfo);
+        if (iinfo != 0) {
+            info = iinfo;
+            return;
+        }
         //
-        for (j = n; j >= 2; j = j - 1) {
-            a[(j - 1) * lda] = zero;
-            for (i = j + 1; i <= n; i = i + 1) {
-                a[(i - 1) + (j - 1) * lda] = a[(i - 1) + ((j - 1) - 1) * lda];
+        //        Compute the Cholesky factorization A = U**T*U
+        //
+        if (upper) {
+            //
+            //           Update and scale A12
+            //
+            Rtrsm("L", "U", "T", "N", n1, n2, one, &a[(1 - 1)], lda, &a[((n1 + 1) - 1) * lda], lda);
+            //
+            //           Update and factor A22
+            //
+            Rsyrk(uplo, "T", n2, n1, -one, &a[((n1 + 1) - 1) * lda], lda, one, &a[((n1 + 1) - 1) + ((n1 + 1) - 1) * lda], lda);
+            Rpotrf2(uplo, n2, &a[((n1 + 1) - 1) + ((n1 + 1) - 1) * lda], lda, iinfo);
+            if (iinfo != 0) {
+                info = iinfo + n1;
+                return;
+            }
+            //
+            //        Compute the Cholesky factorization A = L*L**T
+            //
+        } else {
+            //
+            //           Update and scale A21
+            //
+            Rtrsm("R", "L", "T", "N", n2, n1, one, &a[(1 - 1)], lda, &a[((n1 + 1) - 1)], lda);
+            //
+            //           Update and factor A22
+            //
+            Rsyrk(uplo, "N", n2, n1, -one, &a[((n1 + 1) - 1)], lda, one, &a[((n1 + 1) - 1) + ((n1 + 1) - 1) * lda], lda);
+            Rpotrf2(uplo, n2, &a[((n1 + 1) - 1) + ((n1 + 1) - 1) * lda], lda, iinfo);
+            if (iinfo != 0) {
+                info = iinfo + n1;
+                return;
             }
         }
-        a[(1 - 1)] = one;
-        for (i = 2; i <= n; i = i + 1) {
-            a[(i - 1)] = zero;
-        }
-        if (n > 1) {
-            //
-            //           Generate Q(2:n,2:n)
-            //
-            Rorgqr(n - 1, n - 1, n - 1, &a[(2 - 1) + (2 - 1) * lda], lda, tau, work, lwork, iinfo);
-        }
     }
-    work[1 - 1] = lwkopt;
     //
-    //     End of Rorgtr
+    //     End of Rpotrf2
     //
 }

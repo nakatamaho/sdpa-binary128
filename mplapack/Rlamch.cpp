@@ -1,175 +1,135 @@
-/*************************************************************************
+/*
+ * Copyright (c) 2008-2010
+ *      Nakata, Maho
+ *      All rights reserved.
  *
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- * 
- * Copyright 2008 by Nakata, Maho
- * 
- * $Id: Rlamch.cpp,v 1.7 2009/09/18 23:01:08 nakatamaho Exp $ 
+ *  $Id: Rlamch.cpp,v 1.16 2010/08/07 04:48:32 nakatamaho Exp $
  *
- * MPACK - multiple precision arithmetic library
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
  *
- * This file is part of MPACK.
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
  *
- * MPACK is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License version 3
- * only, as published by the Free Software Foundation.
- *
- * MPACK is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License version 3 for more details
- * (a copy is included in the LICENSE file that accompanied this code).
- *
- * You should have received a copy of the GNU Lesser General Public License
- * version 3 along with MPACK.  If not, see
- * <http://www.gnu.org/licenses/lgpl.html>
- * for a copy of the LGPLv3 License.
- *
- ************************************************************************/
+ */
+#include <mpblas_dd.h>
+#include <mplapack_dd.h>
+#include <stdio.h>
 
-#include <mblas___float128.h>
-#include <mlapack___float128.h>
-
-__float128 RlamchE___float128(void)
-{
-    return FLT128_EPSILON;
+//"E" denots we always calculate relative machine precision (e).
+// where 1+e = 1, minimum of e.
+_Float128 RlamchE_dd(void) {
+    // 2^(-52-52) = 2^-104 = 4.93e-32
+    return _Float128::_eps;
 }
 
 //"S" denots we always calculate `safe minimum, such that 1/sfmin does not overflow'.
-//cf.http://www.netlib.org/blas/dlamch.f
-__float128 RlamchS___float128(void)
-{
-    //IEEE 754 2008 binary128: emin = -16382
-    //2^{-16382} = 3.36210314311209350626267781732175260e-4932Q
-    return FLT128_MIN;
-
-    static __float128 eps;
-    static int called = 0;
-    if (called)
-	return eps;
-    eps = 1.0;
-//We all know double is the IEEE 754 2008 binary128 format has 113bit significant digits 
-    for (int i = 0; i < 16383; i++) {
-	eps = eps / 2.0Q;
-    }
-    called = 1;
+// cf.http://www.netlib.org/blas/dlamch.f
+_Float128 RlamchS_dd(void) {
+    // 2^(-1022+53) = 2.0042e-292
+    return _Float128::_min_normalized;
 }
 
 //"B" base  = base of the machine
-//cf.http://www.netlib.org/blas/dlamch.f
-__float128 RlamchB___float128(void)
-{
-    __float128 two;
+// cf.http://www.netlib.org/blas/dlamch.f
+_Float128 RlamchB_dd(void) {
+    _Float128 two;
     two = 2.0;
     return two;
 }
 
 //"P" prec = eps*base
-//cf.http://www.netlib.org/blas/dlamch.f
-__float128 RlamchP___float128(void)
-{
-    __float128 base, eps, prec;
+// cf.http://www.netlib.org/blas/dlamch.f
+_Float128 RlamchP_dd(void) {
+    _Float128 base, eps, prec;
 
-    base = RlamchB___float128();
-    eps = RlamchE___float128();
+    base = RlamchB_dd();
+    eps = RlamchE_dd();
     prec = eps * base;
     return prec;
 }
 
 //"N" t = number of digits in mantissa
-//cf.http://www.netlib.org/blas/dlamch.f
-__float128 RlamchN___float128(void)
-{
-    return (__float128) FLT128_MANT_DIG;	//113
+// cf.http://www.netlib.org/blas/dlamch.f
+_Float128 RlamchN_dd(void) {
+    return (_Float128)106.0; // 53*2
 }
 
 //"R" rnd   = 1.0 when rounding occurs in addition, 0.0 otherwise
-//cf.http://www.netlib.org/blas/dlamch.f
-__float128 RlamchR___float128(void)
-{
-    __float128 mtmp;
+// cf.http://www.netlib.org/blas/dlamch.f
+_Float128 RlamchR_dd(void) {
+    _Float128 mtmp;
     mtmp = 1.0;
     return mtmp;
 }
 
 //"M"
-//cf.http://www.netlib.org/blas/dlamch.f
-__float128 RlamchM___float128(void)
-{
-//the exponent of IEEE 754 2008 binary64 is -16382.
-//then -16382 + 1 = -16381
-    return FLT128_MIN_EXP;
-}
+// cf.http://www.netlib.org/blas/dlamch.f
+_Float128 RlamchM_dd(void) { return _Float128(-1021.0 + 53.0); }
 
 //"U"
-//cf.http://www.netlib.org/blas/dlamch.f
-__float128 RlamchU___float128(void)
-{
-    return FLT128_MIN;
-
-//2^{-16382+1} minimum exponent
-    static double eps;
-    static int called = 0;
-    if (called)
-	return eps;
-    eps = 1.0;
-//We all know double is the IEEE 754 2008 binary128 format has 113bit significant digits 
-    for (int i = 0; i < 16382; i++) {
-	eps = eps / 2.0;
-    }
-    called = 1;
-    return eps;
-
-}
+// cf.http://www.netlib.org/blas/dlamch.f
+_Float128 RlamchU_dd(void) { return _Float128::_min_normalized; }
 
 //"L"
-//cf.http://www.netlib.org/blas/dlamch.f
-__float128 RlamchL___float128(void)
-{
-//+16383 in IEEE 754 2008 binary128
-//then 16383 + 1 = 16384
-    return FLT128_MAX_EXP;
-}
+// cf.http://www.netlib.org/blas/dlamch.f
+_Float128 RlamchL_dd(void) { return (_Float128)1024.0; }
 
 //"O"
-//cf.http://www.netlib.org/blas/dlamch.f
-__float128 RlamchO___float128(void)
-{
-// 1.18973149535723176508575932662800702e4932Q in IEEE 754 2008 binary128.
-    return FLT128_MAX;
+// cf.http://www.netlib.org/blas/dlamch.f
+_Float128 RlamchO_dd(void) {
+    // due to bug of _Float128, we cannot take some arithmetic for _Float128::_max; e.g. sqrt.
+    // thus we use smaller values
+    _Float128 a = _Float128::_max;
+    return a;
 }
 
 //"Z" :dummy
-//cf.http://www.netlib.org/blas/dlamch.f
-__float128 RlamchZ___float128(void)
-{
-    __float128 mtemp = 0.0;
+// cf.http://www.netlib.org/blas/dlamch.f
+_Float128 RlamchZ_dd(void) {
+    _Float128 mtemp = 0.0;
     return mtemp;
 }
 
-__float128 Rlamch___float128(const char *cmach)
-{
-    if (Mlsame___float128(cmach, "E"))
-	return RlamchE___float128();
-    if (Mlsame___float128(cmach, "S"))
-	return RlamchS___float128();
-    if (Mlsame___float128(cmach, "B"))
-	return RlamchB___float128();
-    if (Mlsame___float128(cmach, "P"))
-	return RlamchP___float128();
-    if (Mlsame___float128(cmach, "N"))
-	return RlamchN___float128();
-    if (Mlsame___float128(cmach, "R"))
-	return RlamchR___float128();
-    if (Mlsame___float128(cmach, "M"))
-	return RlamchM___float128();
-    if (Mlsame___float128(cmach, "U"))
-	return RlamchU___float128();
-    if (Mlsame___float128(cmach, "L"))
-	return RlamchL___float128();
-    if (Mlsame___float128(cmach, "O"))
-	return RlamchO___float128();
+_Float128 Rlamch_dd(const char *cmach) {
+    if (Mlsame_dd(cmach, "E"))
+        return RlamchE_dd();
+    if (Mlsame_dd(cmach, "S"))
+        return RlamchS_dd();
+    if (Mlsame_dd(cmach, "B"))
+        return RlamchB_dd();
+    if (Mlsame_dd(cmach, "P"))
+        return RlamchP_dd();
+    if (Mlsame_dd(cmach, "N"))
+        return RlamchN_dd();
+    if (Mlsame_dd(cmach, "R"))
+        return RlamchR_dd();
+    if (Mlsame_dd(cmach, "M"))
+        return RlamchM_dd();
+    if (Mlsame_dd(cmach, "U"))
+        return RlamchU_dd();
+    if (Mlsame_dd(cmach, "L"))
+        return RlamchL_dd();
+    if (Mlsame_dd(cmach, "O"))
+        return RlamchO_dd();
 
-    Mxerbla___float128("Rlamch", 1);
-    return RlamchZ___float128();
+    Mxerbla_dd("Rlamch", 1);
+    return RlamchZ_dd();
 }
+
+_Float128 Rlamc3(_Float128 a, _Float128 b) { return a + b; }

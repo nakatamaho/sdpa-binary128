@@ -1,9 +1,7 @@
 /*
- * Copyright (c) 2008-2010
- *	Nakata, Maho
- * 	All rights reserved.
- *
- * $Id: Rgemm_NT.cpp,v 1.1 2010/12/28 06:13:53 nakatamaho Exp $
+ * Copyright (c) 2008-2021
+ *      Nakata, Maho
+ *      All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -27,36 +25,13 @@
  * SUCH DAMAGE.
  *
  */
-#include <mpblas_dd.h>
 
-void Rgemm_NT_omp(mplapackint m, mplapackint n, mplapackint k, _Float128 alpha, _Float128 *A, mplapackint lda, _Float128 *B, mplapackint ldb, _Float128 beta,
-	      _Float128 *C, mplapackint ldc)
-{
-//Form  C := alpha*A*B' + beta*C.
-    mplapackint i, j, l;
-    _Float128 temp;
-    for (j = 0; j < n; j++) {
-	if (beta == 0.0) {
-	    for (i = 0; i < m; i++) {
-		C[i + j * ldc] = 0.0;
-	    }
-	} else if (beta != 1.0) {
-	    for (i = 0; i < m; i++) {
-		C[i + j * ldc] = beta * C[i + j * ldc];
-	    }
-	}
-    }
-//main loop
-#ifdef _OPENMP
-#pragma omp parallel for private(i, j, l, temp)
-#endif
-    for (j = 0; j < n; j++) {
-	for (l = 0; l < k; l++) {
-	    temp = alpha * B[j + l * ldb];
-	    for (i = 0; i < m; i++) {
-		C[i + j * ldc] += temp * A[i + l * lda];
-	    }
-	}
-    }
-    return;
+#include <mpblas_dd.h>
+#include <mplapack_dd.h>
+
+bool Risnan(_Float128 const din) {
+    bool return_value = false;
+    //
+    return_value = Rlaisnan(din, din);
+    return return_value;
 }
