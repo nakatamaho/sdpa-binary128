@@ -5693,8 +5693,8 @@ ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
-ac_fn_cxx_check_header_compile "$LINENO" "mblas___float128.h" "ac_cv_header_mblas___float128_h" "$ac_includes_default"
-if test "x$ac_cv_header_mblas___float128_h" = xyes
+ac_fn_cxx_check_header_compile "$LINENO" "mblas__Float128.h" "ac_cv_header_mblas__Float128_h" "$ac_includes_default"
+if test "x$ac_cv_header_mblas__Float128_h" = xyes
 then :
   HAVE_MPACK_HEADER=yes
 fi
@@ -5704,7 +5704,7 @@ CPPFLAGS=$save_CPPFLAGS
 if test x$HAVE_MPACK_HEADER = xyes; then
   save_LDFLAGS="$LDFLAGS"
   LDFLAGS="$LDFLAGS -L$MPACK_LIBDIR"
-  LIBS="$LDFLAGS -L$MPACK_LIBDIR -lmlapack___float128 -lmblas___float128 -lquadmath";
+  LIBS="$LDFLAGS -L$MPACK_LIBDIR -lmlapack__Float128 -lmblas__Float128 -lquadmath";
  # AC_CHECK_FUNC(Rsyev, [HAVE_MPACK=yes])
   HAVE_MPACK=yes
   LDFLAGS=$save_LDFLAGS

@@ -62,9 +62,9 @@ exit(false)
 extern int IZERO   ; // =  0;
 extern int IONE    ; // =  1;
 extern int IMONE   ; // = -1;
-extern __float128 MZERO; // =  0.0;
-extern __float128 MONE ; // =  1.0;
-extern __float128 MMONE; // = -1.0;
+extern _Float128 MZERO; // =  0.0;
+extern _Float128 MONE ; // =  1.0;
+extern _Float128 MMONE; // = -1.0;
 
 class Time
 {

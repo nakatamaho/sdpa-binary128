@@ -6,8 +6,8 @@
 #ifndef __sdpa_algebra_h__
 #define __sdpa_algebra_h__
 
-#include "mblas___float128.h"
-#include "mlapack___float128.h"
+#include "mblas__Float128.h"
+#include "mlapack__Float128.h"
 
 #endif // __sdpa_algebra_h__
 

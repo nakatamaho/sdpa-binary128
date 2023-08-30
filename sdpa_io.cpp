@@ -166,7 +166,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
 
   // yVec is opposite sign
   for (int k=0; k<yVec.nDim; ++k) {
-    __float128 tmp;
+    _Float128 tmp;
     fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
     yVec.ele[k] = -tmp;
     //     rMessage("yVec.ele[" << k << "] = " << tmp);
@@ -175,7 +175,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
   if (inputSparse) {
     // sparse case , zMat , xMat in this order
     int i,j,l,target;
-    __float128 value;
+    _Float128 value;
     while (true) {
       if (fscanf(fpData,"%*[^0-9+-]%d",&target)<=0) {
 	break;
@@ -236,7 +236,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
       int size = zMat.SDP_block[l].nRow;
       for (int i=0; i<size; ++i) {
 	for (int j=0; j<size; ++j) {
-	  __float128 tmp;
+	  _Float128 tmp;
           fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
 	  if (i<=j && tmp!=0.0) {
 	    zMat.setElement_SDP(l,i,j,tmp);
@@ -250,7 +250,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
     }
     // for LP
     for (int j=0; j<LP_nBlock; ++j) {
-      __float128 tmp;
+      _Float128 tmp;
       fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
       if (tmp!=0.0) {
 	zMat.setElement_LP(j,tmp);
@@ -262,7 +262,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
       int size = xMat.SDP_block[l].nRow;
       for (int i=0; i<size; ++i) {
 	for (int j=0; j<size; ++j) {
-	  __float128 tmp;
+	  _Float128 tmp;
 	  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
 	  if (i<=j && tmp!=0.0) {
 	    xMat.setElement_SDP(l,i,j,tmp);
@@ -276,7 +276,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
     }
     // for LP
     for (int j=0; j<LP_nBlock; ++j) {
-      __float128 tmp;
+      _Float128 tmp;
       fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
       if (tmp!=0.0) {
 	xMat.setElement_LP(j,tmp);
@@ -303,7 +303,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 
   if (isDataSparse) {
     int i,j,k,l;
-    __float128 value;
+    _Float128 value;
     while (true) {
       if (fscanf(fpData,"%*[^0-9+-]%d",&k)<=0) {
 	break;
@@ -365,7 +365,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 		int size = SDP_blockStruct[l];
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
-			__float128 tmp;
+			_Float128 tmp;
                        fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
 			if (i<=j && tmp!=0.0) {
 			  inputData.C.setElement_SDP(l,i,j,-tmp);
@@ -376,7 +376,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 		rError("io:: current version does not support SOCP");
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
-		  __float128 tmp;
+		  _Float128 tmp;
                  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
 		  if (tmp!=0.0) {
 			inputData.C.setElement_LP(blockNumber[l2]+j,-tmp);
@@ -396,7 +396,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 		int size = SDP_blockStruct[l];
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
-			__float128 tmp;
+			_Float128 tmp;
                        fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
 			if (i<=j && tmp!=0.0) {
 			  inputData.A[k].setElement_SDP(l,i,j,tmp);
@@ -407,7 +407,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 		rError("io:: current version does not support SOCP");
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
-		  __float128 tmp;
+		  _Float128 tmp;
                  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
 		  if (tmp!=0.0) {
 			inputData.A[k].setElement_LP(blockNumber[l2]+j,tmp);
@@ -511,7 +511,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
 
   if (isDataSparse) {
     int i,j,k,l;
-    __float128 value;
+    _Float128 value;
     while (true) {
       if (fscanf(fpData,"%*[^0-9+-]%d",&k)<=0) {
 	break;
@@ -559,7 +559,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
         int size = SDP_blockStruct[l];
         for (int i=0; i<size; ++i) {
           for (int j=0; j<size; ++j) {
-	    __float128 tmp;
+	    _Float128 tmp;
             fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
             if (i<=j && tmp!=0.0) {
               SDP_index[0].push_back(l);
@@ -570,7 +570,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
         rError("io:: current version does not support SOCP");
       } else if (blockType[l2] == 3) { // LP part
         for (int j=0; j<blockStruct[l2]; ++j) {
-	  __float128 tmp;
+	  _Float128 tmp;
           fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
           if (tmp!=0.0) {
               LP_index[0].push_back(blockNumber[l2]+j);
@@ -589,7 +589,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
           int size = SDP_blockStruct[l];
           for (int i=0; i<size; ++i) {
             for (int j=0; j<size; ++j) {
- 	      __float128 tmp;
+ 	      _Float128 tmp;
               fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
               if (i<=j && tmp!=0.0) {
                 SDP_index[k+1].push_back(l);
@@ -600,7 +600,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
           rError("io:: current version does not support SOCP");
         } else if (blockType[l2] == 3) { // LP part
           for (int j=0; j<blockStruct[l2]; ++j) {
-	    __float128 tmp;
+	    _Float128 tmp;
             fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
             if (tmp!=0.0) {
               LP_index[k+1].push_back(blockNumber[l2]+j);
@@ -713,7 +713,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 
   if (isDataSparse) {
     int i,j,k,l;
-    __float128 value;
+    _Float128 value;
     while (true) {
       if (fscanf(fpData,"%*[^0-9+-]%d",&k)<=0) {
 	break;
@@ -775,7 +775,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 		int size = SDP_blockStruct[l];
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
-	                __float128 tmp;
+	                _Float128 tmp;
                         fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
 			if (i<=j && tmp!=0.0) {
 			  inputData.C.setElement_SDP(l,i,j,-tmp);
@@ -786,7 +786,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 		rError("io:: current version does not support SOCP");
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
-	          __float128 tmp;
+	          _Float128 tmp;
                   fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
 		  if (tmp!=0.0) {
 			inputData.C.setElement_LP(blockNumber[l2]+j,-tmp);
@@ -806,7 +806,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 		int size = SDP_blockStruct[l];
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
-	                __float128 tmp;
+	                _Float128 tmp;
                         fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
 			if (i<=j && tmp!=0.0) {
 			  inputData.A[k].setElement_SDP(l,i,j,tmp);
@@ -817,7 +817,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 		rError("io:: current version does not support SOCP");
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
-	          __float128 tmp;
+	          _Float128 tmp;
                   fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = strtoflt128(mpbuffer_sdpa_io, NULL);
 		  if (tmp!=0.0) {
 			inputData.A[k].setElement_LP(blockNumber[l2]+j,tmp);
@@ -857,8 +857,8 @@ void IO::printOneIteration(int pIteration,
 {
   #if REVERSE_PRIMAL_DUAL
   if (Display) {
-    __float128 mtmp1=-solveInfo.objValDual;
-    __float128 mtmp2=-solveInfo.objValPrimal;
+    _Float128 mtmp1=-solveInfo.objValDual;
+    _Float128 mtmp2=-solveInfo.objValPrimal;
     fprintf(Display,"%2d %4.1e %4.1e %4.1e %+7.2e %+7.2e"
 	    " %4.1e %4.1e %4.2e\n", pIteration, (double)mu.current,
 	    (double)theta.dual, (double)theta.primal,
@@ -866,8 +866,8 @@ void IO::printOneIteration(int pIteration,
 	    (double)alpha.dual, (double)alpha.primal, (double)beta.value);
   }
   if (fpout) {
-    __float128 mtmp1=-solveInfo.objValDual;
-    __float128 mtmp2=-solveInfo.objValPrimal;
+    _Float128 mtmp1=-solveInfo.objValDual;
+    _Float128 mtmp2=-solveInfo.objValPrimal;
     fprintf(fpout,"%2d %4.1e %4.1e %4.1e %+7.2e %+7.2e"
 	    " %4.1e %4.1e %4.2e\n", pIteration, (double)mu.current,
 	    (double)theta.dual, (double)theta.primal,
@@ -915,29 +915,29 @@ void IO::printLastInfo(int pIteration,
   printOneIteration(pIteration,mu,theta,solveInfo,alpha,
 		    beta, fpout, Display);
 
-  __float128 mean = (abs(solveInfo.objValPrimal)
+  _Float128 mean = (abs(solveInfo.objValPrimal)
 		 + abs(solveInfo.objValDual)) / 2.0;
-  __float128 PDgap = abs(solveInfo.objValPrimal
+  _Float128 PDgap = abs(solveInfo.objValPrimal
 		      - solveInfo.objValDual);
-  // __float128 dominator;
-  __float128 relgap;
+  // _Float128 dominator;
+  _Float128 relgap;
   if (mean < 1.0) {
     relgap = PDgap;
   } else {
     relgap = PDgap/mean;
   }
 
-  __float128 gap    = mu.current*nDim; 
-  __float128 digits = -log10q(abs(PDgap/mean));
+  _Float128 gap    = mu.current*nDim; 
+  _Float128 digits = -log10q(abs(PDgap/mean));
 
   #if DIMACS_PRINT
-  __float128 tmp = 0.0;
-  __float128 b1 = 0.0;
+  _Float128 tmp = 0.0;
+  _Float128 b1 = 0.0;
   for (int k=0; k<inputData.b.nDim; ++k) {
     tmp= abs(inputData.b.ele[k]);
     b1 = max(b1, tmp);
   }
-  __float128 c1 = 0.0;
+  _Float128 c1 = 0.0;
   for (int l=0; l<inputData.C.SDP_sp_nBlock; ++l) {
     SparseMatrix& Cl = inputData.C.SDP_sp_block[l];
     if (Cl.type == SparseMatrix::SPARSE) {
@@ -959,10 +959,10 @@ void IO::printLastInfo(int pIteration,
     tmp = abs(inputData.C.LP_sp_block[l]);
     c1 = max(c1, tmp);
   }
-  __float128 p_norm;
+  _Float128 p_norm;
   Lal::let(tmp,'=',currentRes.primalVec,'.',currentRes.primalVec);
   p_norm = sqrtq(tmp);
-  __float128 d_norm = 0.0;
+  _Float128 d_norm = 0.0;
   for (int l=0; l<currentRes.dualMat.SDP_nBlock; ++l) {
     Lal::let(tmp,'=',currentRes.dualMat.SDP_block[l],'.',currentRes.dualMat.SDP_block[l]);
     d_norm += sqrtq(tmp);
@@ -975,8 +975,8 @@ void IO::printLastInfo(int pIteration,
     tmp += currentRes.dualMat.LP_block[l] * currentRes.dualMat.LP_block[l];
   }
   d_norm += sqrtq(tmp);
-  __float128 x_min =  Jal::getMinEigen(currentPt.xMat,work);
-  __float128 z_min =  Jal::getMinEigen(currentPt.zMat,work);
+  _Float128 x_min =  Jal::getMinEigen(currentPt.xMat,work);
+  _Float128 z_min =  Jal::getMinEigen(currentPt.zMat,work);
 					
   // printf("b1:%e\n",b1);
   // printf("c1:%e\n",c1);
@@ -985,18 +985,18 @@ void IO::printLastInfo(int pIteration,
   // printf("x_min:%e\n",x_min);
   // printf("z_min:%e\n",z_min);
   
-  __float128 ctx = solveInfo.objValPrimal;
-  __float128 bty = solveInfo.objValDual;
-  __float128 xtz = 0.0;
+  _Float128 ctx = solveInfo.objValPrimal;
+  _Float128 bty = solveInfo.objValDual;
+  _Float128 xtz = 0.0;
   Lal::let(xtz,'=',currentPt.xMat,'.',currentPt.zMat);
 
-  __float128 mzero = 0.0;
-  __float128 err1 = p_norm / (1+b1);
-  __float128 err2 = max( mzero, - x_min / (1+b1));
-  __float128 err3 = d_norm / (1+c1);
-  __float128 err4 = max( mzero, - z_min / (1+c1));
-  __float128 err5 = (ctx - bty) / (1 + abs(ctx) + abs(bty));
-  __float128 err6 = xtz / (1 + abs(ctx) + abs(bty));
+  _Float128 mzero = 0.0;
+  _Float128 err1 = p_norm / (1+b1);
+  _Float128 err2 = max( mzero, - x_min / (1+b1));
+  _Float128 err3 = d_norm / (1+c1);
+  _Float128 err4 = max( mzero, - z_min / (1+c1));
+  _Float128 err5 = (ctx - bty) / (1 + abs(ctx) + abs(bty));
+  _Float128 err6 = xtz / (1 + abs(ctx) + abs(bty));
     
   #endif
   if (Display) {
@@ -1009,8 +1009,8 @@ void IO::printLastInfo(int pIteration,
     fprintf(Display, "      digits = %4.16e\n",  (double)digits);
 
     #if REVERSE_PRIMAL_DUAL
-    __float128 mtmp1 = -solveInfo.objValDual;
-    __float128 mtmp2 = -solveInfo.objValPrimal;
+    _Float128 mtmp1 = -solveInfo.objValDual;
+    _Float128 mtmp2 = -solveInfo.objValPrimal;
     fprintf(Display, "objValPrimal = %10.16e\n",
 	    (double)mtmp1);
     fprintf(Display, "objValDual   = %10.16e\n",
@@ -1020,7 +1020,7 @@ void IO::printLastInfo(int pIteration,
     fprintf(Display, "d.feas.error = %10.16e\n",
 	    (double)currentRes.normPrimalVec);
     fprintf(Display, "relative eps = %10.16e\n",
-            (double)Rlamch___float128("E"));
+            (double)Rlamch__Float128("E"));
     #else
     fprintf(Display, "objValPrimal = %10.16e\n",
 	    (double)solveInfo.objValPrimal);
@@ -1064,8 +1064,8 @@ void IO::printLastInfo(int pIteration,
     fprintf(fpout, "      digits = %4.16e\n",  (double)digits);
 
     #if REVERSE_PRIMAL_DUAL
-    __float128 mtmp1=-solveInfo.objValDual;
-    __float128 mtmp2=-solveInfo.objValPrimal;
+    _Float128 mtmp1=-solveInfo.objValDual;
+    _Float128 mtmp2=-solveInfo.objValPrimal;
     fprintf(fpout, "objValPrimal = %10.16e\n",
 	    (double)mtmp1);
     fprintf(fpout, "objValDual   = %10.16e\n",
@@ -1075,7 +1075,7 @@ void IO::printLastInfo(int pIteration,
     fprintf(fpout, "d.feas.error = %10.16e\n",
 	    (double)currentRes.normPrimalVec);
     fprintf(fpout, "relative eps = %10.16e\n",
-            (double)Rlamch___float128("E"));
+            (double)Rlamch__Float128("E"));
     #else
     fprintf(fpout, "objValPrimal = %10.16e\n",
 	    (double)solveInfo.objValPrimal);
@@ -1086,7 +1086,7 @@ void IO::printLastInfo(int pIteration,
     fprintf(fpout, "d.feas.error = %10.16e\n",
 	    (double)currentRes.normDualMat);
     fprintf(fpout, "relative eps = %10.16e\n",
-            (double)Rlamch___float128("E"));
+            (double)Rlamch__Float128("E"));
     #endif
     fprintf(fpout, "total time   = %.3f\n",cputime);
     #if DIMACS_PRINT
@@ -1154,28 +1154,28 @@ void IO::printLastInfo(int pIteration,
   printOneIteration(pIteration,mu,theta,solveInfo,alpha,
 		    beta, fpout, Display);
 
-  __float128 mean = (abs(solveInfo.objValPrimal)
+  _Float128 mean = (abs(solveInfo.objValPrimal)
 		 + abs(solveInfo.objValDual)) / 2.0;
-  __float128 PDgap = abs(solveInfo.objValPrimal
+  _Float128 PDgap = abs(solveInfo.objValPrimal
 		      - solveInfo.objValDual);
-  // __float128 dominator;
-  __float128 relgap;
+  // _Float128 dominator;
+  _Float128 relgap;
   if (mean < 1.0) {
     relgap = PDgap;
   } else {
     relgap = PDgap/mean;
   }
-  __float128 gap    = mu.current*nDim; 
-  __float128 digits = -log10q(abs(PDgap/mean));
+  _Float128 gap    = mu.current*nDim; 
+  _Float128 digits = -log10q(abs(PDgap/mean));
 
   #if DIMACS_PRINT
-  __float128 tmp = 0.0;
-  __float128 b1 = 0.0;
+  _Float128 tmp = 0.0;
+  _Float128 b1 = 0.0;
   for (int k=0; k<inputData.b.nDim; ++k) {
     tmp = abs(inputData.b.ele[k]);
     b1 = max(b1, tmp);
   }
-  __float128 c1 = 0.0;
+  _Float128 c1 = 0.0;
   for (int l=0; l<inputData.C.SDP_sp_nBlock; ++l) {
     SparseMatrix& Cl = inputData.C.SDP_sp_block[l];
     if (Cl.type == SparseMatrix::SPARSE) {
@@ -1197,10 +1197,10 @@ void IO::printLastInfo(int pIteration,
     tmp = abs(inputData.C.LP_sp_block[l]);
     c1 = max(c1, tmp);
   }
-  __float128 p_norm;
+  _Float128 p_norm;
   Lal::let(tmp,'=',currentRes.primalVec,'.',currentRes.primalVec);
   p_norm = sqrtq(tmp);
-  __float128 d_norm = 0.0;
+  _Float128 d_norm = 0.0;
   for (int l=0; l<currentRes.dualMat.SDP_nBlock; ++l) {
     Lal::let(tmp,'=',currentRes.dualMat.SDP_block[l],'.',currentRes.dualMat.SDP_block[l]);
     d_norm += sqrtq(tmp);
@@ -1213,8 +1213,8 @@ void IO::printLastInfo(int pIteration,
     tmp += currentRes.dualMat.LP_block[l] * currentRes.dualMat.LP_block[l];
   }
   d_norm += sqrtq(tmp);
-  __float128 x_min =  Jal::getMinEigen(currentPt.xMat,work);
-  __float128 z_min =  Jal::getMinEigen(currentPt.zMat,work);
+  _Float128 x_min =  Jal::getMinEigen(currentPt.xMat,work);
+  _Float128 z_min =  Jal::getMinEigen(currentPt.zMat,work);
 					
   //  printf("b1:%e\n",b1);
   //  printf("c1:%e\n",c1);
@@ -1223,18 +1223,18 @@ void IO::printLastInfo(int pIteration,
   //  printf("x_min:%e\n",x_min);
   //  printf("z_min:%e\n",z_min);
   
-  __float128 ctx = solveInfo.objValPrimal;
-  __float128 bty = solveInfo.objValDual;
-  __float128 xtz = 0.0;
+  _Float128 ctx = solveInfo.objValPrimal;
+  _Float128 bty = solveInfo.objValDual;
+  _Float128 xtz = 0.0;
   Lal::let(xtz,'=',currentPt.xMat,'.',currentPt.zMat);
 
-  __float128 mzero = 0.0;
-  __float128 err1 = p_norm / (1+b1);
-  __float128 err2 = max( mzero, - x_min / (1+b1));
-  __float128 err3 = d_norm / (1+c1);
-  __float128 err4 = max( mzero, - z_min / (1+c1));
-  __float128 err5 = (ctx - bty) / (1 + abs(ctx) + abs(bty));
-  __float128 err6 = xtz / (1 + abs(ctx) + abs(bty));
+  _Float128 mzero = 0.0;
+  _Float128 err1 = p_norm / (1+b1);
+  _Float128 err2 = max( mzero, - x_min / (1+b1));
+  _Float128 err3 = d_norm / (1+c1);
+  _Float128 err4 = max( mzero, - z_min / (1+c1));
+  _Float128 err5 = (ctx - bty) / (1 + abs(ctx) + abs(bty));
+  _Float128 err6 = xtz / (1 + abs(ctx) + abs(bty));
     
   #endif
   
@@ -1248,8 +1248,8 @@ void IO::printLastInfo(int pIteration,
     fprintf(Display, "      digits = %4.16e\n",  (double)digits);
 
     #if REVERSE_PRIMAL_DUAL
-    __float128 mtmp1 = -solveInfo.objValDual;
-    __float128 mtmp2 = -solveInfo.objValPrimal;
+    _Float128 mtmp1 = -solveInfo.objValDual;
+    _Float128 mtmp2 = -solveInfo.objValPrimal;
     quadmath_snprintf(mpbuffer_sdpa_io,BINARY128BUFFER,"%.40Qf",mtmp1);
     fprintf(Display, "objValPrimal = %s\n", mpbuffer_sdpa_io);
     quadmath_snprintf(mpbuffer_sdpa_io,BINARY128BUFFER,"%.40Qf",mtmp2);
@@ -1259,7 +1259,7 @@ void IO::printLastInfo(int pIteration,
     fprintf(Display, "d.feas.error = %10.16e\n",
 	    (double)currentRes.normPrimalVec);
     fprintf(Display, "relative eps = %10.16e\n",
-            (double)Rlamch___float128("E"));
+            (double)Rlamch__Float128("E"));
     #else
     fprintf(Display, "objValPrimal = %10.16e\n",
 	    (double)solveInfo.objValPrimal);
@@ -1270,7 +1270,7 @@ void IO::printLastInfo(int pIteration,
     fprintf(Display, "d.feas.error = %10.16e\n",
 	    (double)currentRes.normDualMat);
     fprintf(Display, "relative eps = %10.16e\n",
-            (double)Rlamch___float128("E"));
+            (double)Rlamch__Float128("E"));
     #endif
     if (printTime == true) {
       fprintf(Display, "total time   = %.3f\n",cputime);
@@ -1303,8 +1303,8 @@ void IO::printLastInfo(int pIteration,
     fprintf(fpout, "      digits = %4.16e\n",  (double)digits);
 
     #if REVERSE_PRIMAL_DUAL
-    __float128 mtmp1=-solveInfo.objValDual;
-    __float128 mtmp2=-solveInfo.objValPrimal;
+    _Float128 mtmp1=-solveInfo.objValDual;
+    _Float128 mtmp2=-solveInfo.objValPrimal;
     fprintf(fpout, "objValPrimal = %10.16e\n",
 	    (double)mtmp1);
     fprintf(fpout, "objValDual   = %10.16e\n",
@@ -1314,7 +1314,7 @@ void IO::printLastInfo(int pIteration,
     fprintf(fpout, "d.feas.error = %10.16e\n",
 	    (double)currentRes.normPrimalVec);
     fprintf(fpout, "relative eps = %10.16e\n",
-            (double)Rlamch___float128("E"));
+            (double)Rlamch__Float128("E"));
     #else
     fprintf(fpout, "objValPrimal = %10.16e\n",
 	    (double)solveInfo.objValPrimal);
@@ -1325,7 +1325,7 @@ void IO::printLastInfo(int pIteration,
     fprintf(fpout, "d.feas.error = %10.16e\n",
 	    (double)currentRes.normDualMat);
     fprintf(fpout, "relative eps = %10.16e\n",
-            (double)Rlamch___float128("E"));
+            (double)Rlamch__Float128("E"));
     #endif
     fprintf(fpout, "total time   = %.3f\n",cputime);
     #if DIMACS_PRINT

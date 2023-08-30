@@ -124,7 +124,7 @@ public:
   void make_aggrigateIndex(InputData& inputData);
 
   void computeFormula_SDP(InputData& inputData,
-			  __float128 DenseRatio,__float128 Kappa);
+			  _Float128 DenseRatio,_Float128 Kappa);
 
   enum WHICH_DIRECTION {PREDICTOR, CORRECTOR};
   void compute_rMat(WHICH_DIRECTION direction,
@@ -143,11 +143,11 @@ public:
 	       WorkVariables& work,
 	       ComputeTime& com);
 
-  void calF1(__float128& ret, DenseMatrix& G,
+  void calF1(_Float128& ret, DenseMatrix& G,
 	     SparseMatrix& Aj);
-  void calF2(__float128& ret, DenseMatrix& F, DenseMatrix& G,
+  void calF2(_Float128& ret, DenseMatrix& F, DenseMatrix& G,
 	     DenseMatrix& X, SparseMatrix& Aj, bool& hasF2Gcal);
-  void calF3(__float128& ret,
+  void calF3(_Float128& ret,
 	     DenseMatrix& F, DenseMatrix& G,
 	     DenseMatrix& X, DenseMatrix& invZ,
 	     SparseMatrix& Ai, SparseMatrix& Aj);

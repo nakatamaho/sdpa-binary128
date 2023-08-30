@@ -231,13 +231,13 @@ HAVE_MPACK=""
 save_CPPFLAGS="$CPPFLAGS"
 CPPFLAGS="$CPPFLAGS -I$MPACK_INCLUDEDIR"
 AC_LANG_PUSH([C++])
-AC_CHECK_HEADER(mblas___float128.h, HAVE_MPACK_HEADER=yes)
+AC_CHECK_HEADER(mblas__Float128.h, HAVE_MPACK_HEADER=yes)
 CPPFLAGS=$save_CPPFLAGS
 
 if test x$HAVE_MPACK_HEADER = xyes; then
   save_LDFLAGS="$LDFLAGS"
   LDFLAGS="$LDFLAGS -L$MPACK_LIBDIR"
-  LIBS="$LDFLAGS -L$MPACK_LIBDIR -lmlapack___float128 -lmblas___float128 -lquadmath";
+  LIBS="$LDFLAGS -L$MPACK_LIBDIR -lmlapack__Float128 -lmblas__Float128 -lquadmath";
  # AC_CHECK_FUNC(Rsyev, [HAVE_MPACK=yes])
   HAVE_MPACK=yes
   LDFLAGS=$save_LDFLAGS

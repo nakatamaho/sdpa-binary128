@@ -37,7 +37,7 @@ Vector::Vector()
   ele  = NULL;
 }
 
-Vector::Vector(int nDim, __float128 value)
+Vector::Vector(int nDim, _Float128 value)
 {
   ele  = NULL;
   initialize(nDim,value);
@@ -48,7 +48,7 @@ Vector::~Vector()
   terminate();
 }
 
-void Vector::initialize(int nDim,__float128 value)
+void Vector::initialize(int nDim,_Float128 value)
 {
   // rMessage("Vector initialize");
   if (ele && this->nDim!=nDim) {
@@ -64,7 +64,7 @@ void Vector::initialize(int nDim,__float128 value)
   if (ele==NULL) {
     ele = NULL;
     rNewCheck();
-    ele = new __float128[nDim];
+    ele = new _Float128[nDim];
     if (ele==NULL) {
       rError("Vector:: memory exhausted");
     }
@@ -72,14 +72,14 @@ void Vector::initialize(int nDim,__float128 value)
   sdpa_dset(nDim,value,ele,IONE);
 }
 
-void Vector::initialize(__float128 value)
+void Vector::initialize(_Float128 value)
 {
   if (nDim<=0) {
     rError("Vector:: nDim is nonpositive");
   }
   if (ele==NULL) {
     rNewCheck();
-    ele = new __float128[nDim];
+    ele = new _Float128[nDim];
     if (ele==NULL) {
       rError("Vector:: memory exhausted");
     }
@@ -97,7 +97,7 @@ void Vector::terminate()
 
 void Vector::setZero()
 {
-  __float128 zero=0.0;
+  _Float128 zero=0.0;
   initialize(zero);
 }
 
@@ -119,19 +119,19 @@ void Vector::display(FILE* fpout)
   }
 }
 
-void Vector::display(FILE* fpout,__float128 scalar)
+void Vector::display(FILE* fpout,_Float128 scalar)
 {
   if (fpout == NULL) {
     return;
   }
   fprintf(fpout,"{");
   for (int j=0; j<nDim-1; ++j) {
-    __float128 mtmp=ele[j]*scalar;
+    _Float128 mtmp=ele[j]*scalar;
     quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,mtmp); //issue #1
     fprintf(fpout,"%s,",mpbuffer_sdpa_struct); //issue #1
   }
   if (nDim>0) {
-    __float128 mtmp=ele[nDim-1]*scalar;
+    _Float128 mtmp=ele[nDim-1]*scalar;
     quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,mtmp); //issue #1
     fprintf(fpout,"%s}\n",mpbuffer_sdpa_struct); //issue #1
   } else {
@@ -154,7 +154,7 @@ bool Vector::copyFrom(Vector& other)
   }
   if (ele==NULL) {
     rNewCheck();
-    ele = new __float128[nDim];
+    ele = new _Float128[nDim];
     if (ele==NULL) {
       rError("Vector:: memory exhausted");
     }
@@ -171,7 +171,7 @@ BlockVector::BlockVector()
 }
 
 BlockVector::BlockVector(int nBlock, int* blockStruct,
-			   __float128 value)
+			   _Float128 value)
 {
   initialize(nBlock,blockStruct,value);
 }
@@ -182,7 +182,7 @@ BlockVector::~BlockVector()
 }
 
 void BlockVector::initialize(int nBlock, int* blockStruct,
-			      __float128 value)
+			      _Float128 value)
 {
   // rMessage("BlockVector initialize");
   this->nBlock = nBlock;
@@ -214,7 +214,7 @@ void BlockVector::initialize(int nBlock, int* blockStruct,
   }
 }
 
-void BlockVector::initialize(__float128 value)
+void BlockVector::initialize(_Float128 value)
 {
   if (nBlock>0 && blockStruct && ele) {
     for (int l=0; l<nBlock; ++l) {
@@ -355,7 +355,7 @@ initialize(int nRow, int nCol,
       rNewCheck();
       column_index = new int[NonZeroNumber];
       rNewCheck();
-      sp_ele       = new __float128[NonZeroNumber];
+      sp_ele       = new _Float128[NonZeroNumber];
       if (row_index==NULL || column_index==NULL
 	  || sp_ele==NULL) {
 	rError("SparseMatrix:: memory exhausted");
@@ -367,7 +367,7 @@ initialize(int nRow, int nCol,
     this->NonZeroCount  = nRow*nCol;
     this->NonZeroEffect = nRow*nCol;
     rNewCheck();
-    de_ele = new __float128[NonZeroNumber];
+    de_ele = new _Float128[NonZeroNumber];
     if (de_ele==NULL) {
       rError("SparseMatrix:: memory exhausted");
     }
@@ -409,7 +409,7 @@ void SparseMatrix::display(FILE* fpout)
     for (int index=0; index<NonZeroCount; ++index) {
       int i        = row_index[index];
       int j        = column_index[index];
-      __float128 value = sp_ele[index];
+      _Float128 value = sp_ele[index];
       quadmath_snprintf(mpbuffer_sdpa_struct,BINARY128BUFFER,PQ_FORMAT,value);
       fprintf(fpout,"val[%d,%d] = %s\n", i,j,mpbuffer_sdpa_struct);
     }
@@ -490,7 +490,7 @@ bool SparseMatrix::copyFrom(SparseMatrix& other)
 	rNewCheck();
 	column_index = new int[NonZeroNumber];
 	rNewCheck();
-	sp_ele       = new __float128[NonZeroNumber];
+	sp_ele       = new _Float128[NonZeroNumber];
 	if (row_index==NULL || column_index==NULL
 	    || sp_ele==NULL) {
 	  rError("SparseMatrix:: memory exhausted");
@@ -529,7 +529,7 @@ void SparseMatrix::changeToDense(bool forceChange)
   de_ele = NULL;
   int length = nRow*nCol;
   rNewCheck();
-  de_ele = new __float128[length];
+  de_ele = new _Float128[length];
   if (de_ele==NULL) {
     rError("SparseMatrix:: memory exhausted");
   }
@@ -538,7 +538,7 @@ void SparseMatrix::changeToDense(bool forceChange)
   for (int index=0; index<NonZeroCount; ++index) {
     int        i = row_index[index];
     int        j = column_index[index];
-    __float128 value = sp_ele[index];
+    _Float128 value = sp_ele[index];
     if (i==j) {
       de_ele[i+nCol*j] = value;
     } else {
@@ -570,7 +570,7 @@ void SparseMatrix::setZero()
   }
 }
 
-void SparseMatrix::setIdentity(__float128 scalar)
+void SparseMatrix::setIdentity(_Float128 scalar)
 {
   if (nRow != nCol) {
     rError("SparseMatrix:: Identity matrix must be square matrix");
@@ -606,7 +606,7 @@ bool SparseMatrix::sortSparseIndex(int& i, int& j)
   // return the index(i,j) whose values are not symmetric.
   i = -1;
   j = -1;
-  const __float128 tolerance = 1.0e-8;
+  const _Float128 tolerance = 1.0e-8;
   switch(type) {
   case SPARSE:
     // Make matrix as Upper Triangluar
@@ -626,7 +626,7 @@ bool SparseMatrix::sortSparseIndex(int& i, int& j)
 	if (index1<index2) {
 	  int         tmpi = row_index   [i2];
 	  int         tmpj = column_index[i2];
-	  __float128      tmpv = sp_ele      [i2];
+	  _Float128      tmpv = sp_ele      [i2];
 	  row_index   [i2] = row_index   [i1];
 	  column_index[i2] = column_index[i1];
 	  sp_ele      [i2] = sp_ele      [i1];
@@ -724,7 +724,7 @@ initialize(int nRow, int nCol,
     }
     if (de_ele==NULL) {
       rNewCheck();
-      de_ele = new __float128[length];
+      de_ele = new _Float128[length];
       if (de_ele==NULL) {
 	rError("DenseMatrix:: memory exhausted");
       }
@@ -801,7 +801,7 @@ bool DenseMatrix::copyFrom(SparseMatrix& other)
     nRow = other.nRow;
     nCol = other.nCol;
     rNewCheck();
-    de_ele = new __float128[nRow*nCol];
+    de_ele = new _Float128[nRow*nCol];
     if (de_ele==NULL) {
       rError("DenseMatrix:: memory exhausted");
     }
@@ -810,7 +810,7 @@ bool DenseMatrix::copyFrom(SparseMatrix& other)
     for (int index = 0; index<other.NonZeroCount; ++index) {
       int i = other.row_index[index];
       int j = other.column_index[index];
-      __float128 value = other.sp_ele[index];
+      _Float128 value = other.sp_ele[index];
       de_ele[i+nCol*j] = de_ele[j+nCol*i] = value;
     }
     break;
@@ -823,7 +823,7 @@ bool DenseMatrix::copyFrom(SparseMatrix& other)
     nRow = other.nRow;
     nCol = other.nCol;
     rNewCheck();
-    de_ele = new __float128[nRow*nCol];
+    de_ele = new _Float128[nRow*nCol];
     if (de_ele==NULL) {
       rError("DenseMatrix:: memory exhausted");
     }
@@ -851,7 +851,7 @@ bool DenseMatrix::copyFrom(DenseMatrix& other)
     nCol = other.nCol;
     if (de_ele==NULL) {
       rNewCheck();
-      de_ele = new __float128[nRow*nCol];
+      de_ele = new _Float128[nRow*nCol];
       if (de_ele==NULL) {
 	rError("DenseMatrix:: memory exhausted");
       }
@@ -881,7 +881,7 @@ void DenseMatrix::setZero()
   }
 }
 
-void DenseMatrix::setIdentity(__float128 scalar)
+void DenseMatrix::setIdentity(_Float128 scalar)
 {
   if (nRow != nCol) {
     rError("SparseMatrix:: Identity matrix must be square matrix");
@@ -1046,7 +1046,7 @@ void SparseLinearSpace::initialize(int SDP_nBlock,
 	}
 	LP_sp_block = NULL;
 	rNewCheck();
-	LP_sp_block = new __float128[LP_sp_nBlock];
+	LP_sp_block = new _Float128[LP_sp_nBlock];
 	if (LP_sp_block==NULL) {
 	  rError("SparseLinearSpace:: memory exhausted");
 	}
@@ -1134,7 +1134,7 @@ void SparseLinearSpace::initialize(int SDP_sp_nBlock,
 	}
 	this->LP_sp_block = NULL;
 	rNewCheck();
-	this->LP_sp_block = new __float128[LP_sp_nBlock];
+	this->LP_sp_block = new _Float128[LP_sp_nBlock];
 	if (this->LP_sp_block==NULL) {
 	  rError("SparseLinearSpace:: memory exhausted");
 	}
@@ -1342,7 +1342,7 @@ bool SparseLinearSpace::copyFrom(SparseLinearSpace& other)
   }
   if ((LP_sp_nBlock > 0)&&(LP_sp_block==NULL)) {
     rNewCheck();
-    LP_sp_block = new __float128[LP_sp_nBlock];
+    LP_sp_block = new _Float128[LP_sp_nBlock];
     if (LP_sp_block==NULL) {
       rError("SparseLinearSpace:: memory exhausted");
     }
@@ -1359,7 +1359,7 @@ bool SparseLinearSpace::copyFrom(SparseLinearSpace& other)
   return total_judge;
 }
 
-void SparseLinearSpace::setElement_SDP(int block, int i, int j, __float128 ele)
+void SparseLinearSpace::setElement_SDP(int block, int i, int j, _Float128 ele)
 {
   int k;
 
@@ -1395,12 +1395,12 @@ void SparseLinearSpace::setElement_SDP(int block, int i, int j, __float128 ele)
   
 }
 
-void SparseLinearSpace::setElement_SOCP(int block, int i, int j, __float128 ele)
+void SparseLinearSpace::setElement_SOCP(int block, int i, int j, _Float128 ele)
 {
   rError("DenseLinearSpace:: current version does not support SOCP");
 }
 
-void SparseLinearSpace::setElement_LP(int block, __float128 ele)
+void SparseLinearSpace::setElement_LP(int block, _Float128 ele)
 {
   int k;
 
@@ -1439,7 +1439,7 @@ void SparseLinearSpace::setZero()
   }
 }
 
-void SparseLinearSpace::setIdentity(__float128 scalar)
+void SparseLinearSpace::setIdentity(_Float128 scalar)
 {
   rError("SparseLinearSpace::setIdentity   no support");
   if (SDP_sp_nBlock>0 && SDP_sp_index && SDP_sp_block) {
@@ -1580,7 +1580,7 @@ void DenseLinearSpace::initialize(int SDP_nBlock, int* SDP_blockStruct,
   }
   if ((LP_nBlock > 0) && (LP_block==NULL)) {
     rNewCheck();
-    LP_block = new __float128[LP_nBlock];
+    LP_block = new _Float128[LP_nBlock];
     if (LP_block==NULL) {
       rError("DenseLinearSpace:: memory exhausted");
     }
@@ -1724,7 +1724,7 @@ bool DenseLinearSpace::copyFrom(DenseLinearSpace& other)
   }
   LP_nBlock = other.LP_nBlock;
   if ((LP_nBlock > 0) && (LP_block == NULL)) {
-    LP_block = new __float128[LP_nBlock];
+    LP_block = new _Float128[LP_nBlock];
     if (LP_block==NULL) {
       rError("DenseLinearSpace:: memory exhausted");
     }
@@ -1737,7 +1737,7 @@ bool DenseLinearSpace::copyFrom(DenseLinearSpace& other)
   return total_judge;
 }
 
-void DenseLinearSpace::setElement_SDP(int block, int i, int j, __float128 ele)
+void DenseLinearSpace::setElement_SDP(int block, int i, int j, _Float128 ele)
 {
 
   // check range
@@ -1753,12 +1753,12 @@ void DenseLinearSpace::setElement_SDP(int block, int i, int j, __float128 ele)
   SDP_block[block].de_ele[j + i * nCol] = ele;
 }
 
-void DenseLinearSpace::setElement_SOCP(int block, int i, int j, __float128 ele)
+void DenseLinearSpace::setElement_SOCP(int block, int i, int j, _Float128 ele)
 {
   rError("DenseLinearSpace:: current version does not support SOCP");
 }
 
-void DenseLinearSpace::setElement_LP(int block, __float128 ele)
+void DenseLinearSpace::setElement_LP(int block, _Float128 ele)
 {
   // check range
   if (block >= LP_nBlock){
@@ -1794,7 +1794,7 @@ void DenseLinearSpace::setZero()
 
 }
 
-void DenseLinearSpace::setIdentity(__float128 scalar)
+void DenseLinearSpace::setIdentity(_Float128 scalar)
 {
   // for SDP
   if (SDP_nBlock>0 && SDP_block) {
@@ -1822,7 +1822,7 @@ void DenseLinearSpace::setIdentity(__float128 scalar)
 
 
 //print vector as matlab compat format.
-void printvec (int N, __float128 *A)
+void printvec (int N, _Float128 *A)
 {
   printf(" [ ");
   for (int i=0; i<N-1; i++){
@@ -1834,7 +1834,7 @@ void printvec (int N, __float128 *A)
 }
 
 //print vector as matlab compat format.
-void printveci (int N, __float128 *A, int inc)
+void printveci (int N, _Float128 *A, int inc)
 {
   int ix=0;
   printf(" [ ");
@@ -1848,9 +1848,9 @@ void printveci (int N, __float128 *A, int inc)
 }
 
 //print matrix as matlab compat format.
-void printmat (int N, int M, __float128 *A, int LDA)
+void printmat (int N, int M, _Float128 *A, int LDA)
 {
-  __float128 mtmp;
+  _Float128 mtmp;
   printf("[ ");
   for (int i=0; i<N; i++){
     printf("[ ");
@@ -1866,9 +1866,9 @@ void printmat (int N, int M, __float128 *A, int LDA)
 }
 
 //print symmetry matrix as matlab compat format.
-void printsymmmat (int N, __float128 *A, int LDA)
+void printsymmmat (int N, _Float128 *A, int LDA)
 {
-  __float128 mtmp;
+  _Float128 mtmp;
   printf("[ ");
   for (int i=0; i<N; i++){
     printf("[ ");
@@ -1883,10 +1883,10 @@ void printsymmmat (int N, __float128 *A, int LDA)
   printf("]");
 }
 
-void printmat3 (int N, __float128 *p, __float128 *q)
+void printmat3 (int N, _Float128 *p, _Float128 *q)
 {
-  __float128 mtmp;
-  __float128 zero;
+  _Float128 mtmp;
+  _Float128 zero;
   zero = 0.0;
   printf(" [ ");
   for (int i=0; i<N; i++){

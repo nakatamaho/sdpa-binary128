@@ -34,19 +34,19 @@ class Vector
 {
 public:
   int nDim;
-  __float128* ele;
+  _Float128* ele;
 
   Vector();
-  Vector(int nDim, __float128 value = 0.0);
+  Vector(int nDim, _Float128 value = 0.0);
   ~Vector();
 
-  void initialize(int nDim, __float128 value = 0.0);
-  void initialize(__float128 value);
+  void initialize(int nDim, _Float128 value = 0.0);
+  void initialize(_Float128 value);
   void terminate();
 
   void setZero();
   void display(FILE* fpout = stdout);
-  void display(FILE* fpout,__float128 scalar);
+  void display(FILE* fpout,_Float128 scalar);
   bool copyFrom(Vector& other);
 };
 
@@ -59,11 +59,11 @@ public:
   Vector* ele;
   
   BlockVector();
-  BlockVector(int nBlock, int* blockStruct, __float128 value = 0.0);
+  BlockVector(int nBlock, int* blockStruct, _Float128 value = 0.0);
   ~BlockVector();
   
-  void initialize(int nBlock, int* blockStruct, __float128 value = 0.0);
-  void initialize(__float128 value);
+  void initialize(int nBlock, int* blockStruct, _Float128 value = 0.0);
+  void initialize(_Float128 value);
   void terminate();
 
   void setZero();
@@ -87,12 +87,12 @@ public:
   // use for calculation of F1,F2,F3 
 
   // for Dense
-  __float128* de_ele;
+  _Float128* de_ele;
 
   // for Sparse
   int*    row_index;
   int*    column_index;
-  __float128* sp_ele;
+  _Float128* sp_ele;
 
   SparseMatrix();
   SparseMatrix(int nRow,int nCol, Type type, int NonZeroNumber);
@@ -106,7 +106,7 @@ public:
 
   void changeToDense(bool forceChange = false);
   void setZero();
-  void setIdentity(__float128 scalar = 1.0);
+  void setIdentity(_Float128 scalar = 1.0);
 
   bool sortSparseIndex(int&i, int& j);
 };
@@ -119,7 +119,7 @@ public:
   enum Type { DENSE, COMPLETION};
   Type type;
   
-  __float128* de_ele;
+  _Float128* de_ele;
 
   DenseMatrix();
   DenseMatrix(int nRow,int nCol, Type type);
@@ -133,7 +133,7 @@ public:
   bool copyFrom(SparseMatrix& other);
 
   void setZero();
-  void setIdentity(__float128 scalar = 1.0);
+  void setIdentity(_Float128 scalar = 1.0);
 };
 
 class SparseLinearSpace
@@ -149,7 +149,7 @@ public:
 
   SparseMatrix* SDP_sp_block;
   SparseMatrix* SOCP_sp_block;
-  __float128* LP_sp_block;
+  _Float128* LP_sp_block;
   
   SparseLinearSpace();
   SparseLinearSpace(int SDP_nBlock, int* SDP_blockStruct, 
@@ -192,12 +192,12 @@ public:
   void display(FILE* fpout = stdout);
   bool copyFrom(SparseLinearSpace& other);
   
-  void setElement_SDP(int block, int nCol, int nRow, __float128 ele);
-  void setElement_SOCP(int block, int nCol, int nRow, __float128 ele);
-  void setElement_LP(int block, __float128 ele);
+  void setElement_SDP(int block, int nCol, int nRow, _Float128 ele);
+  void setElement_SOCP(int block, int nCol, int nRow, _Float128 ele);
+  void setElement_LP(int block, _Float128 ele);
 
   void setZero();
-  void setIdentity(__float128 scalar = 1.0);
+  void setIdentity(_Float128 scalar = 1.0);
   // no check
   bool sortSparseIndex(int&l , int& i, int& j);
 };
@@ -211,7 +211,7 @@ class DenseLinearSpace
 
   DenseMatrix* SDP_block;
   DenseMatrix* SOCP_block;
-  __float128* LP_block;
+  _Float128* LP_block;
 
   DenseLinearSpace();
   DenseLinearSpace(int SDP_nBlock, int* SDP_blockStruct,
@@ -225,11 +225,11 @@ class DenseLinearSpace
 
   void display(FILE* fpout = stdout);
   bool copyFrom(DenseLinearSpace& other);
-  void setElement_SDP(int block, int nCol, int nRow, __float128 ele);
-  void setElement_SOCP(int block, int nCol, int nRow, __float128 ele);
-  void setElement_LP(int block, __float128 ele);
+  void setElement_SDP(int block, int nCol, int nRow, _Float128 ele);
+  void setElement_SOCP(int block, int nCol, int nRow, _Float128 ele);
+  void setElement_LP(int block, _Float128 ele);
   void setZero();
-  void setIdentity(__float128 scalar = 1.0);
+  void setIdentity(_Float128 scalar = 1.0);
 };
 
 }

@@ -114,16 +114,16 @@ class StepLength
 {
 public:
 
-  __float128 primal;
-  __float128 dual;
+  _Float128 primal;
+  _Float128 dual;
   StepLength();
-  StepLength(__float128 alphaP, __float128 alphaD, int nBlock,
+  StepLength(_Float128 alphaP, _Float128 alphaD, int nBlock,
 	      int* blockStruct);
   ~StepLength();
-  void initialize(__float128 alphaP, __float128 alphaD);
+  void initialize(_Float128 alphaP, _Float128 alphaD);
   void terminate();
   
-  static __float128 minBlockVector(BlockVector& aVec);
+  static _Float128 minBlockVector(BlockVector& aVec);
 
   void computeStepLength(Solutions& currentPt,
 			 Newton& newton,
@@ -148,10 +148,10 @@ public:
 class DirectionParameter
 {
 public:
-  __float128 value;
-  DirectionParameter(__float128 betaStar=0.0);
+  _Float128 value;
+  DirectionParameter(_Float128 betaStar=0.0);
   ~DirectionParameter();
-  void initialize(__float128 betaStar=0.0);
+  void initialize(_Float128 betaStar=0.0);
   
   void MehrotraPredictor(Phase& phase, Switch& reduction,
 			 Parameter& param);
@@ -180,11 +180,11 @@ public:
 class AverageComplementarity
 {
 public:
-  __float128 initial;
-  __float128 current;
-  AverageComplementarity(__float128 lambdaStar = 0.0);
+  _Float128 initial;
+  _Float128 current;
+  AverageComplementarity(_Float128 lambdaStar = 0.0);
   ~AverageComplementarity();
-  void initialize(__float128 lambdaStar = 0.0);
+  void initialize(_Float128 lambdaStar = 0.0);
   void initialize(Solutions& initPt);
   void update(Solutions& currentPt);
   void display(FILE* fpout = stdout);
@@ -193,8 +193,8 @@ public:
 class RatioInitResCurrentRes
 {
 public:
-  __float128 primal;
-  __float128 dual;
+  _Float128 primal;
+  _Float128 dual;
   
   RatioInitResCurrentRes();
   RatioInitResCurrentRes(Parameter& param, Residuals& initRes);
@@ -213,19 +213,19 @@ public:
   enum phaseType { noINFO,pFEAS,dFEAS,pdFEAS,pdINF,pFEAS_dINF,
 		   pINF_dFEAS,pdOPT,pUNBD,dUNBD};
 
-  __float128 rho;
-  __float128 etaPrimal;
-  __float128 etaDual;
-  __float128 objValPrimal;
-  __float128 objValDual;
+  _Float128 rho;
+  _Float128 etaPrimal;
+  _Float128 etaDual;
+  _Float128 objValPrimal;
+  _Float128 objValDual;
 
   SolveInfo();
   SolveInfo(InputData& inputData, Solutions& currentPt, 
-	    __float128 mu0, __float128 omegaStar);
+	    _Float128 mu0, _Float128 omegaStar);
   ~SolveInfo();
 
   void initialize(InputData& inputData, Solutions& currentPt, 
-		  __float128 mu0, __float128 omegaStar);
+		  _Float128 mu0, _Float128 omegaStar);
 
   void update(InputData& inputData,
 	      DenseLinearSpace& initPt_xMat, 

@@ -263,7 +263,7 @@ StepLength::~StepLength()
 }
 
 
-void StepLength::initialize(__float128 alphaP, __float128 alphaD)
+void StepLength::initialize(_Float128 alphaP, _Float128 alphaD)
 {
   primal = alphaP;
   dual   = alphaD;
@@ -274,11 +274,11 @@ void StepLength::terminate()
   // Nothing needs.
 }
 
-__float128 StepLength::minBlockVector(BlockVector& aVec)
+_Float128 StepLength::minBlockVector(BlockVector& aVec)
 {
   int nBlock = aVec.nBlock;
-  __float128 ret = aVec.ele[0].ele[0];
-  __float128 tmp;
+  _Float128 ret = aVec.ele[0].ele[0];
+  _Float128 tmp;
   int size = aVec.ele[0].nDim;
   for (int j=1; j<size; ++j) {
     tmp = aVec.ele[0].ele[j];
@@ -303,14 +303,14 @@ void StepLength::computeStepLength(Solutions& currentPt,
 				   WorkVariables& work,
 				   ComputeTime& com)
 {
-  __float128 alphaBD = 100.0;
+  _Float128 alphaBD = 100.0;
   // calculate  eigenvalues of X^{-1} dX
   TimeStart(START1);
   // rMessage("invCholeskyX=");
   // currentPt.invCholeskyX.display();
   // rMessage("Dx=");
   // newton.DxMat.display();
-  __float128 minxInvDxEigenValue;
+  _Float128 minxInvDxEigenValue;
   #define ALL_EIGEN 0
   #if ALL_EIGEN
   Lal::let(work.DLS2,'=',newton.DxMat,'T',currentPt.invCholeskyX);
@@ -342,7 +342,7 @@ void StepLength::computeStepLength(Solutions& currentPt,
   // rMessage("Dz=");
   // newton.DzMat.display();
 
-  __float128 minzInvDzEigenValue;
+  _Float128 minzInvDzEigenValue;
   #if ALL_EIGEN
   Lal::let(work.DLS2,'=',newton.DzMat,'T',currentPt.invCholeskyZ);
   Lal::let(work.DLS1,'=',currentPt.invCholeskyZ,'*',work.DLS2);
@@ -392,7 +392,7 @@ void StepLength::MehrotraPredictor(InputData& inputData,
   } else {
     // when primal is feasible,
     // check stepP1 is effective or not.
-    __float128 incPrimalObj;
+    _Float128 incPrimalObj;
     Lal::let(incPrimalObj,'=',C,'.',newton.DxMat);
     if (incPrimalObj>0.0) {
       if (primal>dual) {
@@ -412,7 +412,7 @@ void StepLength::MehrotraPredictor(InputData& inputData,
   } else {
     // when dual is feasible
     // check stepD1 is effective or not.
-    __float128 incDualObj;
+    _Float128 incDualObj;
     Lal::let(incDualObj,'=',b,'.',newton.DyVec);
     if(incDualObj<0.0) {
       if (dual>primal) {
@@ -437,7 +437,7 @@ void StepLength::MehrotraCorrector(InputData& inputData,
 				   ComputeTime& com)
 {
 
-  __float128 xi      = 3.0;
+  _Float128 xi      = 3.0;
   
   Vector& b = inputData.b;
   SparseLinearSpace& C = inputData.C;
@@ -459,7 +459,7 @@ void StepLength::MehrotraCorrector(InputData& inputData,
       primal = 1.0;
     }
   } else {
-    __float128 incPrimalObj;
+    _Float128 incPrimalObj;
     Lal::let(incPrimalObj,'=',C,'.',newton.DxMat);
     if(incPrimalObj>0.0) {
       // when primal is feasible
@@ -481,7 +481,7 @@ void StepLength::MehrotraCorrector(InputData& inputData,
   } else {
     // when dual is feasible
     // check stepD1 is effective or not.
-    __float128 incDualObj;
+    _Float128 incDualObj;
     Lal::let(incDualObj,'=',b,'.',newton.DyVec);
     if(incDualObj<0.0) {
       if (dual>primal) {
@@ -499,19 +499,19 @@ void StepLength::MehrotraCorrector(InputData& inputData,
       && (phase.value == SolveInfo::noINFO
 	  || phase.value == SolveInfo::pFEAS
 	  || phase.value == SolveInfo::dFEAS) ) {
-    __float128 xMatvMat;
+    _Float128 xMatvMat;
     Lal::let(xMatvMat,'=',currentPt.xMat,'.',newton.DzMat);
-    __float128 uMatzMat;
+    _Float128 uMatzMat;
     Lal::let(uMatzMat,'=',newton.DxMat,'.',currentPt.zMat);
-    __float128 uMatvMat;
+    _Float128 uMatvMat;
     Lal::let(uMatvMat,'=',newton.DxMat,'.',newton.DzMat);
 
-    __float128 thetaMax = max((1.0-primal)*theta.primal,
+    _Float128 thetaMax = max((1.0-primal)*theta.primal,
 			  (1.0-dual  )*theta.dual);
-    __float128 muNew = mu.current
+    _Float128 muNew = mu.current
       + (primal*uMatzMat + dual*xMatvMat
 	 + primal*dual*uMatvMat) / nDim;
-    __float128 alphaMax;
+    _Float128 alphaMax;
     //   memo by kazuhide nakata
     //   thetaMax*mu.initial -> thetamax*thetaMax*mu.initial ???
 	//    while (thetaMax*mu.initial > xi*muNew) {
@@ -536,7 +536,7 @@ void StepLength::MehrotraCorrector(InputData& inputData,
   if (phase.value == SolveInfo::pdFEAS){
 	// if (mu.current < 1.0){
 	
-	__float128 objValDual,objValPrimal,incDualObj,incPrimalObj,maxRatio;
+	_Float128 objValDual,objValPrimal,incDualObj,incPrimalObj,maxRatio;
 
 	Lal::let(objValDual,'=',inputData.b,'.',currentPt.yVec);
 	Lal::let(objValPrimal,'=',inputData.C,'.',currentPt.xMat);
@@ -568,7 +568,7 @@ void StepLength::display(FILE* fpout)
 }
 
 //-------------------------------------------------
-DirectionParameter::DirectionParameter(__float128 betaStar)
+DirectionParameter::DirectionParameter(_Float128 betaStar)
 {
   initialize(betaStar);
 }
@@ -578,7 +578,7 @@ DirectionParameter::~DirectionParameter()
   // Nothing needs.
 }
 
-void DirectionParameter::initialize(__float128 betaStar)
+void DirectionParameter::initialize(_Float128 betaStar)
 {
   value = betaStar;
 }
@@ -587,7 +587,7 @@ void DirectionParameter::MehrotraPredictor(Phase& phase,
 					   Switch& reduction,
 					   Parameter& param)
 {
-  const __float128 nu = 2.0;
+  const _Float128 nu = 2.0;
   if (phase.value == SolveInfo::pdFEAS) {
     value = 0.0;
   } else {
@@ -605,14 +605,14 @@ MehrotraCorrector(Phase& phase,StepLength& alpha,
 {
   int nDim = currentPt.nDim;
 
-  __float128 xMatvMat;
+  _Float128 xMatvMat;
   Lal::let(xMatvMat,'=',currentPt.xMat,'.',newton.DzMat);
-  __float128 uMatzMat;
+  _Float128 uMatzMat;
   Lal::let(uMatzMat,'=',newton.DxMat,'.',currentPt.zMat);
-  __float128 uMatvMat;
+  _Float128 uMatvMat;
   Lal::let(uMatvMat,'=',newton.DxMat,'.',newton.DzMat);
 
-  __float128 muTarget = mu.current
+  _Float128 muTarget = mu.current
     + (alpha.primal*uMatzMat + alpha.dual*xMatvMat
        + alpha.primal*alpha.dual*uMatvMat) / nDim;
   // rMessage("muTarget : " << muTarget);
@@ -689,7 +689,7 @@ void Switch::display(FILE* fpout)
 
 // ----------------------------------------
 
-AverageComplementarity::AverageComplementarity(__float128 lambdaStar)
+AverageComplementarity::AverageComplementarity(_Float128 lambdaStar)
 {
   initialize(lambdaStar);
 }
@@ -699,7 +699,7 @@ AverageComplementarity::~AverageComplementarity()
   // Nothing needs.
 }
 
-void AverageComplementarity::initialize(__float128 lambdaStar)
+void AverageComplementarity::initialize(_Float128 lambdaStar)
 {
   initial = lambdaStar*lambdaStar;
   current = initial;
@@ -754,7 +754,7 @@ RatioInitResCurrentRes::RatioInitResCurrentRes(Parameter& param,
 void RatioInitResCurrentRes::initialize(Parameter& param,
 					Residuals& initRes)
 {
-  __float128 accuracy = param.epsilonDash;
+  _Float128 accuracy = param.epsilonDash;
   if (initRes.normPrimalVec < accuracy) {
     primal = 0.0;
   } else {
@@ -816,7 +816,7 @@ SolveInfo::SolveInfo()
 }
 
 SolveInfo::SolveInfo(InputData& inputData, Solutions& currentPt, 
-		     __float128 mu0, __float128 omegaStar)
+		     _Float128 mu0, _Float128 omegaStar)
 {
   initialize(inputData,currentPt,mu0,omegaStar);
 }
@@ -827,7 +827,7 @@ SolveInfo::~SolveInfo()
 }
 
 void SolveInfo::initialize(InputData& inputData, Solutions& currentPt, 
-			   __float128 mu0, __float128 omegaStar)
+			   _Float128 mu0, _Float128 omegaStar)
 {
   int nDim = currentPt.nDim;
   Vector& b = inputData.b;
@@ -855,18 +855,18 @@ void SolveInfo::update(InputData& inputData,
 
   Lal::let(objValPrimal,'=',C,'.',currentPt.xMat);
   Lal::let(objValDual  ,'=',b,'.',currentPt.yVec);
-  __float128 primal = theta.primal;
-  __float128 dual   = theta.dual;
-  __float128 omega  = param.omegaStar;
+  _Float128 primal = theta.primal;
+  _Float128 dual   = theta.dual;
+  _Float128 omega  = param.omegaStar;
   rho = 0.0;
-  __float128 x0z0     = nDim*mu.initial;
-  __float128 xMatzMat = nDim*mu.current;
-  __float128 x0zMat   = 0.0;
-  __float128 xMatz0   = 0.0;
+  _Float128 x0z0     = nDim*mu.initial;
+  _Float128 xMatzMat = nDim*mu.current;
+  _Float128 x0zMat   = 0.0;
+  _Float128 xMatz0   = 0.0;
   Lal::let(x0zMat,'=',initPt_xMat,'.',currentPt.zMat);
   Lal::let(xMatz0,'=',currentPt.xMat,'.',initPt_zMat);
 
-  __float128 accuracy = param.epsilonDash;
+  _Float128 accuracy = param.epsilonDash;
 
   if (currentRes.normPrimalVec <= accuracy) {
     // rMessage("primal accuracy");
@@ -922,14 +922,14 @@ void SolveInfo::update(double& lambda,
 
   Lal::let(objValPrimal,'=',C,'.',currentPt.xMat);
   Lal::let(objValDual  ,'=',b,'.',currentPt.yVec);
-  __float128 primal = theta.primal;
-  __float128 dual   = theta.dual;
-  __float128 omega  = param.omegaStar;
+  _Float128 primal = theta.primal;
+  _Float128 dual   = theta.dual;
+  _Float128 omega  = param.omegaStar;
   rho = 0.0;
-  __float128 x0z0     = nDim*mu.initial;
-  __float128 xMatzMat = nDim*mu.current;
-  __float128 x0zMat   = 0.0;
-  __float128 xMatz0   = 0.0;
+  _Float128 x0z0     = nDim*mu.initial;
+  _Float128 xMatzMat = nDim*mu.current;
+  _Float128 x0zMat   = 0.0;
+  _Float128 xMatz0   = 0.0;
 
   for (int b=0; b<currentPt.xMat.SDP_nBlock; b++){
     int dim = currentPt.xMat.SDP_block[b].nRow; 
@@ -947,7 +947,7 @@ void SolveInfo::update(double& lambda,
   }
 
 
-  __float128 accuracy = param.epsilonDash;
+  _Float128 accuracy = param.epsilonDash;
 
   if (currentRes.normPrimalVec <= accuracy) {
     // rMessage("primal accuracy");
@@ -1000,7 +1000,7 @@ void SolveInfo::check(InputData& inputData,
 					  RatioInitResCurrentRes& theta,
 					  Parameter& param)
 {
-  __float128 tmp,tmp1p,tmp1d,tmp2p,tmp2d,tmp3p,tmp3d,tmp4,tmp5p,tmp5d;
+  _Float128 tmp,tmp1p,tmp1d,tmp2p,tmp2d,tmp3p,tmp3d,tmp4,tmp5p,tmp5d;
 
   Lal::let(tmp,'=',inputData.b,'.',currentPt.yVec);
   tmp1p = - tmp;
@@ -1080,8 +1080,8 @@ bool Phase::updateCheck(Residuals& currentRes,
 			  SolveInfo& solveInfo,
 			  Parameter& param)
 {
-  const __float128 NONZERO = 1.0e-6;
-  __float128 accuracy = param.epsilonDash;
+  const _Float128 NONZERO = 1.0e-6;
+  _Float128 accuracy = param.epsilonDash;
   value = SolveInfo::noINFO;
 
   if (currentRes.normPrimalVec <= accuracy) {
@@ -1096,12 +1096,12 @@ bool Phase::updateCheck(Residuals& currentRes,
     value = SolveInfo::dFEAS;
   }
   if (value==SolveInfo::pdFEAS) {
-    __float128 mean = (abs(solveInfo.objValPrimal)+
+    _Float128 mean = (abs(solveInfo.objValPrimal)+
 		   abs(solveInfo.objValDual)) / 2.0;
-    __float128 PDgap = abs(solveInfo.objValPrimal
+    _Float128 PDgap = abs(solveInfo.objValPrimal
 			- solveInfo.objValDual);
 
-    __float128 dominator;
+    _Float128 dominator;
     if (mean < 1.0) {
       dominator = 1.0;
     } else {

@@ -24,12 +24,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 namespace sdpa {
 
-__float128 Jal::trace(DenseLinearSpace& aMat)
+_Float128 Jal::trace(DenseLinearSpace& aMat)
 {
-  __float128 ret = 0.0;
+  _Float128 ret = 0.0;
 
   for (int l=0; l<aMat.SDP_nBlock; ++l) {
-    __float128* target = aMat.SDP_block[l].de_ele;
+    _Float128* target = aMat.SDP_block[l].de_ele;
     int size = aMat.SDP_block[l].nRow;
     for (int j=0; j<size; ++j) {
 	  ret += target[j*size+j];
@@ -53,12 +53,12 @@ __float128 Jal::trace(DenseLinearSpace& aMat)
 // block size <= 20  : QR method
 // QR method: workVec is temporary space and needs
 //            3*xMat.nRow-1 length memory.
-__float128 Jal::getMinEigen(DenseLinearSpace& lMat,
+_Float128 Jal::getMinEigen(DenseLinearSpace& lMat,
 		       DenseLinearSpace& xMat,
 		       WorkVariables& work)
 {
-  __float128 min = 1.0E50;
-  __float128 value;
+  _Float128 min = 1.0E50;
+  _Float128 value;
 
   // for SDP
   for (int l=0; l<xMat.SDP_nBlock; ++l) {
@@ -105,11 +105,11 @@ __float128 Jal::getMinEigen(DenseLinearSpace& lMat,
 
 
   // calculate the minimum eigen value of xMat by QR method.
-__float128 Jal::getMinEigen(DenseLinearSpace& xMat,
+_Float128 Jal::getMinEigen(DenseLinearSpace& xMat,
                         WorkVariables& work)
 {
-  __float128 min = 1.0E50;
-  __float128 value;
+  _Float128 min = 1.0E50;
+  _Float128 value;
 
   work.DLS1.copyFrom(xMat);
 
@@ -210,7 +210,7 @@ bool Jal::getInvCholAndInv(DenseLinearSpace& invCholMat,
 bool Jal::multiply(DenseLinearSpace& retMat,
 		   DenseLinearSpace& aMat,
 		   DenseLinearSpace& bMat,
-		   __float128* scalar)
+		   _Float128* scalar)
 {
   bool total_judge = _SUCCESS;
 
@@ -263,7 +263,7 @@ bool Jal::multiply(DenseLinearSpace& retMat,
 bool Jal::multiply(DenseLinearSpace& retMat,
 		   SparseLinearSpace& aMat,
 		   DenseLinearSpace& bMat,
-		   __float128* scalar)
+		   _Float128* scalar)
 {
   bool total_judge = _SUCCESS;
 
@@ -306,7 +306,7 @@ bool Jal::multiply(DenseLinearSpace& retMat,
 bool Jal::multiply(DenseLinearSpace& retMat,
 		   DenseLinearSpace& aMat,
 		   SparseLinearSpace& bMat,
-		   __float128* scalar )
+		   _Float128* scalar )
 {
   bool total_judge = _SUCCESS;
 

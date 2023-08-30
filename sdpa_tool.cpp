@@ -40,9 +40,9 @@ namespace sdpa {
 int IZERO =  0;
 int IONE  =  1;
 int IMONE = -1;
-__float128 MZERO =  0.0;
-__float128 MONE  =  1.0;
-__float128 MMONE = -1.0;
+_Float128 MZERO =  0.0;
+_Float128 MONE  =  1.0;
+_Float128 MMONE = -1.0;
 
 double Time::rGetUseTime()
 {
