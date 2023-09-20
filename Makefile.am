@@ -5,13 +5,13 @@ sdpa_binary128_SOURCES = sdpa_chordal.cpp sdpa_dataset.cpp sdpa_io.cpp \
 sdpa_jordan.cpp sdpa_linear.cpp sdpa_main.cpp sdpa_newton.cpp sdpa_parts.cpp \
 sdpa_struct.cpp sdpa_tool.cpp sdpa_chordal.h sdpa_dataset.h sdpa_algebra.h \
 sdpa_include.h sdpa_io.h sdpa_jordan.h sdpa_linear.h sdpa_newton.h \
-sdpa_parts.h sdpa_right.h sdpa_struct.h sdpa_tool.h
+sdpa_parts.h sdpa_right.h sdpa_struct.h sdpa_tool.h.in
 else
 sdpa_binary128_SOURCES = sdpa_chordal.cpp sdpa_dataset.cpp sdpa_io.cpp \
 sdpa_jordan.cpp sdpa_linear.cpp sdpa_main.cpp sdpa_newton.cpp sdpa_parts.cpp \
 sdpa_struct.cpp sdpa_tool.cpp sdpa_chordal.h sdpa_dataset.h sdpa_algebra.h \
 sdpa_include.h sdpa_io.h sdpa_jordan.h sdpa_linear.h sdpa_newton.h \
-sdpa_parts.h sdpa_right.h sdpa_struct.h sdpa_tool.h \
+sdpa_parts.h sdpa_right.h sdpa_struct.h sdpa_tool.h.in \
 mplapack/Rtrsm.cpp mplapack/Rsyrk.cpp\
 mplapack/Rtrmm.cpp mplapack/Rtrsv.cpp mplapack/iMlaenv.cpp\
 mplapack/Rlamch.cpp mplapack/Rlascl.cpp mplapack/Rsytrd.cpp mplapack/Rsterf.cpp\
@@ -41,7 +41,11 @@ mplapack/Rgemm_omp.cpp\
 mplapack/Rgemm_NN_omp.cpp\
 mplapack/Rgemm_NT_omp.cpp\
 mplapack/Rgemm_TN_omp.cpp\
-mplapack/Rgemm_TT_omp.cpp
+mplapack/Rgemm_TT_omp.cpp\
+mplapack/mpblas__Float128.h\
+mplapack/mplapack__Float128.h\
+mplapack/mplapack_config.h\
+mplapack/mplapack_utils__Float128.h.in
 endif
 
 AUTOMAKE_OPTIONS = subdir-objects
