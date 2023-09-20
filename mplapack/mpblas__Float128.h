@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2021
+ * Copyright (c) 2008-2023
  *	Nakata, Maho
  * 	All rights reserved.
  *
@@ -28,12 +28,11 @@
  *
  */
 
-#ifndef _MPBLAS_DD_H_
-#define _MPBLAS_DD_H_
+#ifndef _MPBLAS__FLOAT128_H_
+#define _MPBLAS__FLOAT128_H_
 
-#include <qd/_Float128.h>
 #include <mplapack_config.h>
-#include <mplapack_utils_dd.h>
+#include <mplapack_utils__Float128.h>
 
 _Float128 Rdot(mplapackint const n, _Float128 *dx, mplapackint const incx, _Float128 *dy, mplapackint const incy);
 void Rcopy(mplapackint const n, _Float128 *dx, mplapackint const incx, _Float128 *dy, mplapackint const incy);

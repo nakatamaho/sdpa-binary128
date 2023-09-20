@@ -3,13 +3,13 @@ bin_PROGRAMS = sdpa_binary128
 if SYSTEM_MPLAPACK
 sdpa_binary128_SOURCES = sdpa_chordal.cpp sdpa_dataset.cpp sdpa_io.cpp \
 sdpa_jordan.cpp sdpa_linear.cpp sdpa_main.cpp sdpa_newton.cpp sdpa_parts.cpp \
-sdpa_struct.cpp sdpa_tool.cpp sdpa_chordal.h sdpa_dataset.h \
+sdpa_struct.cpp sdpa_tool.cpp sdpa_chordal.h sdpa_dataset.h sdpa_algebra.h \
 sdpa_include.h sdpa_io.h sdpa_jordan.h sdpa_linear.h sdpa_newton.h \
 sdpa_parts.h sdpa_right.h sdpa_struct.h sdpa_tool.h
 else
 sdpa_binary128_SOURCES = sdpa_chordal.cpp sdpa_dataset.cpp sdpa_io.cpp \
 sdpa_jordan.cpp sdpa_linear.cpp sdpa_main.cpp sdpa_newton.cpp sdpa_parts.cpp \
-sdpa_struct.cpp sdpa_tool.cpp sdpa_chordal.h sdpa_dataset.h \
+sdpa_struct.cpp sdpa_tool.cpp sdpa_chordal.h sdpa_dataset.h sdpa_algebra.h \
 sdpa_include.h sdpa_io.h sdpa_jordan.h sdpa_linear.h sdpa_newton.h \
 sdpa_parts.h sdpa_right.h sdpa_struct.h sdpa_tool.h \
 mplapack/Rtrsm.cpp mplapack/Rsyrk.cpp\
@@ -46,13 +46,8 @@ endif
 
 AUTOMAKE_OPTIONS = subdir-objects
 
-if SYSTEM_MPLAPACK
-sdpa_binary128_LDADD = $(pthread_lib) -L$(SPOOLES_LIBDIR) -lspooles -lquadmath $(OPENMPLIB) -L$(MPACK_LIBDIR) -lmlapack_binary128 -lmblas_binary128
-sdpa_binary128_CXXFLAGS= $(pthread_cflags) -I$(SPOOLES_INCLUDEDIR) -DUseMETIS=0 $(OPENMPFLAGS) -I$(MPACK_INCLUDEDIR)
-else
-sdpa_binary128_LDADD = $(pthread_lib) -L$(SPOOLES_LIBDIR) -lspooles -lquadmath $(OPENMPLIB)
-sdpa_binary128_CXXFLAGS= $(pthread_cflags) -I$(SPOOLES_INCLUDEDIR) -DUseMETIS=0 -I$(MPACK_INCLUDEDIR) $(OPENMPFLAGS) -I./mpack
-endif
+sdpa_binary128_LDADD = $(pthread_lib) -L$(SPOOLES_LIBDIR) -lspooles $(OPENMPLIB) -L$(MPLAPACK_LIBDIR)
+sdpa_binary128_CXXFLAGS= $(pthread_cflags) -I$(SPOOLES_INCLUDEDIR) -DUseMETIS=0 $(OPENMPFLAGS) -I$(MPLAPACK_INCLUDEDIR)
 
 SUBDIRS = external
 
