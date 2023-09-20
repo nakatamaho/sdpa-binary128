@@ -146,7 +146,13 @@ AC_LINK_IFELSE([
        printf("fp128 %s\n",buf);
    }
   ]])
-], [have__Float128=yes want_libquadmath=no], [have__Float128=no])
+], [have__Float128=yes], [have__Float128=no])
+
+if test x"$have__Float128" = x"yes"; then
+     AC_MSG_RESULT([_Float128 is supported])
+else
+     AC_MSG_RESULT([_Float128 is not supported])
+fi
 
 if test x"$have__Float128" = x"yes"; then
     AC_COMPILE_IFELSE([
@@ -188,21 +194,33 @@ if test x"$have__Float128" = x"no"; then
     else
         AC_MSG_RESULT([long double is not binary128])
     fi
-    save_LIBS="$LIBS"
-    LIBS="-lquadmath $LIBS"
-    AC_LINK_IFELSE([
-        AC_LANG_SOURCE([[
-            #include <quadmath.h>
-            #include <stdio.h>
-            int main(){
-                char buf[1024];
-                __float128 a, b, c; b = 1.0q; c= 3.0q; a = b / c;
-                quadmath_snprintf(buf,128,"%.40Qf\n",a);
-                printf("%s",buf);
-           }
-       ]])
-    ], [have___float128=yes want_libquadmath=yes], [have___float128=no])
-    LIBS="$save_LIBS"
+fi
+
+save_LIBS="$LIBS"
+LIBS="-lquadmath $LIBS"
+AC_LINK_IFELSE([
+    AC_LANG_SOURCE([[
+        #include <quadmath.h>
+        #include <stdio.h>
+        int main(){
+            char buf[1024];
+            __float128 a, b, c; b = 1.0q; c= 3.0q; a = b / c;
+            quadmath_snprintf(buf,128,"%.40Qf\n",a);
+            printf("%s",buf);
+       }
+   ]])
+], [have___float128=yes], [have___float128=no])
+LIBS="$save_LIBS"
+if test x"$have___float128" = x"yes"; then
+     AC_MSG_RESULT([__float128 is supported])
+else
+     AC_MSG_RESULT([__float128 is not supported])
+fi
+
+if test x"$have__Float128" = x"yes" && test x"$have___float128" = x"yes" ; then
+    want_libquadmath=no
+else
+    want_libquadmath=yes
 fi
 
 if test "$have___float128" = "yes" && test x"$want_libquadmath" = x"yes" ; then
