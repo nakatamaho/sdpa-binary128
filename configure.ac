@@ -226,9 +226,11 @@ fi
 if test "$have___float128" = "yes" && test x"$want_libquadmath" = x"yes" ; then
     AC_MSG_RESULT([_Float128 is supported via __float128 and libquadmath])
     sed 's/%%MPLAPACK_BINARY128%%/#define ___MPLAPACK_WANT_LIBQUADMATH___/g' mplapack/mplapack_utils__Float128.h.in > mplapack/mplapack_utils__Float128.h
+    sed 's/%%MPLAPACK_BINARY128%%/#define ___MPLAPACK_WANT_LIBQUADMATH___/g' sdpa_tool.h.in > sdpa_tool.h
 elif test "$have__Float128" = "yes" && test x"$want_libquadmath" = x"no" && test x"$_Float128islongdouble" = x"yes"; then
     AC_MSG_RESULT([_Float128 is supported via native libc and _Float128 and long double are the same])
     sed 's/%%MPLAPACK_BINARY128%%/#define ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___/g' mplapack/mplapack_utils__Float128.h.in > mplapack/mplapack_utils__Float128.h
+    sed 's/%%MPLAPACK_BINARY128%%/#define ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___/g' sdpa_tool.h.in > sdpa_tool.h
 elif test "$have__Float128" = "yes" && test x"$_Float128islongdouble" != x"yes"; then
      if test x"$have___float128" = x"yes" ; then
          AC_MSG_RESULT([_Float128 is supported via native libc and long double is not binary128, I have __float128 but I use _Float128 instead.])
@@ -236,9 +238,11 @@ elif test "$have__Float128" = "yes" && test x"$_Float128islongdouble" != x"yes";
          AC_MSG_RESULT([_Float128 is supported via native libc and _Float128 is the only binary128 on this system, and long double is not binary128.])
      fi
      sed 's/%%MPLAPACK_BINARY128%%/#define ___MPLAPACK__FLOAT128_ONLY___/g' mplapack/mplapack_utils__Float128.h.in > mplapack/mplapack_utils__Float128.h
+     sed 's/%%MPLAPACK_BINARY128%%/#define ___MPLAPACK__FLOAT128_ONLY___/g' sdpa_tool.h.in > sdpa_tool.h
 elif test "$have__Float128" = "no" && test x"$longdoubleisbinary128" = x"yes"; then
     AC_MSG_RESULT([long double is binary128, but neither _Float128 nor __float128 are supported])
     sed 's/%%MPLAPACK_BINARY128%%/#define ___MPLAPACK_LONGDOUBLE_IS_BINARY128___/g' mplapack/mplapack_utils__Float128.h.in > mplapack/mplapack_utils__Float128.h
+    sed 's/%%MPLAPACK_BINARY128%%/#define ___MPLAPACK_LONGDOUBLE_IS_BINARY128___/g' sdpa_tool.h.in > sdpa_tool.h
 else
     AC_MSG_ERROR([binary128 is not supported on this system])
 fi
