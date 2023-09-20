@@ -34,6 +34,27 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 %%MPLAPACK_BINARY128%%
 
+#if (defined ___MPLAPACK__FLOAT128_ONLY___ || defined ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___)
+    #if defined(__INTEL_COMPILER)
+    #define _Float128 __float128
+    #endif
+#endif
+
+#if defined ___MPLAPACK_WANT_LIBQUADMATH___
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
+    #include <quadmath.h>
+    #ifdef __cplusplus
+    }
+    #endif
+    typedef __float128 _Float128;
+#endif
+
+#if defined ___MPLAPACK_LONGDOUBLE_IS_BINARY128___
+    typedef long double _Float128;
+#endif
+
 namespace sdpa {
 
 #if 1
