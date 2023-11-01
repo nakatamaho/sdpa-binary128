@@ -63,7 +63,7 @@ _Float128 Rlanst(const char *norm, mplapackint const n, _Float128 *d, _Float128 
     const _Float128 one = 1.0;
     if (n <= 0) {
         anorm = zero;
-    } else if (Mlsame_dd(norm, "M")) {
+    } else if (Mlsame__Float128(norm, "M")) {
         //
         //        Find std::max(abs(A(i,j))).
         //
@@ -78,7 +78,7 @@ _Float128 Rlanst(const char *norm, mplapackint const n, _Float128 *d, _Float128 
                 anorm = sum;
             }
         }
-    } else if (Mlsame_dd(norm, "O") || (Mlsame_dd(norm, "1")) || Mlsame_dd(norm, "I")) {
+    } else if (Mlsame__Float128(norm, "O") || (Mlsame__Float128(norm, "1")) || Mlsame__Float128(norm, "I")) {
         //
         //        Find norm1(A).
         //
@@ -97,7 +97,7 @@ _Float128 Rlanst(const char *norm, mplapackint const n, _Float128 *d, _Float128 
                 }
             }
         }
-    } else if ((Mlsame_dd(norm, "F")) || (Mlsame_dd(norm, "E"))) {
+    } else if ((Mlsame__Float128(norm, "F")) || (Mlsame__Float128(norm, "E"))) {
         //
         //        Find normF(A).
         //

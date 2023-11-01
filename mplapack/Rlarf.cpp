@@ -52,7 +52,7 @@ void Rlarf(const char *side, mplapackint const m, mplapackint const n, _Float128
     //     ..
     //     .. Executable Statements ..
     //
-    bool applyleft = Mlsame_dd(side, "L");
+    bool applyleft = Mlsame__Float128(side, "L");
     mplapackint lastv = 0;
     mplapackint lastc = 0;
     const _Float128 zero = 0.0;

@@ -65,7 +65,7 @@ void Rorg2r(mplapackint const m, mplapackint const n, mplapackint const k, _Floa
         info = -5;
     }
     if (info != 0) {
-        Mxerbla_dd("Rorg2r", -info);
+        Mxerbla__Float128("Rorg2r", -info);
         return;
     }
     //

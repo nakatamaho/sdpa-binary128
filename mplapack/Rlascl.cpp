@@ -75,19 +75,19 @@ void Rlascl(const char *type, mplapackint const kl, mplapackint const ku, _Float
     //
     info = 0;
     //
-    if (Mlsame_dd(type, "G")) {
+    if (Mlsame__Float128(type, "G")) {
         itype = 0;
-    } else if (Mlsame_dd(type, "L")) {
+    } else if (Mlsame__Float128(type, "L")) {
         itype = 1;
-    } else if (Mlsame_dd(type, "U")) {
+    } else if (Mlsame__Float128(type, "U")) {
         itype = 2;
-    } else if (Mlsame_dd(type, "H")) {
+    } else if (Mlsame__Float128(type, "H")) {
         itype = 3;
-    } else if (Mlsame_dd(type, "B")) {
+    } else if (Mlsame__Float128(type, "B")) {
         itype = 4;
-    } else if (Mlsame_dd(type, "Q")) {
+    } else if (Mlsame__Float128(type, "Q")) {
         itype = 5;
-    } else if (Mlsame_dd(type, "Z")) {
+    } else if (Mlsame__Float128(type, "Z")) {
         itype = 6;
     } else {
         itype = -1;
@@ -116,7 +116,7 @@ void Rlascl(const char *type, mplapackint const kl, mplapackint const ku, _Float
     }
     //
     if (info != 0) {
-        Mxerbla_dd("Rlascl", -info);
+        Mxerbla__Float128("Rlascl", -info);
         return;
     }
     //
@@ -128,7 +128,7 @@ void Rlascl(const char *type, mplapackint const kl, mplapackint const ku, _Float
     //
     //     Get machine parameters
     //
-    smlnum = Rlamch_dd("S");
+    smlnum = Rlamch__Float128("S");
     bignum = one / smlnum;
     //
     cfromc = cfrom;

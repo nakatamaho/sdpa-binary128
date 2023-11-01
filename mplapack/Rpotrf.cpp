@@ -62,8 +62,8 @@ void Rpotrf(const char *uplo, mplapackint const n, _Float128 *a, mplapackint con
     //     Test the input parameters.
     //
     info = 0;
-    upper = Mlsame_dd(uplo, "U");
-    if (!upper && !Mlsame_dd(uplo, "L")) {
+    upper = Mlsame__Float128(uplo, "U");
+    if (!upper && !Mlsame__Float128(uplo, "L")) {
         info = -1;
     } else if (n < 0) {
         info = -2;
@@ -71,7 +71,7 @@ void Rpotrf(const char *uplo, mplapackint const n, _Float128 *a, mplapackint con
         info = -4;
     }
     if (info != 0) {
-        Mxerbla_dd("Rpotrf", -info);
+        Mxerbla__Float128("Rpotrf", -info);
         return;
     }
     //
@@ -83,7 +83,7 @@ void Rpotrf(const char *uplo, mplapackint const n, _Float128 *a, mplapackint con
     //
     //     Determine the block size for this environment.
     //
-    nb = iMlaenv_dd(1, "Rpotrf", uplo, n, -1, -1, -1);
+    nb = iMlaenv__Float128(1, "Rpotrf", uplo, n, -1, -1, -1);
     if (nb <= 1 || nb >= n) {
         //
         //        Use unblocked code.

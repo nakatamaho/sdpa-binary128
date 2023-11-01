@@ -57,8 +57,8 @@ void Rpotrf2(const char *uplo, mplapackint const n, _Float128 *a, mplapackint co
     //     Test the input parameters
     //
     info = 0;
-    bool upper = Mlsame_dd(uplo, "U");
-    if (!upper && !Mlsame_dd(uplo, "L")) {
+    bool upper = Mlsame__Float128(uplo, "U");
+    if (!upper && !Mlsame__Float128(uplo, "L")) {
         info = -1;
     } else if (n < 0) {
         info = -2;
@@ -66,7 +66,7 @@ void Rpotrf2(const char *uplo, mplapackint const n, _Float128 *a, mplapackint co
         info = -4;
     }
     if (info != 0) {
-        Mxerbla_dd("Rpotrf2", -info);
+        Mxerbla__Float128("Rpotrf2", -info);
         return;
     }
     //

@@ -25,8 +25,8 @@
  * SUCH DAMAGE.
  *
  */
-#include <mpblas.h>
-#include <mplapack.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 #if defined ___MPLAPACK_BUILD_WITH__FLOAT128___ && defined ___MPLAPACK_WANT_LIBQUADMATH___
 #include <quadmath.h>
@@ -182,27 +182,27 @@ _Float128 RlamchZ__Float128(void) {
 }
 
 _Float128 Rlamch__Float128(const char *cmach) {
-    if (Mlsame(cmach, "E"))
+    if (Mlsame__Float128(cmach, "E"))
         return RlamchE__Float128();
-    if (Mlsame(cmach, "S"))
+    if (Mlsame__Float128(cmach, "S"))
         return RlamchS__Float128();
-    if (Mlsame(cmach, "B"))
+    if (Mlsame__Float128(cmach, "B"))
         return RlamchB__Float128();
-    if (Mlsame(cmach, "P"))
+    if (Mlsame__Float128(cmach, "P"))
         return RlamchP__Float128();
-    if (Mlsame(cmach, "N"))
+    if (Mlsame__Float128(cmach, "N"))
         return RlamchN__Float128();
-    if (Mlsame(cmach, "R"))
+    if (Mlsame__Float128(cmach, "R"))
         return RlamchR__Float128();
-    if (Mlsame(cmach, "M"))
+    if (Mlsame__Float128(cmach, "M"))
         return RlamchM__Float128();
-    if (Mlsame(cmach, "U"))
+    if (Mlsame__Float128(cmach, "U"))
         return RlamchU__Float128();
-    if (Mlsame(cmach, "L"))
+    if (Mlsame__Float128(cmach, "L"))
         return RlamchL__Float128();
-    if (Mlsame(cmach, "O"))
+    if (Mlsame__Float128(cmach, "O"))
         return RlamchO__Float128();
 
-    Mxerbla("Rlamch", 1);
+    Mxerbla__Float128("Rlamch", 1);
     return RlamchZ__Float128();
 }

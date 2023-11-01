@@ -55,7 +55,7 @@ void Rsyr2(const char *uplo, mplapackint const n, _Float128 const alpha, _Float1
     //     Test the input parameters.
     //
     mplapackint info = 0;
-    if (!Mlsame_dd(uplo, "U") && !Mlsame_dd(uplo, "L")) {
+    if (!Mlsame__Float128(uplo, "U") && !Mlsame__Float128(uplo, "L")) {
         info = 1;
     } else if (n < 0) {
         info = 2;
@@ -67,7 +67,7 @@ void Rsyr2(const char *uplo, mplapackint const n, _Float128 const alpha, _Float1
         info = 9;
     }
     if (info != 0) {
-        Mxerbla_dd("Rsyr2 ", info);
+        Mxerbla__Float128("Rsyr2 ", info);
         return;
     }
     //
@@ -110,7 +110,7 @@ void Rsyr2(const char *uplo, mplapackint const n, _Float128 const alpha, _Float1
     mplapackint i = 0;
     mplapackint ix = 0;
     mplapackint iy = 0;
-    if (Mlsame_dd(uplo, "U")) {
+    if (Mlsame__Float128(uplo, "U")) {
         //
         //        Form  A  when A is stored in the upper triangle.
         //

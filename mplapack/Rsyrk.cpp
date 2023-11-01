@@ -55,17 +55,17 @@ void Rsyrk(const char *uplo, const char *trans, mplapackint const n, mplapackint
     //     Test the input parameters.
     //
     mplapackint nrowa = 0;
-    if (Mlsame_dd(trans, "N")) {
+    if (Mlsame__Float128(trans, "N")) {
         nrowa = n;
     } else {
         nrowa = k;
     }
-    bool upper = Mlsame_dd(uplo, "U");
+    bool upper = Mlsame__Float128(uplo, "U");
     //
     mplapackint info = 0;
-    if ((!upper) && (!Mlsame_dd(uplo, "L"))) {
+    if ((!upper) && (!Mlsame__Float128(uplo, "L"))) {
         info = 1;
-    } else if ((!Mlsame_dd(trans, "N")) && (!Mlsame_dd(trans, "T")) && (!Mlsame_dd(trans, "C"))) {
+    } else if ((!Mlsame__Float128(trans, "N")) && (!Mlsame__Float128(trans, "T")) && (!Mlsame__Float128(trans, "C"))) {
         info = 2;
     } else if (n < 0) {
         info = 3;
@@ -77,7 +77,7 @@ void Rsyrk(const char *uplo, const char *trans, mplapackint const n, mplapackint
         info = 10;
     }
     if (info != 0) {
-        Mxerbla_dd("Rsyrk ", info);
+        Mxerbla__Float128("Rsyrk ", info);
         return;
     }
     //
@@ -130,7 +130,7 @@ void Rsyrk(const char *uplo, const char *trans, mplapackint const n, mplapackint
     //
     mplapackint l = 0;
     _Float128 temp = 0.0;
-    if (Mlsame_dd(trans, "N")) {
+    if (Mlsame__Float128(trans, "N")) {
         //
         //        Form  C := alpha*A*A**T + beta*C.
         //

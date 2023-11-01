@@ -43,12 +43,12 @@ _Float128 Rlansy(const char *norm, const char *uplo, mplapackint const n, _Float
     _Float128 colssq[2];
     if (n == 0) {
         value = zero;
-    } else if (Mlsame_dd(norm, "M")) {
+    } else if (Mlsame__Float128(norm, "M")) {
         //
         //        Find std::max(abs(A(i,j))).
         //
         value = zero;
-        if (Mlsame_dd(uplo, "U")) {
+        if (Mlsame__Float128(uplo, "U")) {
             for (j = 1; j <= n; j = j + 1) {
                 for (i = 1; i <= j; i = i + 1) {
                     sum = abs(a[(i - 1) + (j - 1) * lda]);
@@ -67,12 +67,12 @@ _Float128 Rlansy(const char *norm, const char *uplo, mplapackint const n, _Float
                 }
             }
         }
-    } else if ((Mlsame_dd(norm, "I")) || (Mlsame_dd(norm, "O")) || (Mlsame_dd(norm, "1"))) {
+    } else if ((Mlsame__Float128(norm, "I")) || (Mlsame__Float128(norm, "O")) || (Mlsame__Float128(norm, "1"))) {
         //
         //        Find normI(A) ( = norm1(A), since A is symmetric).
         //
         value = zero;
-        if (Mlsame_dd(uplo, "U")) {
+        if (Mlsame__Float128(uplo, "U")) {
             for (j = 1; j <= n; j = j + 1) {
                 sum = zero;
                 for (i = 1; i <= j - 1; i = i + 1) {
@@ -104,7 +104,7 @@ _Float128 Rlansy(const char *norm, const char *uplo, mplapackint const n, _Float
                 }
             }
         }
-    } else if ((Mlsame_dd(norm, "F")) || (Mlsame_dd(norm, "E"))) {
+    } else if ((Mlsame__Float128(norm, "F")) || (Mlsame__Float128(norm, "E"))) {
         //
         //        Find normF(A).
         //        SSQ(1) is scale
@@ -116,7 +116,7 @@ _Float128 Rlansy(const char *norm, const char *uplo, mplapackint const n, _Float
         //
         //        Sum off-diagonals
         //
-        if (Mlsame_dd(uplo, "U")) {
+        if (Mlsame__Float128(uplo, "U")) {
             for (j = 2; j <= n; j = j + 1) {
                 colssq[1 - 1] = zero;
                 colssq[2 - 1] = one;

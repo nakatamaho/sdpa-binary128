@@ -54,24 +54,24 @@ void Rtrsm(const char *side, const char *uplo, const char *transa, const char *d
     //
     //     Test the input parameters.
     //
-    bool lside = Mlsame_dd(side, "L");
+    bool lside = Mlsame__Float128(side, "L");
     mplapackint nrowa = 0;
     if (lside) {
         nrowa = m;
     } else {
         nrowa = n;
     }
-    bool nounit = Mlsame_dd(diag, "N");
-    bool upper = Mlsame_dd(uplo, "U");
+    bool nounit = Mlsame__Float128(diag, "N");
+    bool upper = Mlsame__Float128(uplo, "U");
     //
     mplapackint info = 0;
-    if ((!lside) && (!Mlsame_dd(side, "R"))) {
+    if ((!lside) && (!Mlsame__Float128(side, "R"))) {
         info = 1;
-    } else if ((!upper) && (!Mlsame_dd(uplo, "L"))) {
+    } else if ((!upper) && (!Mlsame__Float128(uplo, "L"))) {
         info = 2;
-    } else if ((!Mlsame_dd(transa, "N")) && (!Mlsame_dd(transa, "T")) && (!Mlsame_dd(transa, "C"))) {
+    } else if ((!Mlsame__Float128(transa, "N")) && (!Mlsame__Float128(transa, "T")) && (!Mlsame__Float128(transa, "C"))) {
         info = 3;
-    } else if ((!Mlsame_dd(diag, "U")) && (!Mlsame_dd(diag, "N"))) {
+    } else if ((!Mlsame__Float128(diag, "U")) && (!Mlsame__Float128(diag, "N"))) {
         info = 4;
     } else if (m < 0) {
         info = 5;
@@ -83,7 +83,7 @@ void Rtrsm(const char *side, const char *uplo, const char *transa, const char *d
         info = 11;
     }
     if (info != 0) {
-        Mxerbla_dd("Rtrsm ", info);
+        Mxerbla__Float128("Rtrsm ", info);
         return;
     }
     //
@@ -113,7 +113,7 @@ void Rtrsm(const char *side, const char *uplo, const char *transa, const char *d
     mplapackint k = 0;
     _Float128 temp = 0.0;
     if (lside) {
-        if (Mlsame_dd(transa, "N")) {
+        if (Mlsame__Float128(transa, "N")) {
             //
             //           Form  B := alpha*inv( A )*B.
             //
@@ -187,7 +187,7 @@ void Rtrsm(const char *side, const char *uplo, const char *transa, const char *d
             }
         }
     } else {
-        if (Mlsame_dd(transa, "N")) {
+        if (Mlsame__Float128(transa, "N")) {
             //
             //           Form  B := alpha*B*inv( A ).
             //

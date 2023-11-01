@@ -75,11 +75,11 @@ void Rlartgs(_Float128 const x, _Float128 const y, _Float128 const sigma, _Float
 void Rlatrd(const char *uplo, mplapackint const n, mplapackint const nb, _Float128 *a, mplapackint const lda, _Float128 *e, _Float128 *tau, _Float128 *w, mplapackint const ldw);
 void Rsterf(mplapackint const n, _Float128 *d, _Float128 *e, mplapackint &info);
 void Rorgtr(const char *uplo, mplapackint const n, _Float128 *a, mplapackint const lda, _Float128 *tau, _Float128 *work, mplapackint const lwork, mplapackint &info);
-mplapackint iMparmq_dd(mplapackint const ispec, const char *name, const char *opts, mplapackint const n, mplapackint const ilo, mplapackint const ihi, mplapackint const lwork);
-mplapackint iMieeeck_dd(mplapackint const &ispec, _Float128 const &zero, _Float128 const &one);
+mplapackint iMparmq__Float128(mplapackint const ispec, const char *name, const char *opts, mplapackint const n, mplapackint const ilo, mplapackint const ihi, mplapackint const lwork);
+mplapackint iMieeeck__Float128(mplapackint const &ispec, _Float128 const &zero, _Float128 const &one);
 bool Rlaisnan(_Float128 const din1, _Float128 const din2);
 bool Risnan(_Float128 const din);
-mplapackint iMlaenv_dd(mplapackint ispec, const char *name, const char *opts, mplapackint n1, mplapackint n2, mplapackint n3, mplapackint n4);
+mplapackint iMlaenv__Float128(mplapackint ispec, const char *name, const char *opts, mplapackint n1, mplapackint n2, mplapackint n3, mplapackint n4);
 _Float128 Rlanst(const char *norm, mplapackint const n, _Float128 *d, _Float128 *e);
 _Float128 Rlapy2(_Float128 const x, _Float128 const y);
 mplapackint iMladlr(mplapackint const m, mplapackint const n, _Float128 *a, mplapackint const lda);

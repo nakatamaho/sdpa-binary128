@@ -98,7 +98,7 @@ void Rsterf(mplapackint const n, _Float128 *d, _Float128 *e, mplapackint &info) 
     //
     if (n < 0) {
         info = -1;
-        Mxerbla_dd("Rsterf", -info);
+        Mxerbla__Float128("Rsterf", -info);
         return;
     }
     if (n <= 1) {
@@ -107,13 +107,13 @@ void Rsterf(mplapackint const n, _Float128 *d, _Float128 *e, mplapackint &info) 
     //
     //     Determine the unit roundoff for this environment.
     //
-    eps = Rlamch_dd("E");
+    eps = Rlamch__Float128("E");
     eps2 = pow2(eps);
-    safmin = Rlamch_dd("S");
+    safmin = Rlamch__Float128("S");
     safmax = one / safmin;
     ssfmax = sqrt(safmax) / three;
     ssfmin = sqrt(safmin) / eps2;
-    rmax = Rlamch_dd("O");
+    rmax = Rlamch__Float128("O");
     //
     //     Compute the eigenvalues of the tridiagonal matrix.
     //

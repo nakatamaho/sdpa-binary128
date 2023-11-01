@@ -44,8 +44,8 @@ void Rgemm(const char *transa, const char *transb, mplapackint const m, mplapack
     _Float128 temp;
     _Float128 Zero = 0.0, One = 1.0;
 
-    nota = Mlsame_dd(transa, "N");
-    notb = Mlsame_dd(transb, "N");
+    nota = Mlsame__Float128(transa, "N");
+    notb = Mlsame__Float128(transb, "N");
     if (nota) {
 	nrowa = m;
 	ncola = k;
@@ -60,9 +60,9 @@ void Rgemm(const char *transa, const char *transb, mplapackint const m, mplapack
     }
 //Test the input parameters.
     info = 0;
-    if (!nota && (!Mlsame_dd(transa, "C")) && (!Mlsame_dd(transa, "T")))
+    if (!nota && (!Mlsame__Float128(transa, "C")) && (!Mlsame__Float128(transa, "T")))
 	info = 1;
-    else if (!notb && (!Mlsame_dd(transb, "C")) && (!Mlsame_dd(transb, "T")))
+    else if (!notb && (!Mlsame__Float128(transb, "C")) && (!Mlsame__Float128(transb, "T")))
 	info = 2;
     else if (m < 0)
 	info = 3;
@@ -77,7 +77,7 @@ void Rgemm(const char *transa, const char *transb, mplapackint const m, mplapack
     else if (ldc < std::max((mplapackint) 1, m))
 	info = 13;
     if (info != 0) {
-	Mxerbla_dd("Rgemm ", info);
+	Mxerbla__Float128("Rgemm ", info);
 	return;
     }
 //Quick return if possible.

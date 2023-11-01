@@ -43,9 +43,9 @@ void Rlartg(_Float128 const f, _Float128 const g, _Float128 &cs, _Float128 &sn, 
     mplapackint count = 0;
     mplapackint i = 0;
     //
-    safmin = Rlamch_dd("S");
-    eps = Rlamch_dd("E");
-    safmn2 = pow(Rlamch_dd("B"), castINTEGER_dd(log(safmin / eps) / log(Rlamch_dd("B")) / two));
+    safmin = Rlamch__Float128("S");
+    eps = Rlamch__Float128("E");
+    safmn2 = pow(Rlamch__Float128("B"), castINTEGER__Float128(log(safmin / eps) / log(Rlamch__Float128("B")) / two));
     safmx2 = one / safmn2;
     //        FIRST = .FALSE.
     //     END IF

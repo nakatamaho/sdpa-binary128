@@ -55,7 +55,7 @@ void Rsymv(const char *uplo, mplapackint const n, _Float128 const alpha, _Float1
     //     Test the input parameters.
     //
     mplapackint info = 0;
-    if (!Mlsame_dd(uplo, "U") && !Mlsame_dd(uplo, "L")) {
+    if (!Mlsame__Float128(uplo, "U") && !Mlsame__Float128(uplo, "L")) {
         info = 1;
     } else if (n < 0) {
         info = 2;
@@ -67,7 +67,7 @@ void Rsymv(const char *uplo, mplapackint const n, _Float128 const alpha, _Float1
         info = 10;
     }
     if (info != 0) {
-        Mxerbla_dd("Rsymv ", info);
+        Mxerbla__Float128("Rsymv ", info);
         return;
     }
     //
@@ -137,7 +137,7 @@ void Rsymv(const char *uplo, mplapackint const n, _Float128 const alpha, _Float1
     mplapackint jx = 0;
     mplapackint jy = 0;
     mplapackint ix = 0;
-    if (Mlsame_dd(uplo, "U")) {
+    if (Mlsame__Float128(uplo, "U")) {
         //
         //        Form  y  when A is stored in upper triangle.
         //

@@ -58,8 +58,8 @@ void Rorgtr(const char *uplo, mplapackint const n, _Float128 *a, mplapackint con
     //
     info = 0;
     bool lquery = (lwork == -1);
-    bool upper = Mlsame_dd(uplo, "U");
-    if (!upper && !Mlsame_dd(uplo, "L")) {
+    bool upper = Mlsame__Float128(uplo, "U");
+    if (!upper && !Mlsame__Float128(uplo, "L")) {
         info = -1;
     } else if (n < 0) {
         info = -2;
@@ -73,16 +73,16 @@ void Rorgtr(const char *uplo, mplapackint const n, _Float128 *a, mplapackint con
     mplapackint lwkopt = 0;
     if (info == 0) {
         if (upper) {
-            nb = iMlaenv_dd(1, "Rorgql", " ", n - 1, n - 1, n - 1, -1);
+            nb = iMlaenv__Float128(1, "Rorgql", " ", n - 1, n - 1, n - 1, -1);
         } else {
-            nb = iMlaenv_dd(1, "Rorgqr", " ", n - 1, n - 1, n - 1, -1);
+            nb = iMlaenv__Float128(1, "Rorgqr", " ", n - 1, n - 1, n - 1, -1);
         }
         lwkopt = std::max((mplapackint)1, n - 1) * nb;
         work[1 - 1] = lwkopt;
     }
     //
     if (info != 0) {
-        Mxerbla_dd("Rorgtr", -info);
+        Mxerbla__Float128("Rorgtr", -info);
         return;
     } else if (lquery) {
         return;

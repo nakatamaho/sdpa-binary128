@@ -73,9 +73,9 @@ void Rlasrt(const char *id, mplapackint const n, _Float128 *d, mplapackint &info
     //
     info = 0;
     dir = -1;
-    if (Mlsame_dd(id, "D")) {
+    if (Mlsame__Float128(id, "D")) {
         dir = 0;
-    } else if (Mlsame_dd(id, "I")) {
+    } else if (Mlsame__Float128(id, "I")) {
         dir = 1;
     }
     if (dir == -1) {
@@ -84,7 +84,7 @@ void Rlasrt(const char *id, mplapackint const n, _Float128 *d, mplapackint &info
         info = -2;
     }
     if (info != 0) {
-        Mxerbla_dd("Rlasrt", -info);
+        Mxerbla__Float128("Rlasrt", -info);
         return;
     }
     //

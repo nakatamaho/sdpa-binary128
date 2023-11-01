@@ -65,7 +65,7 @@ void Rger(mplapackint const m, mplapackint const n, _Float128 const alpha, _Floa
         info = 9;
     }
     if (info != 0) {
-        Mxerbla_dd("Rger  ", info);
+        Mxerbla__Float128("Rger  ", info);
         return;
     }
     //

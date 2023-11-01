@@ -38,8 +38,8 @@ _Float128 Rdot(mplapackint const n, _Float128 *dx, mplapackint const incx, _Floa
 void Rcopy(mplapackint const n, _Float128 *dx, mplapackint const incx, _Float128 *dy, mplapackint const incy);
 void Raxpy(mplapackint const n, _Float128 const da, _Float128 *dx, mplapackint const incx, _Float128 *dy, mplapackint const incy);
 void Rscal(mplapackint const n, _Float128 const da, _Float128 *dx, mplapackint const incx);
-bool Mlsame_dd(const char *a, const char *b);
-void Mxerbla_dd(const char *srname, int info);
+bool Mlsame__Float128(const char *a, const char *b);
+void Mxerbla__Float128(const char *srname, int info);
 void Rswap(mplapackint const n, _Float128 *dx, mplapackint const incx, _Float128 *dy, mplapackint const incy);
 _Float128 Rnrm2(mplapackint const n, _Float128 *x, mplapackint const incx);
 void Rtrmv(const char *uplo, const char *trans, const char *diag, mplapackint const n, _Float128 *a, mplapackint const lda, _Float128 *x, mplapackint const incx);

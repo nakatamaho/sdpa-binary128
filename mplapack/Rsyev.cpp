@@ -33,14 +33,14 @@ void Rsyev(const char *jobz, const char *uplo, mplapackint const n, _Float128 *a
     //
     //     Test the input parameters.
     //
-    bool wantz = Mlsame_dd(jobz, "V");
-    bool lower = Mlsame_dd(uplo, "L");
+    bool wantz = Mlsame__Float128(jobz, "V");
+    bool lower = Mlsame__Float128(uplo, "L");
     bool lquery = (lwork == -1);
     //
     info = 0;
-    if (!(wantz || Mlsame_dd(jobz, "N"))) {
+    if (!(wantz || Mlsame__Float128(jobz, "N"))) {
         info = -1;
-    } else if (!(lower || Mlsame_dd(uplo, "U"))) {
+    } else if (!(lower || Mlsame__Float128(uplo, "U"))) {
         info = -2;
     } else if (n < 0) {
         info = -3;
@@ -51,7 +51,7 @@ void Rsyev(const char *jobz, const char *uplo, mplapackint const n, _Float128 *a
     mplapackint nb = 0;
     mplapackint lwkopt = 0;
     if (info == 0) {
-        nb = iMlaenv_dd(1, "Rsytrd", uplo, n, -1, -1, -1);
+        nb = iMlaenv__Float128(1, "Rsytrd", uplo, n, -1, -1, -1);
         lwkopt = std::max((mplapackint)1, (nb + 2) * n);
         work[1 - 1] = lwkopt;
         //
@@ -61,7 +61,7 @@ void Rsyev(const char *jobz, const char *uplo, mplapackint const n, _Float128 *a
     }
     //
     if (info != 0) {
-        Mxerbla_dd("Rsyev", -info);
+        Mxerbla__Float128("Rsyev", -info);
         return;
     } else if (lquery) {
         return;
@@ -85,8 +85,8 @@ void Rsyev(const char *jobz, const char *uplo, mplapackint const n, _Float128 *a
     //
     //     Get machine constants.
     //
-    _Float128 safmin = Rlamch_dd("Safe minimum");
-    _Float128 eps = Rlamch_dd("Precision");
+    _Float128 safmin = Rlamch__Float128("Safe minimum");
+    _Float128 eps = Rlamch__Float128("Precision");
     _Float128 smlnum = safmin / eps;
     _Float128 bignum = one / smlnum;
     _Float128 rmin = sqrt(smlnum);

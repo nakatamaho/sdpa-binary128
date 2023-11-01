@@ -55,11 +55,11 @@ void Rtrsv(const char *uplo, const char *trans, const char *diag, mplapackint co
     //     Test the input parameters.
     //
     mplapackint info = 0;
-    if (!Mlsame_dd(uplo, "U") && !Mlsame_dd(uplo, "L")) {
+    if (!Mlsame__Float128(uplo, "U") && !Mlsame__Float128(uplo, "L")) {
         info = 1;
-    } else if (!Mlsame_dd(trans, "N") && !Mlsame_dd(trans, "T") && !Mlsame_dd(trans, "C")) {
+    } else if (!Mlsame__Float128(trans, "N") && !Mlsame__Float128(trans, "T") && !Mlsame__Float128(trans, "C")) {
         info = 2;
-    } else if (!Mlsame_dd(diag, "U") && !Mlsame_dd(diag, "N")) {
+    } else if (!Mlsame__Float128(diag, "U") && !Mlsame__Float128(diag, "N")) {
         info = 3;
     } else if (n < 0) {
         info = 4;
@@ -69,7 +69,7 @@ void Rtrsv(const char *uplo, const char *trans, const char *diag, mplapackint co
         info = 8;
     }
     if (info != 0) {
-        Mxerbla_dd("Rtrsv ", info);
+        Mxerbla__Float128("Rtrsv ", info);
         return;
     }
     //
@@ -79,7 +79,7 @@ void Rtrsv(const char *uplo, const char *trans, const char *diag, mplapackint co
         return;
     }
     //
-    bool nounit = Mlsame_dd(diag, "N");
+    bool nounit = Mlsame__Float128(diag, "N");
     //
     //     Set up the start point in X if the increment is not unity. This
     //     will be  ( N - 1 )*INCX  too small for descending loops.
@@ -100,11 +100,11 @@ void Rtrsv(const char *uplo, const char *trans, const char *diag, mplapackint co
     mplapackint i = 0;
     mplapackint jx = 0;
     mplapackint ix = 0;
-    if (Mlsame_dd(trans, "N")) {
+    if (Mlsame__Float128(trans, "N")) {
         //
         //        Form  x := inv( A )*x.
         //
-        if (Mlsame_dd(uplo, "U")) {
+        if (Mlsame__Float128(uplo, "U")) {
             if (incx == 1) {
                 for (j = n; j >= 1; j = j - 1) {
                     if (x[j - 1] != zero) {
@@ -169,7 +169,7 @@ void Rtrsv(const char *uplo, const char *trans, const char *diag, mplapackint co
         //
         //        Form  x := inv( A**T )*x.
         //
-        if (Mlsame_dd(uplo, "U")) {
+        if (Mlsame__Float128(uplo, "U")) {
             if (incx == 1) {
                 for (j = 1; j <= n; j = j + 1) {
                     temp = x[j - 1];

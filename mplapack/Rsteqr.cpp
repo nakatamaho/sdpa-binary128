@@ -100,11 +100,11 @@ void Rsteqr(const char *compz, mplapackint const n, _Float128 *d, _Float128 *e, 
     //
     info = 0;
     //
-    if (Mlsame_dd(compz, "N")) {
+    if (Mlsame__Float128(compz, "N")) {
         icompz = 0;
-    } else if (Mlsame_dd(compz, "V")) {
+    } else if (Mlsame__Float128(compz, "V")) {
         icompz = 1;
-    } else if (Mlsame_dd(compz, "I")) {
+    } else if (Mlsame__Float128(compz, "I")) {
         icompz = 2;
     } else {
         icompz = -1;
@@ -117,7 +117,7 @@ void Rsteqr(const char *compz, mplapackint const n, _Float128 *d, _Float128 *e, 
         info = -6;
     }
     if (info != 0) {
-        Mxerbla_dd("Rsteqr", -info);
+        Mxerbla__Float128("Rsteqr", -info);
         return;
     }
     //
@@ -136,9 +136,9 @@ void Rsteqr(const char *compz, mplapackint const n, _Float128 *d, _Float128 *e, 
     //
     //     Determine the unit roundoff and over/underflow thresholds.
     //
-    eps = Rlamch_dd("E");
+    eps = Rlamch__Float128("E");
     eps2 = pow2(eps);
-    safmin = Rlamch_dd("S");
+    safmin = Rlamch__Float128("S");
     safmax = one / safmin;
     ssfmax = sqrt(safmax) / three;
     ssfmin = sqrt(safmin) / eps2;
