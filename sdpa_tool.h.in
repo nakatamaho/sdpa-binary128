@@ -34,6 +34,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 %%MPLAPACK_BINARY128%%
 
+#include <math.h>
+
+#if defined ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___
+#define sqrtq sqrtl
+#endif
+
 #if (defined ___MPLAPACK__FLOAT128_ONLY___ || defined ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___)
     #if defined(__INTEL_COMPILER)
     #define _Float128 __float128
