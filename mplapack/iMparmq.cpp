@@ -32,7 +32,7 @@
 
 #define subnamlen 32
 
-mplapackint iMparmq_dd(mplapackint const ispec, const char *name, const char *opts, mplapackint const n, mplapackint const ilo, mplapackint const ihi, mplapackint const lwork) {
+mplapackint iMparmq__Float128(mplapackint const ispec, const char *name, const char *opts, mplapackint const n, mplapackint const ilo, mplapackint const ihi, mplapackint const lwork) {
     mplapackint return_value = 0;
     //
     const mplapackint ishfts = 15;
