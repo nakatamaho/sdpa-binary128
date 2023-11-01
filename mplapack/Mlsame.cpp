@@ -73,7 +73,7 @@ Mlsame_dd returns 1 if CA is the same letter as CB regardless of case.
 */
 
 #include <ctype.h>
-#include <mpblas_dd.h>
+#include <mpblas__Float128.h>
 
 bool Mlsame_dd(const char *a, const char *b) {
     if (toupper(*a) == toupper(*b))

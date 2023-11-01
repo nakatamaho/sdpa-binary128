@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 void Rsteqr(const char *compz, mplapackint const n, _Float128 *d, _Float128 *e, _Float128 *z, mplapackint const ldz, _Float128 *work, mplapackint &info) {
     mplapackint icompz = 0;

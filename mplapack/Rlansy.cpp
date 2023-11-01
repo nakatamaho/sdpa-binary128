@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 _Float128 Rlansy(const char *norm, const char *uplo, mplapackint const n, _Float128 *a, mplapackint const lda, _Float128 *work) {
     _Float128 return_value = 0.0;

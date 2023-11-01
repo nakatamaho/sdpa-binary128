@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 void Rlarfg(mplapackint const n, _Float128 &alpha, _Float128 *x, mplapackint const incx, _Float128 &tau) {
     const _Float128 zero = 0.0;

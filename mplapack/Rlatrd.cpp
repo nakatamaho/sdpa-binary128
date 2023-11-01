@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 void Rlatrd(const char *uplo, mplapackint const n, mplapackint const nb, _Float128 *a, mplapackint const lda, _Float128 *e, _Float128 *tau, _Float128 *w, mplapackint const ldw) {
     //

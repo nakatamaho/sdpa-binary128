@@ -1550,7 +1550,7 @@ void Newton::display_sparse_bMat(FILE* fpout)
     int jj = ordering[j];
 
     char buf[BINARY128BUFFER];
-    quadmath_snprintf(buf,BINARY128BUFFER,"%e",value);
+    snprintf_binary128(buf,BINARY128BUFFER,"%e",value);
     fprintf(fpout,"val[%d,%d] = %s\n", ii,jj,buf);
   }
   fprintf(fpout,"}\n");

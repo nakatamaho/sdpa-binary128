@@ -26,7 +26,7 @@
  *
  */
 
-#include <mpblas_dd.h>
+#include <mpblas__Float128.h>
 
 _Float128 Rnrm2(mplapackint const n, _Float128 *x, mplapackint const incx) {
     _Float128 return_value = 0.0;

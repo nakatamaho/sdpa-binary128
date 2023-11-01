@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 bool Rlaisnan(_Float128 const din1, _Float128 const din2) {
     bool return_value = false;

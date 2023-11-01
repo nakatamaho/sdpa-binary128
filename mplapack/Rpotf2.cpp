@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 void Rpotf2(const char *uplo, mplapackint const n, _Float128 *a, mplapackint const lda, mplapackint &info) {
     bool upper = false;

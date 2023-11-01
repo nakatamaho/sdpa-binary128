@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 void Rorg2l(mplapackint const m, mplapackint const n, mplapackint const k, _Float128 *a, mplapackint const lda, _Float128 *tau, _Float128 *work, mplapackint &info) {
     //

@@ -26,7 +26,7 @@
  *
  */
 
-#include <mpblas_dd.h>
+#include <mpblas__Float128.h>
 
 void Rsyr2k(const char *uplo, const char *trans, mplapackint const n, mplapackint const k, _Float128 const alpha, _Float128 *a, mplapackint const lda, _Float128 *b, mplapackint const ldb, _Float128 const beta, _Float128 *c, mplapackint const ldc) {
     //

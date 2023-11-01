@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 void Rlasr(const char *side, const char *pivot, const char *direct, mplapackint const m, mplapackint const n, _Float128 *c, _Float128 *s, _Float128 *a, mplapackint const lda) {
     //

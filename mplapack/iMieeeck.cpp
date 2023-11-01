@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 mplapackint iMieeeck_dd(mplapackint const &ispec, _Float128 const &zero, _Float128 const &one) {
     mplapackint return_value = 0;

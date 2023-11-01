@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 void Rlascl(const char *type, mplapackint const kl, mplapackint const ku, _Float128 const cfrom, _Float128 const cto, mplapackint const m, mplapackint const n, _Float128 *a, mplapackint const lda, mplapackint &info) {
     mplapackint itype = 0;

@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 void Rlaev2(_Float128 const a, _Float128 const b, _Float128 const c, _Float128 &rt1, _Float128 &rt2, _Float128 &cs1, _Float128 &sn1) {
     //

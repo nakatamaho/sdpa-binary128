@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 void Rlartg(_Float128 const f, _Float128 const g, _Float128 &cs, _Float128 &sn, _Float128 &r) {
     _Float128 safmin = 0.0;

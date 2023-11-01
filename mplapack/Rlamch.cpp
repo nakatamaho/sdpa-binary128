@@ -36,7 +36,6 @@
 
 #include <stdio.h>
 
-#if defined ___MPLAPACK_BUILD_WITH__FLOAT128___
 //"E" denots we always calculate relative machine precision (e).
 // where 1+e = 1, minimum of e.
 _Float128 RlamchE__Float128(void) {
@@ -207,4 +206,3 @@ _Float128 Rlamch__Float128(const char *cmach) {
     Mxerbla("Rlamch", 1);
     return RlamchZ__Float128();
 }
-#endif

@@ -31,7 +31,7 @@
 
 #include "mplapack_config.h"
 
-_Float128 Rlamch_dd(const char *cmach);
+_Float128 Rlamch__Float128(const char *cmach);
 void Rsyev(const char *jobz, const char *uplo, mplapackint const n, _Float128 *a, mplapackint const lda, _Float128 *w, _Float128 *work, mplapackint const lwork, mplapackint &info);
 void Rsteqr(const char *compz, mplapackint const n, _Float128 *d, _Float128 *e, _Float128 *z, mplapackint const ldz, _Float128 *work, mplapackint &info);
 void Rpotrf(const char *uplo, mplapackint const n, _Float128 *a, mplapackint const lda, mplapackint &info);

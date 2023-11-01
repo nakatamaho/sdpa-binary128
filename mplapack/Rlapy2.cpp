@@ -26,8 +26,8 @@
  *
  */
 
-#include <mpblas_dd.h>
-#include <mplapack_dd.h>
+#include <mpblas__Float128.h>
+#include <mplapack__Float128.h>
 
 _Float128 Rlapy2(_Float128 const x, _Float128 const y) {
     _Float128 return_value = 0.0;

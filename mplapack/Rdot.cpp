@@ -28,7 +28,7 @@
  *
  */
 
-#include <mpblas_dd.h>
+#include <mpblas__Float128.h>
 
 _Float128 Rdot_ref(mplapackint n, _Float128 * dx, mplapackint incx, _Float128 * dy, mplapackint incy);
 _Float128 Rdot_omp(mplapackint n, _Float128 * dx, mplapackint incx, _Float128 * dy, mplapackint incy);

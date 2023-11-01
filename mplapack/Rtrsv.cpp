@@ -26,7 +26,7 @@
  *
  */
 
-#include <mpblas_dd.h>
+#include <mpblas__Float128.h>
 
 void Rtrsv(const char *uplo, const char *trans, const char *diag, mplapackint const n, _Float128 *a, mplapackint const lda, _Float128 *x, mplapackint const incx) {
     //

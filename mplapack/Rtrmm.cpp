@@ -26,7 +26,7 @@
  *
  */
 
-#include <mpblas_dd.h>
+#include <mpblas__Float128.h>
 
 void Rtrmm(const char *side, const char *uplo, const char *transa, const char *diag, mplapackint const m, mplapackint const n, _Float128 const alpha, _Float128 *a, mplapackint const lda, _Float128 *b, mplapackint const ldb) {
     //

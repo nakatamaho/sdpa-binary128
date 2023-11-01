@@ -1238,6 +1238,11 @@ void IO::printLastInfo(int pIteration,
     
   #endif
   
+#if defined ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___
+#define QF_FORMAT "%.40Qf"
+#else
+#error "not defined"
+#endif
   if (Display) {
     fprintf(Display, "\n");
     phase.display(Display);
@@ -1250,9 +1255,9 @@ void IO::printLastInfo(int pIteration,
     #if REVERSE_PRIMAL_DUAL
     _Float128 mtmp1 = -solveInfo.objValDual;
     _Float128 mtmp2 = -solveInfo.objValPrimal;
-    snprintf_binary128(mpbuffer_sdpa_io,BINARY128BUFFER,"%.40Qf",mtmp1);
+    snprintf_binary128(mpbuffer_sdpa_io,BINARY128BUFFER,QF_FORMAT,mtmp1);
     fprintf(Display, "objValPrimal = %s\n", mpbuffer_sdpa_io);
-    snprintf_binary128(mpbuffer_sdpa_io,BINARY128BUFFER,"%.40Qf",mtmp2);
+    snprintf_binary128(mpbuffer_sdpa_io,BINARY128BUFFER,QF_FORMAT,mtmp2);
     fprintf(Display, "objValDual   = %s\n", mpbuffer_sdpa_io);
     fprintf(Display, "p.feas.error = %10.16e\n",
 	    (double)currentRes.normDualMat);
