@@ -787,9 +787,9 @@ void Residuals::display(FILE* fpout)
   primalVec.display(fpout);
   fprintf(fpout," currentRes.dualMat = \n");
   dualMat.display(fpout);
-  quadmath_snprintf(tmpbuffer,BINARY128BUFFER,"%8.3Qe",normPrimalVec);
+  snprintf_binary128(tmpbuffer,BINARY128BUFFER,FLOAT128_FORMAT_8_3e,normPrimalVec);
   fprintf(fpout," currentRes.normPrimalVec = %s\n",tmpbuffer);
-  quadmath_snprintf(tmpbuffer,BINARY128BUFFER,"%8.3Qe",normDualMat);
+  snprintf_binary128(tmpbuffer,BINARY128BUFFER,FLOAT128_FORMAT_8_3e,normDualMat);
   fprintf(fpout," currentRes.normDualMat = %s\n", tmpbuffer);
 }
 

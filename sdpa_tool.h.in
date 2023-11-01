@@ -35,10 +35,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 %%MPLAPACK_BINARY128%%
 
 #include <math.h>
-
-#if defined ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___
-#define sqrtq sqrtl
-#endif
+#include <stdio.h>
+#define BINARY128BUFFER 10240
 
 #if (defined ___MPLAPACK__FLOAT128_ONLY___ || defined ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___)
     #if defined(__INTEL_COMPILER)
@@ -59,6 +57,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 #if defined ___MPLAPACK_LONGDOUBLE_IS_BINARY128___
     typedef long double _Float128;
+#endif
+
+#if defined ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___
+#define sqrtq sqrtl
+#define logq logl
+#define FLOAT128_FORMAT_8_3e "%8.3Le"
+inline void snprintf_binary128(char *buf, size_t n, const char *format_string, long double rtmp) {
+    snprintf(buf, n, format_string, rtmp);
+    return;
+}
+#define string2binary128 strtof128
 #endif
 
 namespace sdpa {
