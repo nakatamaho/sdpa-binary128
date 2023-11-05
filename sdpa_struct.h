@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 ------------------------------------------------------------- */
 
+#include <sdpa_tool.h>
 // printing presicion of such as vector 
 #if defined ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___
 #define P_FORMAT "%+18.12e"
