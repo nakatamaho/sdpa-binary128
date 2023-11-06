@@ -1239,7 +1239,10 @@ void IO::printLastInfo(int pIteration,
 #define QF_FORMAT "%.40Lf"
 #elif defined ___MPLAPACK__FLOAT128_ONLY___
 #define QF_FORMAT "%.40Qf"
+#elif defined ___MPLAPACK_WANT_LIBQUADMATH___
+#define QF_FORMAT "%.40Qf"
 #endif
+
   if (Display) {
     fprintf(Display, "\n");
     phase.display(Display);
