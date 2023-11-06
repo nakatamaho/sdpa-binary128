@@ -282,8 +282,7 @@ fi
 
 if test x$HAVE_MPLAPACK = xyes; then
   echo "System MPLAPACK found"
-fi
-if test x$HAVE_MPLAPACK != xyes; then
+else
   echo "Please install MPLAPACK (MPBLAS/MPLAPACK)"
   echo "https://github.com/nakatamaho/mplapack/"
   AC_MSG_ERROR([No MPLAPACK found])
