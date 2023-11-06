@@ -36,8 +36,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 #include <math.h>
 #include <stdio.h>
+
 #define BINARY128BUFFER 10240
+#if defined _MAIN_
 char binary128buffer[BINARY128BUFFER];
+#else
+extern char binary128buffer[BINARY128BUFFER];
+#endif
 
 #if (defined ___MPLAPACK__FLOAT128_ONLY___ || defined ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___)
     #if defined(__INTEL_COMPILER)

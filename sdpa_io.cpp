@@ -25,9 +25,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #include <vector>
 #include <algorithm>
 
-#define BINARY128BUFFER 10240
-char mpbuffer_sdpa_io[BINARY128BUFFER];
-
 namespace sdpa {
 // 2008/02/27  kazuhide nakata 
 #if 0  // not use
@@ -151,7 +148,7 @@ void IO::read(FILE* fpData,
 void IO::read(FILE* fpData, Vector& b)
 {
   for (int k=0; k<b.nDim; ++k) {
-    fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); b.ele[k] = string2binary128(mpbuffer_sdpa_io, NULL);
+    fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); b.ele[k] = string2binary128(binary128buffer, NULL);
   }
 }
 
@@ -167,7 +164,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
   // yVec is opposite sign
   for (int k=0; k<yVec.nDim; ++k) {
     _Float128 tmp;
-    fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+    fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
     yVec.ele[k] = -tmp;
     //     rMessage("yVec.ele[" << k << "] = " << tmp);
   }
@@ -189,10 +186,10 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
       if (fscanf(fpData,"%*[^0-9+-]%d",&j)<=0) {
 	break;
       }
-      if (fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io)<=0) {
+      if (fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer)<=0) {
         break;
       }
-      value = string2binary128(mpbuffer_sdpa_io, NULL);
+      value = string2binary128(binary128buffer, NULL);
       #if 0
       rMessage("target = " << target
 	       << ": l " << l
@@ -237,7 +234,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
       for (int i=0; i<size; ++i) {
 	for (int j=0; j<size; ++j) {
 	  _Float128 tmp;
-          fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+          fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
 	  if (i<=j && tmp!=0.0) {
 	    zMat.setElement_SDP(l,i,j,tmp);
 	  }
@@ -251,7 +248,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
     // for LP
     for (int j=0; j<LP_nBlock; ++j) {
       _Float128 tmp;
-      fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+      fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
       if (tmp!=0.0) {
 	zMat.setElement_LP(j,tmp);
       }
@@ -263,7 +260,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
       for (int i=0; i<size; ++i) {
 	for (int j=0; j<size; ++j) {
 	  _Float128 tmp;
-	  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+	  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
 	  if (i<=j && tmp!=0.0) {
 	    xMat.setElement_SDP(l,i,j,tmp);
 	  }
@@ -277,7 +274,7 @@ void IO::read(FILE* fpData, DenseLinearSpace& xMat,
     // for LP
     for (int j=0; j<LP_nBlock; ++j) {
       _Float128 tmp;
-      fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+      fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
       if (tmp!=0.0) {
 	xMat.setElement_LP(j,tmp);
       }
@@ -317,10 +314,10 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
       if (fscanf(fpData,"%*[^0-9+-]%d",&j)<=0) {
 	break;
       }
-      if (fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io)<=0) {
+      if (fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer)<=0) {
         break;
       }
-      value = string2binary128(mpbuffer_sdpa_io, NULL);
+      value = string2binary128(binary128buffer, NULL);
 #if 0
       rMessage("input k:" << k <<
 	       " l:" << l <<
@@ -366,7 +363,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
 			_Float128 tmp;
-                       fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+                       fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
 			if (i<=j && tmp!=0.0) {
 			  inputData.C.setElement_SDP(l,i,j,-tmp);
 			}
@@ -377,7 +374,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
 		  _Float128 tmp;
-                 fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+                 fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
 		  if (tmp!=0.0) {
 			inputData.C.setElement_LP(blockNumber[l2]+j,-tmp);
 		  }
@@ -397,7 +394,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
 			_Float128 tmp;
-                       fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+                       fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
 			if (i<=j && tmp!=0.0) {
 			  inputData.A[k].setElement_SDP(l,i,j,tmp);
 			}
@@ -408,7 +405,7 @@ void IO::read(FILE* fpData,  InputData& inputData, int m,
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
 		  _Float128 tmp;
-                 fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+                 fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
 		  if (tmp!=0.0) {
 			inputData.A[k].setElement_LP(blockNumber[l2]+j,tmp);
 		  }
@@ -525,10 +522,10 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
       if (fscanf(fpData,"%*[^0-9+-]%d",&j)<=0) {
 	break;
       }
-      if (fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io)<=0) {
+      if (fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer)<=0) {
         break;
       }
-      value = string2binary128(mpbuffer_sdpa_io, NULL);
+      value = string2binary128(binary128buffer, NULL);
 
       if (blockType[l-1] == 1){	// SDP part
         int l2 = blockNumber[l-1];
@@ -560,7 +557,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
         for (int i=0; i<size; ++i) {
           for (int j=0; j<size; ++j) {
 	    _Float128 tmp;
-            fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+            fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
             if (i<=j && tmp!=0.0) {
               SDP_index[0].push_back(l);
             }
@@ -571,7 +568,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
       } else if (blockType[l2] == 3) { // LP part
         for (int j=0; j<blockStruct[l2]; ++j) {
 	  _Float128 tmp;
-          fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+          fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
           if (tmp!=0.0) {
               LP_index[0].push_back(blockNumber[l2]+j);
           }
@@ -590,7 +587,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
           for (int i=0; i<size; ++i) {
             for (int j=0; j<size; ++j) {
  	      _Float128 tmp;
-              fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+              fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
               if (i<=j && tmp!=0.0) {
                 SDP_index[k+1].push_back(l);
               }
@@ -601,7 +598,7 @@ void IO::setBlockStruct(FILE* fpData, InputData& inputData, int m,
         } else if (blockType[l2] == 3) { // LP part
           for (int j=0; j<blockStruct[l2]; ++j) {
 	    _Float128 tmp;
-            fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+            fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
             if (tmp!=0.0) {
               LP_index[k+1].push_back(blockNumber[l2]+j);
             }
@@ -727,10 +724,10 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
       if (fscanf(fpData,"%*[^0-9+-]%d",&j)<=0) {
 	break;
       }
-      if (fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io)<=0) {
+      if (fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer)<=0) {
         break;
       }
-      value = string2binary128(mpbuffer_sdpa_io, NULL);
+      value = string2binary128(binary128buffer, NULL);
 #if 0
       rMessage("input k:" << k <<
 	       " l:" << l <<
@@ -776,7 +773,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
 	                _Float128 tmp;
-                        fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+                        fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
 			if (i<=j && tmp!=0.0) {
 			  inputData.C.setElement_SDP(l,i,j,-tmp);
 			}
@@ -787,7 +784,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
 	          _Float128 tmp;
-                  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+                  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
 		  if (tmp!=0.0) {
 			inputData.C.setElement_LP(blockNumber[l2]+j,-tmp);
 		  }
@@ -807,7 +804,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 		for (int i=0; i<size; ++i) {
 		  for (int j=0; j<size; ++j) {
 	                _Float128 tmp;
-                        fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+                        fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
 			if (i<=j && tmp!=0.0) {
 			  inputData.A[k].setElement_SDP(l,i,j,tmp);
 			}
@@ -818,7 +815,7 @@ void IO::setElement(FILE* fpData, InputData& inputData, int m,
 	  } else if (blockType[l2] == 3) { // LP part
 		for (int j=0; j<blockStruct[l2]; ++j) {
 	          _Float128 tmp;
-                  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",mpbuffer_sdpa_io); tmp = string2binary128(mpbuffer_sdpa_io, NULL);
+                  fscanf(fpData,"%*[^0-9+-]%[^,} \t\n]",binary128buffer); tmp = string2binary128(binary128buffer, NULL);
 		  if (tmp!=0.0) {
 			inputData.A[k].setElement_LP(blockNumber[l2]+j,tmp);
 		  }
@@ -1255,10 +1252,10 @@ void IO::printLastInfo(int pIteration,
     #if REVERSE_PRIMAL_DUAL
     _Float128 mtmp1 = -solveInfo.objValDual;
     _Float128 mtmp2 = -solveInfo.objValPrimal;
-    snprintf_binary128(mpbuffer_sdpa_io,BINARY128BUFFER,QF_FORMAT,mtmp1);
-    fprintf(Display, "objValPrimal = %s\n", mpbuffer_sdpa_io);
-    snprintf_binary128(mpbuffer_sdpa_io,BINARY128BUFFER,QF_FORMAT,mtmp2);
-    fprintf(Display, "objValDual   = %s\n", mpbuffer_sdpa_io);
+    snprintf_binary128(binary128buffer,BINARY128BUFFER,QF_FORMAT,mtmp1);
+    fprintf(Display, "objValPrimal = %s\n", binary128buffer);
+    snprintf_binary128(binary128buffer,BINARY128BUFFER,QF_FORMAT,mtmp2);
+    fprintf(Display, "objValDual   = %s\n", binary128buffer);
     fprintf(Display, "p.feas.error = %10.16e\n",
 	    (double)currentRes.normDualMat);
     fprintf(Display, "d.feas.error = %10.16e\n",
@@ -1406,12 +1403,12 @@ void IO::displayDenseLinarSpaceLast(DenseLinearSpace& aMat,
 	} else if (blockType[i] == 3){
 	  fprintf(fpout,"{");
 	  for (int l=0; l<blockStruct[i]-1; ++l) {
-		snprintf_binary128(mpbuffer_sdpa_io,BINARY128BUFFER,PQ_FORMAT",",aMat.LP_block[blockNumber[i]+l]);
-		fprintf(fpout,mpbuffer_sdpa_io);
+		snprintf_binary128(binary128buffer,BINARY128BUFFER,PQ_FORMAT",",aMat.LP_block[blockNumber[i]+l]);
+		fprintf(fpout,binary128buffer);
 	  }
 	  if (blockStruct[i] > 0) {
-		snprintf_binary128(mpbuffer_sdpa_io,BINARY128BUFFER,PQ_FORMAT",",aMat.LP_block[blockNumber[i]+blockStruct[i]-1]);
-		fprintf(fpout,mpbuffer_sdpa_io);
+		snprintf_binary128(binary128buffer,BINARY128BUFFER,PQ_FORMAT",",aMat.LP_block[blockNumber[i]+blockStruct[i]-1]);
+		fprintf(fpout,binary128buffer);
 	  } else {
 		fprintf(fpout,"  }\n");
 	  }
