@@ -62,7 +62,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #if defined ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___
 #define sqrtq sqrtl
 #define log10q log10l
-#define FLOAT128_FORMAT_8_3e "%8.3Le"
+#define FLOAT128_FORMAT_8_3Qe "%8.3Le"
 inline void snprintf_binary128(char *buf, size_t n, const char *format_string, long double rtmp) {
     snprintf(buf, n, format_string, rtmp);
     return;
