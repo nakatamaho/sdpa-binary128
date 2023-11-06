@@ -1237,8 +1237,8 @@ void IO::printLastInfo(int pIteration,
   
 #if defined ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___
 #define QF_FORMAT "%.40Lf"
-#else
-#error "not defined"
+#elif defined ___MPLAPACK__FLOAT128_ONLY___
+#define QF_FORMAT "%.40Qf"
 #endif
   if (Display) {
     fprintf(Display, "\n");

@@ -133,7 +133,7 @@ AC_SUBST(SPOOLES_LIBDIR)
 AC_SUBST(SPOOLES_INCLUDEDIR)
 
 # For unknown reason, the f128 suffix doesn't work in g++-9, but it does in gcc-9.
-AC_MSG_CHECKING([whether _Float128 is supported])
+AC_MSG_CHECKING([whether _Float128 is supported...])
 AC_LINK_IFELSE([
    AC_LANG_SOURCE([[
    #include <stdio.h>
@@ -149,6 +149,7 @@ AC_LINK_IFELSE([
 ], [have__Float128=yes], [have__Float128=no])
 
 if test x"$have__Float128" = x"yes"; then
+     echo ""
      AC_MSG_RESULT([_Float128 is supported])
 else
      AC_MSG_RESULT([_Float128 is not supported])
