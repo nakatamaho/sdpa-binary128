@@ -51,8 +51,7 @@ endif
 AUTOMAKE_OPTIONS = subdir-objects
 
 sdpa_binary128_LDADD = $(pthread_lib) -L$(SPOOLES_LIBDIR) -lspooles $(OPENMPLIB) -L$(MPLAPACK_LIBDIR)
-sdpa_binary128_CXXFLAGS= $(pthread_cflags) -I$(SPOOLES_INCLUDEDIR) -DUseMETIS=0 $(OPENMPFLAGS) -I$(MPLAPACK_INCLUDEDIR)
-
+sdpa_binary128_CXXFLAGS= $(OPENMP_CXXFLAGS) $(pthread_cflags) -I$(SPOOLES_INCLUDEDIR) -DUseMETIS=0 $(OPENMPFLAGS) -I$(MPLAPACK_INCLUDEDIR)
 SUBDIRS = external
 
 EXTRA_DIST = \

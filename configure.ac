@@ -280,6 +280,9 @@ if test x$HAVE_MPLAPACK_HEADER = xyes; then
   fi
 fi
 
+if test x$HAVE_MPLAPACK = xyes; then
+  echo "System MPLAPACK found"
+fi
 if test x$HAVE_MPLAPACK != xyes; then
   echo "Please install MPLAPACK (MPBLAS/MPLAPACK)"
   echo "https://github.com/nakatamaho/mplapack/"
