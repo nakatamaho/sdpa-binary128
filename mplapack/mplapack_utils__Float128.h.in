@@ -62,6 +62,17 @@ inline _Float128 log(const _Float128 &a) { return logf128(a); }
 inline _Float128 log10(const _Float128 &a) { return log10f128(a); }
 inline _Float128 log2(const _Float128 &a) { return logf128(a) / logf128(2.0); }
 inline _Float128 ceil(_Float128 a) { return ceilf128(a); }
+#else
+inline _Float128 pow(const _Float128 &a, const _Float128 &b) { return powl(a, b); }
+inline _Float128 pow(const long &a, const long &b) { return powl((_Float128)a, (_Float128)b); }
+inline _Float128 pow(const int &a, const long &b) { return powl((_Float128)a, (_Float128)b); }
+inline _Float128 pow(const _Float128 &a, const long &b) { return powl(a, (_Float128)b); }
+inline _Float128 sqrt(const _Float128 &a) { return sqrtl(a); }
+
+inline _Float128 exp(const _Float128 &a) { return expl(a); }
+inline _Float128 log(const _Float128 &a) { return logl(a); }
+inline _Float128 log10(const _Float128 &a) { return log10l(a); }
+inline _Float128 log2(const _Float128 &a) { return logl(a) / logl(2.0); }
 #endif
 
 // implementation of sign transfer function.
@@ -131,24 +142,6 @@ inline long nint(long double a) {
 }
 
 inline double cast2double(long double a) { return (double)a; }
-inline _Float128 pow(const _Float128 &a, const _Float128 &b) { return powl(a, b); }
-inline _Float128 pow(const long &a, const long &b) { return powl((_Float128)a, (_Float128)b); }
-inline _Float128 pow(const int &a, const long &b) { return powl((_Float128)a, (_Float128)b); }
-inline _Float128 pow(const _Float128 &a, const long &b) { return powl(a, (_Float128)b); }
-inline _Float128 sqrt(const _Float128 &a) { return sqrtl(a); }
-
-inline _Float128 sin(_Float128 a) { return sinl(a); }
-inline _Float128 sinh(_Float128 a) { return sinhl(a); }
-inline _Float128 cos(_Float128 a) { return cosl(a); }
-inline _Float128 cosh(_Float128 a) { return coshl(a); }
-
-inline _Float128 atan2(_Float128 a, _Float128 b) { return atan2l(a, b); }
-
-inline _Float128 exp(const _Float128 &a) { return expl(a); }
-inline _Float128 log(const _Float128 &a) { return logl(a); }
-inline _Float128 log10(const _Float128 &a) { return log10l(a); }
-inline _Float128 log2(const _Float128 &a) { return logl(a) / logl(2.0); }
-inline _Float128 ceil(_Float128 a) { return ceill(a); }
 #endif //___MPLAPACK_LONGDOUBLE_IS_BINARY128___
 
 #if defined ___MPLAPACK_WANT_LIBQUADMATH___
