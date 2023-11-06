@@ -79,9 +79,9 @@ inline void snprintf_binary128(char *buf, size_t n, const char *format_string, l
 #if defined ___MPLAPACK__FLOAT128_ONLY___
 #define sqrtq sqrtf128
 #define log10q log10f128
-#define FLOAT128_FORMAT_8_3Qe "%8.3Qe"
+#define FLOAT128_FORMAT_8_3Qe "%8.3e"
 inline void snprintf_binary128(char *buf, size_t n, const char *format_string, _Float128 rtmp) {
-    snprintf(buf, n, format_string, rtmp);
+    strfromf128(buf, n, format_string, rtmp);
     return;
 }
 #define string2binary128 strtof128

@@ -24,9 +24,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 #if defined ___MPLAPACK__FLOAT128_IS_LONGDOUBLE___
 #define P_FORMAT "%+18.12e"
 #define PQ_FORMAT "%+18.12Le"
-#else
+#elif defined ___MPLAPACK_WANT_LIBQUADMATH___
 #define P_FORMAT "%+18.12e"
 #define PQ_FORMAT "%+18.12Qe"
+#elif defined ___MPLAPACK__FLOAT128_ONLY___
+#define P_FORMAT "%.12e"
+#define PQ_FORMAT "%.12e"
 #endif
 
 #ifndef __sdpa_struct_h__
